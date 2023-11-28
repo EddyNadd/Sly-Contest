@@ -67,7 +67,9 @@ func _physics_process(delta):
 func kill():
 	velocity.x = 0
 	velocity.y = 0
-	position = GameManager.Players[multiplayer.get_unique_id()].spawn
+	if "spawn" in GameManager.Players[str(multiplayer.get_unique_id())]:
+		#print(GameManager.Players[str(multiplayer.get_unique_id())].spawn) #replace this by your actual code
+		position = GameManager.Players[str(multiplayer.get_unique_id())].spawn
 
 func _on_kill_pressed():
 	kill()

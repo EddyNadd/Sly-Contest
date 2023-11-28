@@ -24,8 +24,19 @@ var lobbyValue = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	multiplayer.connected_to_server.connect(RTCServerConnected)
+	multiplayer.peer_connected.connect(RTCPeerConnected)
+	multiplayer.peer_disconnected.connect(RTCPeerDisconnected)
 	pass # Replace with function body.
-
+	
+func RTCServerConnected():
+	print("RTC server connected")
+	
+func RTCPeerConnected(id):
+	print("RTC peer connected " + str(id))
+	
+func RTCPeerDisconnected(id):
+	print("RTC peer disconnected " + str(id))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -38,15 +49,29 @@ func _process(delta):
 			print(data)
 			if data.message == Message.id:
 				id = data.id
-				hostId = data.host
-				lobbyValue = data.lobbyValue
+				connected(id)
 			if data.message == Message.userConnected:
 				#GameManager.Players[data.id] = data.player
 				createPeer(data.id)
 			if data.message == Message.lobby:
-				GameManager.Players = JSON.parse_string(data.players);
-	pass
+				GameManager.Players = JSON.parse_string(data.players)
+				hostId = data.host
+				lobbyValue = data.lobbyValue
+			if data.message == Message.candidate:
+				if rtcPeer.has_peer(data.orgPeer):
+					print("Got Candidate: " + str(data.orgPeer) + " my id is " + str(id))
+					rtcPeer.get_peer(data.orgPeer).connection.add_ice_candidate(data.mid, data.index, data.sdp)
+			if data.message == Message.offer:
+				if rtcPeer.has_peer(data.orgPeer):
+					rtcPeer.get_peer(data.orgPeer).connection.set_remote_description("offer", data.data)
+			if data.message == Message.answer:
+				if rtcPeer.has_peer(data.orgPeer):
+					rtcPeer.get_peer(data.orgPeer).connection.set_remote_description("answer", data.data)
 
+func connected(id):
+	rtcPeer.create_mesh(id)
+	multiplayer.multiplayer_peer = rtcPeer
+	
 #web rtc connection
 func createPeer(id):
 	if id != self.id:
@@ -88,13 +113,31 @@ func sendOffer(id, data):
 	pass
 	
 func sendAnswer(id, data):
+	var message = {
+		"peer" : id,
+		"orgPeer" : self.id,
+		"message" : Message.answer,
+		"data" : data,
+		"Lobby" : lobbyValue
+	}
+	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 	pass
 
-func iceCandidateCreated(id):
+func iceCandidateCreated(midName, indexName, sdpName, id):
+	var message = {
+		"peer" : id,
+		"orgPeer" : self.id,
+		"message" : Message.candidate,
+		"mid" : midName,
+		"index" : indexName,
+		"sdp" : sdpName,
+		"Lobby" : lobbyValue
+	}
+	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 	pass
 
 func connectToServer(ip):
-	peer.create_client("ws://127.0.0.1:8915")
+	peer.create_client("ws://localhost:8915")
 	print("started client")
 
 
@@ -104,14 +147,13 @@ func _on_start_client_button_down():
 
 
 func _on_button_button_down():
-	var message = {
-		"message" : Message.join,
-		"data" : "test"
-	}
-	var messageBytes = JSON.stringify(message).to_utf8_buffer()
-	peer.put_packet(messageBytes)
+	StartGame.rpc()
 	pass # Replace with function body.
 
+@rpc("any_peer", "call_local")
+func StartGame():
+	var scene = load("res://Game/Levels/level.tscn").instantiate()
+	get_tree().root.add_child(scene)
 
 func _on_join_lobby_button_down():
 	var message = {

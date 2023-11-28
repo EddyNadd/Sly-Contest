@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://djliv4h0uw8un"]
+[gd_scene load_steps=9 format=3 uid="uid://djliv4h0uw8un"]
 
 [ext_resource type="Texture2D" uid="uid://3kmkmruwhk5i" path="res://Game/assets/Terrain/Terrain (16x16).png" id="1_n1aru"]
 [ext_resource type="Script" path="res://Game/Levels/level.gd" id="1_ohocx"]
@@ -470,16 +470,6 @@ custom_data_layer_0/name = "dead"
 custom_data_layer_0/type = 1
 sources/0 = SubResource("TileSetAtlasSource_7ajcq")
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_a7qin"]
-properties/0/path = NodePath(".:start")
-properties/0/spawn = true
-properties/0/sync = true
-properties/0/watch = false
-properties/1/path = NodePath(".:end")
-properties/1/spawn = true
-properties/1/sync = true
-properties/1/watch = false
-
 [node name="Level" type="Node2D"]
 script = ExtResource("1_ohocx")
 PlayerScene = ExtResource("2_grx4m")
@@ -523,13 +513,12 @@ metadata/_edit_use_anchors_ = true
 
 [node name="SpawnLocations" type="Node2D" parent="."]
 
-[node name="0" type="Node2D" parent="SpawnLocations" groups=["PlayerSpawnPoint"]]
+[node name="2" type="Node2D" parent="SpawnLocations" groups=["PlayerSpawnPoint"]]
 position = Vector2(120, 608)
 
 [node name="1" type="Node2D" parent="SpawnLocations" groups=["PlayerSpawnPoint"]]
 position = Vector2(856, 600)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_a7qin")
 
 [connection signal="pressed" from="CanvasLayer/ToggleGrid" to="Grid" method="_on_toggle_grid_pressed"]

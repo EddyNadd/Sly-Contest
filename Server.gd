@@ -17,8 +17,13 @@ var users = {}
 var lobbies = {}
 var Characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
+@export var hostPort = 8915
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if "--server" in OS.get_cmdline_args():
+		print("Hosting on " + str(hostPort))
+		peer.create_server(hostPort)
 	peer.connect("peer_connected", peer_connected)
 	peer.connect("peer_disconnected", peer_disconnected)
 	pass # Replace with function body.
@@ -37,6 +42,10 @@ func _process(delta):
 			
 			if data.message == Message.lobby:
 				JoinLobby(data)
+				
+			if data.message == Message.offer || data.message == Message.answer || data.message == Message.candidate:
+				print("source id is " + str(data.orgPeer))
+				sendToPlayer(data.peer, data)
 	pass
 
 func JoinLobby(user):
@@ -47,9 +56,21 @@ func JoinLobby(user):
 	var player = lobbies[user.lobbyValue].AddPlayer(user.id, user.name)
 	
 	for p in lobbies[user.lobbyValue].Players:
+		var data = {
+			"message" : Message.userConnected,
+			"id" : user.id
+		}
+		sendToPlayer(p, data)
+		var data2 = {
+			"message" : Message.userConnected,
+			"id" : p
+		}
+		sendToPlayer(user.id, data2)
 		var lobbyInfo = {
 			"message" : Message.lobby,
-			"players" : JSON.stringify(lobbies[user.lobbyValue].Players)
+			"players" : JSON.stringify(lobbies[user.lobbyValue].Players),
+			"host" : lobbies[user.lobbyValue].HostId,
+			"lobbyValue" : user.lobbyValue
 		}
 		sendToPlayer(p, lobbyInfo)
 	
@@ -73,7 +94,7 @@ func generateRandomString():
 	return result
 
 func startServer():
-	peer.create_server(8915)
+	peer.create_server(hostPort)
 	print("started Server")
 
 
