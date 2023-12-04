@@ -22,6 +22,8 @@ var hostId : int
 
 var lobbyValue = ""
 
+@onready var button = $"../Button"
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	multiplayer.connected_to_server.connect(RTCServerConnected)
@@ -148,6 +150,7 @@ func _on_start_client_button_down():
 
 func _on_button_button_down():
 	StartGame.rpc()
+	button.release_focus()
 	pass # Replace with function body.
 
 @rpc("any_peer", "call_local")
