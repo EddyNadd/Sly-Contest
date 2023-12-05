@@ -3,8 +3,17 @@ extends Node2D
 @export var this_scene : PackedScene
 @onready var object_cursor = get_node("/root/Level")
 @onready var cursor_sprite = object_cursor.get_node("Sprite")
+@onready var scene
+@onready var item
 
 var inside = false
+
+func load_item():
+	item = scene.instantiate()
+	return item
+
+func set_tile_position(position):
+	global_position = Vector2(round(position.x / 16) * 16, round(position.y / 16) * 16)
 
 func _mouse_enter():
 	inside = true

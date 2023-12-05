@@ -13,6 +13,8 @@ extends Node2D
 @onready var playTimer = $PlayTimer
 #@onready var items = get_node("/root/Items")
 @onready var saw_test = $"Items/Saw"
+@onready var spike_test = $"Items/Spike"
+@onready var cursor_item = saw_test
 
 @export var PlayerScene : PackedScene
 
@@ -164,6 +166,10 @@ func _input(event):
 		var mouse_pos = get_global_mouse_position()
 		if (mouse_pos.y <= 512):
 			tile_map_pos = tile_map.local_to_map(mouse_pos)
+			
+			var item = cursor_item.load_item()
+			item.set_tile_position(mouse_pos)
+			add_child(item)
 			
 			if (bloc_coord == erase_text):
 				rpc("rpc_erase", ground_layer, tile_map_pos)
