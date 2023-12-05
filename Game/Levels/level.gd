@@ -141,20 +141,21 @@ func _on_kill_pressed():
 		
 @rpc("any_peer", "call_local")			
 func switchPos1():
-	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
-			GameManager.Players[multiplayer.get_unique_id()].spawn = Vector2i(spawnPos(start).x + 496, spawnPos(start).y)
+	if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
+			GameManager.Players[str(multiplayer.get_unique_id())].spawn = Vector2i(spawnPos(start).x + 496, spawnPos(start).y)
 	else:
 		while start == Vector2i(0,0):
 			await get_tree().create_timer(0.000001).timeout
-		GameManager.Players[multiplayer.get_unique_id()].spawn = spawnPos(start)		
+		GameManager.Players[str(multiplayer.get_unique_id())].spawn = spawnPos(start)
+
 @rpc("any_peer", "call_local")	
 func switchPos2():
-	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
-			GameManager.Players[multiplayer.get_unique_id()].spawn = spawnPos(start)
+	if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
+			GameManager.Players[str(multiplayer.get_unique_id())].spawn = spawnPos(start)
 	else:
 		while start == Vector2i(0,0):
 			await get_tree().create_timer(0.000001).timeout
-		GameManager.Players[multiplayer.get_unique_id()].spawn = Vector2i(spawnPos(start).x + 496, spawnPos(start).y)
+		GameManager.Players[str(multiplayer.get_unique_id())].spawn = Vector2i(spawnPos(start).x + 496, spawnPos(start).y)
 	
 	
 	

@@ -23,6 +23,8 @@ var hostId : int
 var lobbyValue = ""
 
 @onready var button = $"../Button"
+@onready var button2 = $"../JoinLobby"
+@onready var button3 = $"../Start Client"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -144,6 +146,7 @@ func connectToServer(ip):
 
 
 func _on_start_client_button_down():
+	button3.release_focus()
 	connectToServer("")
 	pass # Replace with function body.
 
@@ -166,4 +169,5 @@ func _on_join_lobby_button_down():
 		"lobbyValue" : $LineEdit.text
 	}
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
+	button2.release_focus()
 	pass # Replace with function body.
