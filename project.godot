@@ -11,9 +11,9 @@ config_version=5
 [application]
 
 config/name="Sly Contest"
-run/main_scene="res://Game/Multiplayer/MultiplayerScene.tscn"
+run/main_scene="res://control.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://Game/icon.svg"
 
 [autoload]
 
@@ -31,7 +31,7 @@ project/assembly_name="Sly Contest"
 
 [gui]
 
-theme/custom="res://SlyContestTheme.tres"
+theme/custom="res://Game/SlyContestTheme.tres"
 
 [input]
 

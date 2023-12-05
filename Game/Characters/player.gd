@@ -13,6 +13,8 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var jump_buffer = $JumpBuffer
 var wall_jump_remaining
 
+var syncPos = Vector2(0,0)
+
 func _physics_process(delta):
 	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
 		if (position.y > 512):
@@ -98,11 +100,18 @@ func _physics_process(delta):
 		if is_on_floor() && !jump_buffer.is_stopped():
 			jump_buffer.stop()
 			velocity.y = JUMP_VELOCITY
+			
+		syncPos = global_position
+	
+	else:
+		global_position = global_position.lerp(syncPos, .5)
 
 func kill():
 	velocity.x = 0
 	velocity.y = 0
-	position = GameManager.Players[multiplayer.get_unique_id()].spawn
+	if "spawn" in GameManager.Players[str(multiplayer.get_unique_id())]:
+		#print(GameManager.Players[str(multiplayer.get_unique_id())].spawn) #replace this by your actual code
+		position = GameManager.Players[str(multiplayer.get_unique_id())].spawn
 
 func _on_kill_pressed():
 	kill()

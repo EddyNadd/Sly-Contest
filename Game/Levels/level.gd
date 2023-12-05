@@ -52,27 +52,29 @@ func _ready():
 	
 	saw_test.set_global_position(Vector2i(200,200))
 	
-	var index = 0
+	var index = 1
 	for i in GameManager.Players:
 		var currentPlayer = PlayerScene.instantiate()
 		currentPlayer.name = str(GameManager.Players[i].id)
 		add_child(currentPlayer)
 		for spawn in get_tree().get_nodes_in_group("PlayerSpawnPoint"):
-			if spawn.name == str(index):
+			if spawn.name == str(GameManager.Players[i].index):
 				currentPlayer.global_position = spawn.global_position
 		index += 1
-	
-	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
+	pass
+	#if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
+	if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
 		start = startBlockCoords(padding)
 		end = finishBlockCoords(start, padding)
-		GameManager.Players[multiplayer.get_unique_id()].spawn = spawnPos(start)
+		rpc("updateStartEnd", start, end)
+		GameManager.Players[str(multiplayer.get_unique_id())].spawn = spawnPos(start)
 		initBlockGen(start, end)
 		player = get_node(str(multiplayer.get_unique_id()))
 		print(player)
 	else:
 		while start == Vector2i(0,0):
-			await get_tree().create_timer(0.000001).timeout
-		GameManager.Players[multiplayer.get_unique_id()].spawn = Vector2i(spawnPos(start).x + 496, spawnPos(start).y)
+			await get_tree().create_timer(0.001).timeout
+		GameManager.Players[str(multiplayer.get_unique_id())].spawn = Vector2i(spawnPos(start).x + 496, spawnPos(start).y)
 		initBlockGen(start, end)
 		player = get_node(str(multiplayer.get_unique_id()))
 
@@ -195,3 +197,8 @@ func _on_round_timer_timeout():
 	
 func _on_play_timer_timeout():
 	print("End of the game go to the scoreboard.")
+	
+@rpc("any_peer", "call_local")
+func updateStartEnd(newStart, newEnd):
+	start = newStart
+	end = newEnd

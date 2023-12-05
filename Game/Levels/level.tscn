@@ -683,14 +683,13 @@ offset_bottom = 5.0
 
 [node name="SpawnLocations" type="Node2D" parent="."]
 
-[node name="0" type="Node2D" parent="SpawnLocations" groups=["PlayerSpawnPoint"]]
+[node name="2" type="Node2D" parent="SpawnLocations" groups=["PlayerSpawnPoint"]]
 position = Vector2(120, 608)
 
 [node name="1" type="Node2D" parent="SpawnLocations" groups=["PlayerSpawnPoint"]]
 position = Vector2(856, 600)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_a7qin")
 
 [node name="ConstructionTimer" type="Timer" parent="."]
 wait_time = 10.0

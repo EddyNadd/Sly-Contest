@@ -52,51 +52,51 @@ atlas = ExtResource("1_ddxxl")
 region = Rect2(320, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r466n"]
-atlas = ExtResource("4_tyxtx")
+atlas = ExtResource("5_fmh78")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0eu5e"]
-atlas = ExtResource("4_tyxtx")
+atlas = ExtResource("5_fmh78")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1lsma"]
-atlas = ExtResource("4_tyxtx")
+atlas = ExtResource("5_fmh78")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hc7fm"]
-atlas = ExtResource("4_tyxtx")
+atlas = ExtResource("5_fmh78")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fsbws"]
-atlas = ExtResource("4_tyxtx")
+atlas = ExtResource("5_fmh78")
 region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_37fq5"]
-atlas = ExtResource("4_tyxtx")
+atlas = ExtResource("5_fmh78")
 region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u7gr7"]
-atlas = ExtResource("4_tyxtx")
+atlas = ExtResource("5_fmh78")
 region = Rect2(192, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_18d0j"]
-atlas = ExtResource("4_tyxtx")
+atlas = ExtResource("5_fmh78")
 region = Rect2(224, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0s3gs"]
-atlas = ExtResource("4_tyxtx")
+atlas = ExtResource("5_fmh78")
 region = Rect2(256, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f7gfm"]
-atlas = ExtResource("4_tyxtx")
+atlas = ExtResource("5_fmh78")
 region = Rect2(288, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hharo"]
-atlas = ExtResource("4_tyxtx")
+atlas = ExtResource("5_fmh78")
 region = Rect2(320, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_35y64"]
-atlas = ExtResource("4_tyxtx")
+atlas = ExtResource("5_fmh78")
 region = Rect2(352, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_udpa2"]
@@ -123,7 +123,7 @@ region = Rect2(128, 0, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_v1u8i")
+"texture": ExtResource("2_vwnfh")
 }],
 "loop": true,
 "name": &"fall",
@@ -169,7 +169,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_ech2g")
+"texture": ExtResource("4_eybhp")
 }],
 "loop": true,
 "name": &"jump",
@@ -242,7 +242,7 @@ radius = 7.0
 height = 22.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_uwi5s"]
-properties/0/path = NodePath(".:position")
+properties/0/path = NodePath("AnimatedSprite2D:frame")
 properties/0/spawn = true
 properties/0/sync = true
 properties/0/watch = false
@@ -250,7 +250,7 @@ properties/1/path = NodePath("AnimatedSprite2D:flip_h")
 properties/1/spawn = true
 properties/1/sync = true
 properties/1/watch = false
-properties/2/path = NodePath("AnimatedSprite2D:frame")
+properties/2/path = NodePath(".:syncPos")
 properties/2/spawn = true
 properties/2/sync = true
 properties/2/watch = false
@@ -258,13 +258,9 @@ properties/3/path = NodePath("AnimatedSprite2D:animation")
 properties/3/spawn = true
 properties/3/sync = true
 properties/3/watch = false
-properties/4/path = NodePath("AnimatedSprite2D:speed_scale")
-properties/4/spawn = true
-properties/4/sync = true
-properties/4/watch = false
 
 [node name="Player" type="CharacterBody2D"]
-script = ExtResource("1_puphm")
+script = ExtResource("1_t5fio")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.75, 0.75)
