@@ -16,6 +16,8 @@ var peer = WebSocketMultiplayerPeer.new()
 
 var id = 0
 
+var ip = "localhost"
+
 var rtcPeer : WebRTCMultiplayerPeer = WebRTCMultiplayerPeer.new()
 
 var hostId : int
@@ -31,6 +33,7 @@ func _ready():
 	multiplayer.connected_to_server.connect(RTCServerConnected)
 	multiplayer.peer_connected.connect(RTCPeerConnected)
 	multiplayer.peer_disconnected.connect(RTCPeerDisconnected)
+	connectToServer(ip)
 	pass # Replace with function body.
 	
 func RTCServerConnected():
@@ -141,8 +144,17 @@ func iceCandidateCreated(midName, indexName, sdpName, id):
 	pass
 
 func connectToServer(ip):
-	peer.create_client("ws://localhost:8915")
-	print("started client")
+	ip = "ws://" + str(ip) + ":8915"
+	peer.create_client(ip)
+	while (peer.get_connection_status() > 0):
+		await get_tree().create_timer(0.001).timeout
+		if peer.get_connection_status() == 2:
+			print("started client")
+			break	
+		else:
+			print("connecting")
+	if peer.get_connection_status() == 0:
+		print("Failed")
 
 
 func _on_start_client_button_down():
