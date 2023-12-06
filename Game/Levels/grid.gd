@@ -3,7 +3,7 @@ extends Node2D
 @onready var tile_map : TileMap = $"../TileMap"
 @onready var btnGrid = get_node("../Control/CanvasLayer/PanelContainer/MarginContainer/GridContainer/ToggleGrid")
 
-var size_half = Vector2i(30,31)
+var size_half = Vector2i(31,31)
 var grid_size
 #var grid_size = DisplayServer.screen_get_size() #Gets grid size based on the size of the screen
 var cell_size = Vector2i(16,16)

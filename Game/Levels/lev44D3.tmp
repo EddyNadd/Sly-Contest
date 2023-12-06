@@ -637,6 +637,9 @@ stretch_mode = 1
 [node name="Grid" type="Node2D" parent="."]
 script = ExtResource("4_q3svo")
 
+[node name="Items" parent="." instance=ExtResource("5_w0afm")]
+position = Vector2(1096, -24)
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_n4ao2")
 format = 2
@@ -662,9 +665,6 @@ layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
-
-[node name="Items" parent="." instance=ExtResource("5_w0afm")]
-position = Vector2(1096, -24)
 
 [node name="Control" parent="." instance=ExtResource("6_uuvyi")]
 offset_left = 28.0

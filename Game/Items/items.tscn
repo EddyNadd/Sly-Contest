@@ -9,5 +9,7 @@ position = Vector2(72, -24)
 script = ExtResource("1_ottng")
 
 [node name="Saw" parent="." instance=ExtResource("2_f8t7k")]
+position = Vector2(-40, 4)
 
 [node name="Spike" parent="." instance=ExtResource("3_nk8kt")]
+position = Vector2(-72, 24)

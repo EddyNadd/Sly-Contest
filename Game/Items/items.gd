@@ -13,7 +13,7 @@ func load_item():
 	return item
 
 func set_tile_position(position):
-	global_position = Vector2(round(position.x / 16) * 16, round(position.y / 16) * 16)
+	global_position = Vector2(round(position.x / GameManager.TILE_SIZE) * GameManager.TILE_SIZE, round(position.y / GameManager.TILE_SIZE) * GameManager.TILE_SIZE)
 
 func _mouse_enter():
 	inside = true
