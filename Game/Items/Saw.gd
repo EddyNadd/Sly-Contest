@@ -1,5 +1,8 @@
 extends "res://Game/Items/items.gd"
 
+func _init():
+	scene = load("res://Game/Items/saw.tscn")
+
 func _ready():
 	get_node("Sprite").play("on")
 

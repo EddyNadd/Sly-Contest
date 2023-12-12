@@ -1,116 +1,15 @@
-[gd_scene load_steps=18 format=3 uid="uid://qw6hxtsdyo7e"]
+[gd_scene load_steps=4 format=3 uid="uid://qw6hxtsdyo7e"]
 
-[ext_resource type="Texture2D" uid="uid://dqa6uq4gaaf6a" path="res://Game/assets/Traps/Saw/Off.png" id="1_7udnj"]
-[ext_resource type="Texture2D" uid="uid://cq7j2u0wn6kd" path="res://Game/assets/Traps/Saw/On (38x38).png" id="1_fq87s"]
 [ext_resource type="Script" path="res://Game/Items/items.gd" id="1_ottng"]
-[ext_resource type="Script" path="res://Game/Items/Saw.gd" id="1_xq2it"]
-[ext_resource type="Texture2D" uid="uid://bl2uquc4u3bye" path="res://Game/assets/Traps/Spikes/Idle.png" id="3_la7dl"]
-[ext_resource type="Script" path="res://Game/Items/Spike.gd" id="4_an5ss"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_a08qw"]
-atlas = ExtResource("1_fq87s")
-region = Rect2(0, 0, 38, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gnvgp"]
-atlas = ExtResource("1_fq87s")
-region = Rect2(38, 0, 38, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_edk8v"]
-atlas = ExtResource("1_fq87s")
-region = Rect2(76, 0, 38, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mxrp7"]
-atlas = ExtResource("1_fq87s")
-region = Rect2(114, 0, 38, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_m1upm"]
-atlas = ExtResource("1_fq87s")
-region = Rect2(152, 0, 38, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xmiv8"]
-atlas = ExtResource("1_fq87s")
-region = Rect2(190, 0, 38, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sdfdt"]
-atlas = ExtResource("1_fq87s")
-region = Rect2(228, 0, 38, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mu7ks"]
-atlas = ExtResource("1_fq87s")
-region = Rect2(266, 0, 38, 38)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_vgxjx"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_7udnj")
-}],
-"loop": true,
-"name": &"off",
-"speed": 20.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_a08qw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gnvgp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_edk8v")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mxrp7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_m1upm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xmiv8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sdfdt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mu7ks")
-}],
-"loop": true,
-"name": &"on",
-"speed": 20.0
-}]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_f3hok"]
-radius = 19.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_w1i1m"]
-size = Vector2(15, 8)
+[ext_resource type="PackedScene" uid="uid://c8hbcvmugr0yl" path="res://Game/Items/saw.tscn" id="2_f8t7k"]
+[ext_resource type="PackedScene" uid="uid://4aa2sav30ra" path="res://Game/Items/spike.tscn" id="3_nk8kt"]
 
 [node name="Items" type="Node2D"]
 position = Vector2(72, -24)
 script = ExtResource("1_ottng")
 
-[node name="Saw" type="Area2D" parent="."]
-script = ExtResource("1_xq2it")
+[node name="Saw" parent="." instance=ExtResource("2_f8t7k")]
+position = Vector2(-40, 4)
 
-[node name="Sprite" type="AnimatedSprite2D" parent="Saw"]
-position = Vector2(-37, 5)
-sprite_frames = SubResource("SpriteFrames_vgxjx")
-animation = &"on"
-frame_progress = 0.302156
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Saw"]
-position = Vector2(-37, 5)
-shape = SubResource("CircleShape2D_f3hok")
-
-[node name="Spike" type="Area2D" parent="."]
-script = ExtResource("4_an5ss")
-
-[node name="Sprite" type="Sprite2D" parent="Spike"]
-position = Vector2(-64, 16)
-texture = ExtResource("3_la7dl")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Spike"]
-position = Vector2(-64.5, 20)
-shape = SubResource("RectangleShape2D_w1i1m")
-
-[connection signal="body_entered" from="Saw" to="Saw" method="_on_body_entered"]
+[node name="Spike" parent="." instance=ExtResource("3_nk8kt")]
+position = Vector2(-72, 8)

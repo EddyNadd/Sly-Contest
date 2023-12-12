@@ -5,16 +5,20 @@ extends Node2D
 
 @onready var spawn1 = $"SpawnLocations/0"
 @onready var spawn2 = $"SpawnLocations/1"
-@onready var btn1 = get_node("Control/CanvasLayer/PanelContainer/MarginContainer/GridContainer/Button")
-@onready var btn2 = get_node("Control/CanvasLayer/PanelContainer/MarginContainer/GridContainer/Button2")
-@onready var btn3 = get_node("Control/CanvasLayer/PanelContainer/MarginContainer/GridContainer/Button3")
-@onready var kill = get_node("Control/CanvasLayer/PanelContainer/MarginContainer/GridContainer/Kill")
+@onready var buttons = get_node("Control/CanvasLayer/PanelContainer/MarginContainer/GridContainer")
+@onready var btn1 = buttons.get_node("Button")
+@onready var btn2 = buttons.get_node("Button2")
+@onready var erase = buttons.get_node("Erase")
+@onready var kill = buttons.get_node("Kill")
+@onready var saw = buttons.get_node("Saw")
+@onready var spike = buttons.get_node("Spike")
 @onready var ui = $Control
 @onready var playTimer = $PlayTimer
-#@onready var items = get_node("/root/Items")
-@onready var saw_test = $"Items/Saw"
 
 @export var PlayerScene : PackedScene
+
+var cursor_item
+var sprite
 
 var ground_layer = 0
 
@@ -45,12 +49,9 @@ var erase_text = Vector2i(18,5)
 
 var counterSwitch = 0
 func _ready():
-	btn1.connect("pressed", _on_button_pressed)
-	btn2.connect("pressed", _on_button_2_pressed)
-	btn3.connect("pressed", _on_button_3_pressed)
-	kill.connect("pressed", _on_kill_pressed)
-	
-	saw_test.set_global_position(Vector2i(200,200))
+	for btn in buttons.get_children():
+		btn.connect("pressed", reset_cursor)
+		btn.connect("pressed", Callable(self,"_on_" + btn.name.to_lower() + "_pressed"))
 	
 	var index = 1
 	for i in GameManager.Players:
@@ -126,18 +127,31 @@ func initBlockGen(start_block_coords,end_block_coords):
 	blockGen2x2(end_block_coords.x,end_block_coords.y,6,8)
 	blockGen2x2(start_block_coords.x+31,start_block_coords.y,6,0)
 	blockGen2x2(end_block_coords.x+31,end_block_coords.y,6,8)
+	
+func reset_cursor():
+	if cursor_item:
+		sprite.set_global_position(Vector2(2000,2000))
+	tile_map_no_collision.clear_layer(overlay)
+	cursor_item = null
+	bloc_coord = null
 
 func _on_button_pressed():
 	bloc_coord = Vector2i(12,9)
 	
-func _on_button_2_pressed():
+func _on_button2_pressed():
 	bloc_coord = Vector2i(17,9)
 	
-func _on_button_3_pressed():
+func _on_erase_pressed():
 	bloc_coord = erase_text
 	
 func _on_kill_pressed():
 	player.kill()
+	
+func _on_saw_pressed():
+	cursor_item = get_node("Items/Saw")
+	
+func _on_spike_pressed():
+	cursor_item = get_node("Items/Spike")
 		
 @rpc("any_peer", "call_local")			
 func switchPos1():
@@ -162,23 +176,36 @@ func switchPos2():
 func _input(event):
 	if Input.is_action_pressed("click"):
 		var mouse_pos = get_global_mouse_position()
-		if (mouse_pos.y <= 512):
-			tile_map_pos = tile_map.local_to_map(mouse_pos)
+		tile_map_pos = tile_map.local_to_map(mouse_pos)
+		if (mouse_pos.y <= 512 and !GameManager.INDESTRUCTIBLES.has(tile_map.get_cell_atlas_coords(ground_layer,tile_map_pos))):
 			
-			if (bloc_coord == erase_text):
-				rpc("rpc_erase", ground_layer, tile_map_pos)
-			else:
-				rpc("rpc_place", ground_layer, tile_map_pos, source_id, bloc_coord)
+			if cursor_item:
+				var item = cursor_item.load_item()
+				item.set_tile_position(mouse_pos)
+				add_child(item)
+			
+			if bloc_coord:
+				if (bloc_coord == erase_text):
+					rpc("rpc_erase", ground_layer, tile_map_pos)
+				else:
+					rpc("rpc_place", ground_layer, tile_map_pos, source_id, bloc_coord)
 				
 	if event is InputEventMouseMotion:
 		var mouse_pos = get_global_mouse_position()
 		if (mouse_pos.y <= 512):
-			tile_map_pos = tile_map_no_collision.local_to_map(mouse_pos)
-			tile_map_no_collision.clear_layer(overlay)
-			tile_map_no_collision.set_cell(overlay, tile_map_pos, source_id, bloc_coord)
-			tile_map_no_collision.set_layer_modulate(overlay, Color.WHITE)
-			if bloc_coord != erase_text:
-				tile_map_no_collision.set_layer_modulate(overlay, Color(Color.WHITE, 0.5))
+			if bloc_coord:
+				tile_map_pos = tile_map_no_collision.local_to_map(mouse_pos)
+				tile_map_no_collision.clear_layer(overlay)
+				tile_map_no_collision.set_cell(overlay, tile_map_pos, source_id, bloc_coord)
+				tile_map_no_collision.set_layer_modulate(overlay, Color.WHITE)
+				if bloc_coord != erase_text:
+					tile_map_no_collision.set_layer_modulate(overlay, Color(Color.WHITE, 0.5))
+					
+			if cursor_item:
+				sprite = cursor_item.get_node("Sprite")
+				sprite.set_global_position(Vector2(2000,2000))
+				sprite.set_global_position(Vector2(round(mouse_pos.x / GameManager.TILE_SIZE) * GameManager.TILE_SIZE, round(mouse_pos.y / GameManager.TILE_SIZE) * GameManager.TILE_SIZE))
+				sprite.set_modulate(Color(Color.WHITE,0.5))
 			
 			
 
