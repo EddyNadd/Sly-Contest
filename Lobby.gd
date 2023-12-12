@@ -3,6 +3,7 @@ class_name Lobby
 
 var HostId : int
 var Players : Dictionary = {}
+var TimeStamp : int = Time.get_unix_time_from_system()
 
 func _init(id):
 	HostId = id

@@ -9,6 +9,7 @@ enum Message {
 	candidate,
 	offer,
 	answer,
+	removeLobby,
 	checkIn
 }
 
@@ -28,7 +29,6 @@ func _ready():
 	peer.connect("peer_disconnected", peer_disconnected)
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	# getting datas from clients
@@ -46,6 +46,13 @@ func _process(delta):
 			if data.message == Message.offer || data.message == Message.answer || data.message == Message.candidate:
 				print("source id is " + str(data.orgPeer))
 				sendToPlayer(data.peer, data)
+				
+			if data.message == Message.removeLobby:
+				if lobbies.has(data.lobbyID):
+					lobbies.erase(data.lobbyID)
+	for lobbyValue in lobbies:
+		if lobbies[lobbyValue].TimeStamp + 300 < Time.get_unix_time_from_system():
+			lobbies.erase(lobbyValue)
 	pass
 
 func JoinLobby(user):
@@ -97,11 +104,9 @@ func startServer():
 	peer.create_server(hostPort)
 	print("started Server")
 
-
 func _on_start_server_button_down():
 	startServer()
 	pass # Replace with function body.
-
 
 func _on_button_2_button_down():
 	var message = {

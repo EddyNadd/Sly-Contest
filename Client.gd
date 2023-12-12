@@ -9,13 +9,14 @@ enum Message {
 	candidate,
 	offer,
 	answer,
+	removeLobby,
 	checkIn
 }
 
 var peer = WebSocketMultiplayerPeer.new()
 
 var id = 0
-
+ 
 var ip = "localhost"
 
 var rtcPeer : WebRTCMultiplayerPeer = WebRTCMultiplayerPeer.new()
@@ -170,6 +171,11 @@ func _on_button_button_down():
 
 @rpc("any_peer", "call_local")
 func StartGame():
+	var message = {
+		"message": Message.removeLobby,
+		"lobbyID": lobbyValue
+	}
+	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 	var scene = load("res://Game/Levels/level.tscn").instantiate()
 	get_tree().root.add_child(scene)
 
