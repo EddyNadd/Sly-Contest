@@ -12,4 +12,4 @@ script = ExtResource("1_ottng")
 position = Vector2(-40, 4)
 
 [node name="Spike" parent="." instance=ExtResource("3_nk8kt")]
-position = Vector2(-72, 24)
+position = Vector2(-72, 8)

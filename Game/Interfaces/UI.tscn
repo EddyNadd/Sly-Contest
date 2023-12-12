@@ -50,7 +50,7 @@ layout_mode = 2
 focus_mode = 0
 icon = ExtResource("1_82cl6")
 
-[node name="Button3" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
+[node name="Erase" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
 focus_mode = 0
 icon = ExtResource("2_ncwb1")
@@ -62,12 +62,15 @@ icon = ExtResource("4_0f8t0")
 
 [node name="ToggleGrid" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
+focus_mode = 0
 icon = ExtResource("5_vvs6a")
 
 [node name="Saw" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
+focus_mode = 0
 icon = ExtResource("6_tvqdh")
 
 [node name="Spike" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
+focus_mode = 0
 icon = ExtResource("7_5xml3")

@@ -8,7 +8,7 @@ extends Node2D
 @onready var buttons = get_node("Control/CanvasLayer/PanelContainer/MarginContainer/GridContainer")
 @onready var btn1 = buttons.get_node("Button")
 @onready var btn2 = buttons.get_node("Button2")
-@onready var btn3 = buttons.get_node("Button3")
+@onready var erase = buttons.get_node("Erase")
 @onready var kill = buttons.get_node("Kill")
 @onready var saw = buttons.get_node("Saw")
 @onready var spike = buttons.get_node("Spike")
@@ -141,7 +141,7 @@ func _on_button_pressed():
 func _on_button2_pressed():
 	bloc_coord = Vector2i(17,9)
 	
-func _on_button3_pressed():
+func _on_erase_pressed():
 	bloc_coord = erase_text
 	
 func _on_kill_pressed():
@@ -176,8 +176,8 @@ func switchPos2():
 func _input(event):
 	if Input.is_action_pressed("click"):
 		var mouse_pos = get_global_mouse_position()
-		if (mouse_pos.y <= 512):
-			tile_map_pos = tile_map.local_to_map(mouse_pos)
+		tile_map_pos = tile_map.local_to_map(mouse_pos)
+		if (mouse_pos.y <= 512 and !GameManager.INDESTRUCTIBLES.has(tile_map.get_cell_atlas_coords(ground_layer,tile_map_pos))):
 			
 			if cursor_item:
 				var item = cursor_item.load_item()
