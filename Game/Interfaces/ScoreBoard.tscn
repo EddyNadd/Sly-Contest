@@ -1,0 +1,336 @@
+[gd_scene load_steps=5 format=3 uid="uid://bk0wxb81311tk"]
+
+[ext_resource type="Texture2D" uid="uid://cfiiqxpr3ywmm" path="res://Game/assets/Menu/MenuPicture/OIG.jpg" id="1_mt6pr"]
+[ext_resource type="Texture2D" uid="uid://bjrudm1lro7u0" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_M_btn_bis.png" id="2_g4pbp"]
+
+[sub_resource type="SystemFont" id="SystemFont_skruk"]
+font_names = PackedStringArray("Impact")
+
+[sub_resource type="SystemFont" id="SystemFont_p5qsx"]
+font_names = PackedStringArray("Impact")
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1009.0
+offset_bottom = 565.0
+texture = ExtResource("1_mt6pr")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+offset_right = 526.0
+offset_bottom = 564.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Separator" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Player 1" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "PLAYER 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="Separator" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="Separator" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="LevelPoint" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = " Completion :"
+vertical_alignment = 1
+
+[node name="LevelPoint2" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "    -
+"
+vertical_alignment = 1
+
+[node name="Separator2" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 65
+
+[node name="Separator" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="ValidationPoint" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "Validation :"
+vertical_alignment = 1
+
+[node name="ValidationPoint2" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "    -
+"
+vertical_alignment = 1
+
+[node name="Separator3" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 65
+
+[node name="Separator" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="PenalityPoint" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "Penality  :"
+vertical_alignment = 1
+
+[node name="PenalityPoint2" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "       -"
+vertical_alignment = 1
+
+[node name="Separator4" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 65
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+
+[node name="TotalScore" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "Total Score :"
+vertical_alignment = 1
+
+[node name="TotalScore2" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "-"
+vertical_alignment = 1
+
+[node name="Separator5" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+offset_left = 921.0
+offset_top = 521.0
+offset_right = 1007.0
+offset_bottom = 564.0
+theme_override_fonts/font = SubResource("SystemFont_p5qsx")
+text = "QUIT"
+icon = ExtResource("2_g4pbp")
+flat = true
+icon_alignment = 1
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 827.0
+offset_top = 521.0
+offset_right = 913.0
+offset_bottom = 564.0
+theme_override_fonts/font = SubResource("SystemFont_p5qsx")
+text = "PLAY"
+icon = ExtResource("2_g4pbp")
+flat = true
+icon_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 2
+offset_left = 526.0
+offset_top = -1.0
+offset_right = 1008.0
+offset_bottom = 566.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Separator" type="Control" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Player 2" type="Label" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "PLAYER 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="Separator" type="Control" parent="MarginContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="Separator" type="Control" parent="MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="LevelPoint" type="Label" parent="MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = " Completion :"
+vertical_alignment = 1
+
+[node name="LevelPoint2" type="Label" parent="MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "    -
+"
+vertical_alignment = 1
+
+[node name="Separator2" type="Control" parent="MarginContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 65
+
+[node name="Separator" type="Control" parent="MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="ValidationPoint" type="Label" parent="MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "Validation :"
+vertical_alignment = 1
+
+[node name="ValidationPoint2" type="Label" parent="MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "    -
+"
+vertical_alignment = 1
+
+[node name="Separator3" type="Control" parent="MarginContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 65
+
+[node name="Separator" type="Control" parent="MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="PenalityPoint" type="Label" parent="MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "Penality  :"
+vertical_alignment = 1
+
+[node name="PenalityPoint2" type="Label" parent="MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "       -"
+vertical_alignment = 1
+
+[node name="Separator4" type="Control" parent="MarginContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 65
+
+[node name="Control" type="Control" parent="MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+
+[node name="TotalScore" type="Label" parent="MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "Total Score :"
+vertical_alignment = 1
+
+[node name="TotalScore2" type="Label" parent="MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_skruk")
+text = "-"
+vertical_alignment = 1
+
+[node name="Separator5" type="Control" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
