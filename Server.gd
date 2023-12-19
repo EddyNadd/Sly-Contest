@@ -51,21 +51,21 @@ func _process(delta):
 				if lobbies.has(data.lobbyID):
 					lobbies.erase(data.lobbyID)
 					
-			#if data.message == Message.userDisconnected:
-			#	if len(lobbies[data.lobbyID]) != 1:
-			#		if lobbies.has(data.lobbyID):
-			#			lobbies[data.lobbyID].erase(data.id)
-			#			for p in lobbies[data.lobbyID].Players:
-			#				var lobbyInfo = {
-			#					"message" : Message.lobby,
-			#					"players" : JSON.stringify(lobbies[data.lobbyID].Players),
-			#					"host" : lobbies[data.lobbyID].HostId,
-			#					"lobbyValue" : data.lobbyID
-			#				}
-			#				sendToPlayer(p, lobbyInfo)
-			#	else:
-			#		lobbies.erase(data.lobbyID)
-			#		
+			if data.message == Message.userDisconnected:
+				if len(lobbies[data.lobbyID]) != 1:
+					if lobbies.has(data.lobbyID):
+						lobbies[data.lobbyID].erase(data.id)
+						for p in lobbies[data.lobbyID].Players:
+							var lobbyInfo = {
+								"message" : Message.lobby,
+								"players" : JSON.stringify(lobbies[data.lobbyID].Players),
+								"host" : lobbies[data.lobbyID].HostId,
+								"lobbyValue" : data.lobbyID
+							}
+							sendToPlayer(p, lobbyInfo)
+				else:
+					lobbies.erase(data.lobbyID)
+					
 	for lobbyValue in lobbies:
 		if lobbies[lobbyValue].TimeStamp + 300 < Time.get_unix_time_from_system():
 			lobbies.erase(lobbyValue)

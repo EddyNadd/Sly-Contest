@@ -40,10 +40,13 @@ var connectedStatus = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	multiplayer.connected_to_server.connect(RTCServerConnected)
-	multiplayer.peer_connected.connect(RTCPeerConnected)
-	multiplayer.peer_disconnected.connect(RTCPeerDisconnected)
-	connectToServer(ip)
+	if "--server" in OS.get_cmdline_user_args():
+		print("Server mod!")
+	else:
+		multiplayer.connected_to_server.connect(RTCServerConnected)
+		multiplayer.peer_connected.connect(RTCPeerConnected)
+		multiplayer.peer_disconnected.connect(RTCPeerDisconnected)
+		connectToServer(ip)
 	pass # Replace with function body.
 	
 func RTCServerConnected():
