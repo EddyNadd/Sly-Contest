@@ -7,6 +7,9 @@ extends Control
 @onready var lobby = preload("res://control.tscn") as PackedScene
 
 func _ready():
+	if "--server" in OS.get_cmdline_args():
+		print("Server mod!")
+		get_tree().change_scene_to_file("res://control.tscn")
 	pass
 
 func _on_play_pressed():
