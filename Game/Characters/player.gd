@@ -15,11 +15,14 @@ var wall_jump_remaining
 
 var syncPos = Vector2(0,0)
 
+var canConfirmLevel = true
+
 func _physics_process(delta):
 	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
 		if (position.y > 512):
 			kill()
 		animated_sprite.play()
+		
 		# Add the gravity.
 		if not is_on_floor():
 			if is_on_wall():
@@ -86,10 +89,15 @@ func _physics_process(delta):
 		var tile_data : TileData = tile_map.get_cell_tile_data(0, Vector2i(tile_map_pos.x,tile_map_pos.y+1))
 
 		if tile_data:
-			var current_data = tile_data.get_custom_data("dead")
-			
-			if (current_data):
+			if(tile_data.get_custom_data("dead")):
 				kill()
+			if(tile_data.get_custom_data("end") and canConfirmLevel):
+				rpc("arrivee")
+				for player in GameManager.Players:
+					print(str(GameManager.Players[str(multiplayer.get_unique_id())].id)+" != "+str(GameManager.Players[player].id))
+					if(GameManager.Players[str(multiplayer.get_unique_id())] != GameManager.Players[player]):
+						print(str(GameManager.Players[str(multiplayer.get_unique_id())].spawn)+" = "+str(GameManager.Players[player].spawn))
+				#kill()
 
 		move_and_slide()
 		
@@ -119,4 +127,8 @@ func _on_kill_pressed():
 	
 func _ready():
 	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
+	
+@rpc("any_peer", "call_local")
+func arrivee():
+	canConfirmLevel = false
 	

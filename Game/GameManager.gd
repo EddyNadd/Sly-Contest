@@ -3,6 +3,7 @@ extends Node
 var Players = {}
 var INDESTRUCTIBLES = []
 const TILE_SIZE = 16
+var canConfirmLevel = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
