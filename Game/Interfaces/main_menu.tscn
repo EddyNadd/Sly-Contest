@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ctrlx1c7tg5an"]
+[gd_scene load_steps=9 format=3 uid="uid://ctrlx1c7tg5an"]
 
 [ext_resource type="Script" path="res://Game/Interfaces/main_menu.gd" id="1_7euu5"]
 [ext_resource type="Texture2D" uid="uid://dhyab4ryoq7aq" path="res://Game/assets/Menu/MenuPicture/MainMenu.png" id="1_yqybd"]
@@ -14,6 +14,9 @@ font_names = PackedStringArray("Impact")
 font_names = PackedStringArray("Impact")
 
 [sub_resource type="SystemFont" id="SystemFont_r8l1d"]
+font_names = PackedStringArray("Impact")
+
+[sub_resource type="SystemFont" id="SystemFont_w2jpr"]
 font_names = PackedStringArray("Impact")
 
 [node name="Main_Menu" type="Control"]
@@ -76,7 +79,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = SubResource("SystemFont_n0irk")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 35
 action_mode = 0
 text = "PLAY"
 icon = ExtResource("2_1prkl")
@@ -89,7 +92,7 @@ layout_mode = 2
 [node name="Option" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_uknv5")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 35
 text = "OPTION"
 icon = ExtResource("2_1prkl")
 flat = true
@@ -101,11 +104,25 @@ layout_mode = 2
 [node name="Credit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_r8l1d")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 35
 text = "CREDIT"
 icon = ExtResource("2_1prkl")
 flat = true
 icon_alignment = 1
+
+[node name="Separator4" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Quit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_w2jpr")
+theme_override_font_sizes/font_size = 35
+text = "QUIT"
+icon = ExtResource("2_1prkl")
+flat = true
+icon_alignment = 1
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Option" to="." method="_on_option_pressed"]

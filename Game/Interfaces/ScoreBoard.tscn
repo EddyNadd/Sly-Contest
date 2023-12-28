@@ -167,7 +167,7 @@ vertical_alignment = 1
 [node name="Separator5" type="Control" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="."]
+[node name="Quit" type="Button" parent="."]
 layout_mode = 2
 offset_left = 921.0
 offset_top = 521.0
@@ -179,7 +179,8 @@ icon = ExtResource("2_g4pbp")
 flat = true
 icon_alignment = 1
 
-[node name="Button2" type="Button" parent="."]
+[node name="Play" type="Button" parent="."]
+layout_mode = 0
 offset_left = 827.0
 offset_top = 521.0
 offset_right = 913.0
