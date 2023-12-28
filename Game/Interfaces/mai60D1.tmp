@@ -81,6 +81,7 @@ layout_mode = 2
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = SubResource("SystemFont_n0irk")
 theme_override_font_sizes/font_size = 35
+action_mode = 0
 text = "PLAY"
 icon = ExtResource("2_1prkl")
 flat = true
