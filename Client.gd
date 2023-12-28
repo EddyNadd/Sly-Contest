@@ -25,26 +25,41 @@ var hostId : int
 
 var lobbyValue = ""
 
-@onready var button = $"../Button"
-@onready var button2 = $"../JoinLobby"
-@onready var button3 = $"../Start Client"
+var connectedStatus = false
+
+@onready var startGameBtn = $"../StartGame"
+@onready var lobbyBtn = $"../JoinLobby"
+@onready var copyBtn = $"../Copy"
+@onready var lobbyCode = $"../lobbyCode"
+@onready var copyStatus = $"../CopyStatus"
+@onready var globalStatus = $"../GlobalStatus"
+@onready var leaveBtn = $"../LeaveLobby"
+@onready var username = $Username
+@onready var userList = $"../ItemList"
+@onready var scene = load("res://Game/Levels/level.tscn").instantiate()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	multiplayer.connected_to_server.connect(RTCServerConnected)
-	multiplayer.peer_connected.connect(RTCPeerConnected)
-	multiplayer.peer_disconnected.connect(RTCPeerDisconnected)
-	connectToServer(ip)
+	if "--server" in OS.get_cmdline_user_args():
+		print("Server mod!")
+	else:
+		multiplayer.connected_to_server.connect(RTCServerConnected)
+		multiplayer.peer_connected.connect(RTCPeerConnected)
+		multiplayer.peer_disconnected.connect(RTCPeerDisconnected)
+		connectToServer(ip)
 	pass # Replace with function body.
 	
 func RTCServerConnected():
 	print("RTC server connected")
 	
 func RTCPeerConnected(id):
+	connectedStatus = true
 	print("RTC peer connected " + str(id))
 	
 func RTCPeerDisconnected(id):
 	print("RTC peer disconnected " + str(id))
+	connectedStatus = false
+	GameCrash(id)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -65,6 +80,11 @@ func _process(delta):
 				GameManager.Players = JSON.parse_string(data.players)
 				hostId = data.host
 				lobbyValue = data.lobbyValue
+				lobbyCode.text = lobbyValue
+				globalStatus.text = "Lobby joined !"
+				userList.clear()
+				for player in GameManager.Players:
+					userList.add_item(GameManager.Players[player].name)
 			if data.message == Message.candidate:
 				if rtcPeer.has_peer(data.orgPeer):
 					print("Got Candidate: " + str(data.orgPeer) + " my id is " + str(id))
@@ -150,42 +170,87 @@ func connectToServer(ip):
 	while (peer.get_connection_status() > 0):
 		await get_tree().create_timer(0.001).timeout
 		if peer.get_connection_status() == 2:
-			print("started client")
+			globalStatus.text = "Connected !"
 			break	
 		else:
-			print("connecting")
+			globalStatus.text = "Connecting to server..."
 	if peer.get_connection_status() == 0:
-		print("Failed")
-
-
-func _on_start_client_button_down():
-	button3.release_focus()
-	connectToServer("")
-	pass # Replace with function body.
-
+		globalStatus.text = "Servers unreachable..."
 
 func _on_button_button_down():
-	StartGame.rpc()
-	button.release_focus()
+	if peer.get_connection_status() == 0:
+		globalStatus.text = "Servers unreachable..."
+	elif lobbyValue:
+		if len(GameManager.Players) == 2 && connectedStatus:
+			StartGame.rpc()
+			startGameBtn.release_focus()
+		elif !connectedStatus:
+			globalStatus.text = "Waiting for peer connection..."
+		else:
+			globalStatus.text = "Not enough players..."
+	else:
+		globalStatus.text = "An error occured..."
 	pass # Replace with function body.
 
 @rpc("any_peer", "call_local")
 func StartGame():
+	removeLobby()
+	scene = load("res://Game/Levels/level.tscn").instantiate()
+	get_tree().root.add_child(scene)
+	
+func GameCrash(idPeer):
+	if get_tree().root.get_children().has(scene):
+		for scenes in get_tree().root.get_children():
+			if scenes != get_tree().current_scene:
+				get_tree().root.remove_child(scenes)
+		get_tree().reload_current_scene()
+	else:
+		var message = {
+			"id" : idPeer,
+			"message" : Message.userDisconnected,
+			"lobbyValue" : lobbyValue
+		}
+		peer.put_packet(JSON.stringify(message).to_utf8_buffer())
+
+func removeLobby():
 	var message = {
 		"message": Message.removeLobby,
 		"lobbyID": lobbyValue
 	}
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
-	var scene = load("res://Game/Levels/level.tscn").instantiate()
-	get_tree().root.add_child(scene)
 
 func _on_join_lobby_button_down():
+	if username.text:
+		var message = {
+			"id" : id,
+			"message" : Message.lobby,
+			"name" : username.text,
+			"lobbyValue" : $LineEdit.text
+		}
+		peer.put_packet(JSON.stringify(message).to_utf8_buffer())
+	else:
+		globalStatus.text = "Please enter a username..."
+	lobbyBtn.release_focus()
+
+func _on_copy_button_down():
+	if lobbyValue:
+		DisplayServer.clipboard_set(lobbyValue)
+		copyStatus.text = "Copied !"
+	copyBtn.release_focus()
+
+
+func _on_leave_lobby_button_down():
 	var message = {
 		"id" : id,
-		"message" : Message.lobby,
-		"name" : "",
-		"lobbyValue" : $LineEdit.text
+		"message" : Message.userDisconnected,
+		"lobbyValue" : lobbyValue
 	}
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
-	button2.release_focus()
+	#if len(GameManager.Players) == 1:
+	#	removeLobby()
+	#	lobbyValue = ""
+	#	lobbyCode.text = lobbyValue
+	#	copyStatus.text = ""
+	#	pass
+	leaveBtn.release_focus()
 	pass # Replace with function body.

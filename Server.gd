@@ -50,6 +50,22 @@ func _process(delta):
 			if data.message == Message.removeLobby:
 				if lobbies.has(data.lobbyID):
 					lobbies.erase(data.lobbyID)
+					
+			if data.message == Message.userDisconnected:
+				if len(lobbies[data.lobbyID]) != 1:
+					if lobbies.has(data.lobbyID):
+						lobbies[data.lobbyID].erase(data.id)
+						for p in lobbies[data.lobbyID].Players:
+							var lobbyInfo = {
+								"message" : Message.lobby,
+								"players" : JSON.stringify(lobbies[data.lobbyID].Players),
+								"host" : lobbies[data.lobbyID].HostId,
+								"lobbyValue" : data.lobbyID
+							}
+							sendToPlayer(p, lobbyInfo)
+				else:
+					lobbies.erase(data.lobbyID)
+					
 	for lobbyValue in lobbies:
 		if lobbies[lobbyValue].TimeStamp + 300 < Time.get_unix_time_from_system():
 			lobbies.erase(lobbyValue)
@@ -89,7 +105,7 @@ func JoinLobby(user):
 		"lobbyValue" : user.lobbyValue
 	}
 	sendToPlayer(user.id, data)
-	
+
 func sendToPlayer(userId, data):
 	peer.get_peer(userId).put_packet(JSON.stringify(data).to_utf8_buffer())
 
@@ -103,10 +119,6 @@ func generateRandomString():
 func startServer():
 	peer.create_server(hostPort)
 	print("started Server")
-
-func _on_start_server_button_down():
-	startServer()
-	pass # Replace with function body.
 
 func _on_button_2_button_down():
 	var message = {
