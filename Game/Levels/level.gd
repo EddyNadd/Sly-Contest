@@ -48,6 +48,9 @@ var player
 var erase_text = Vector2i(18,5)
 
 var counterSwitch = 0
+
+var canBuild = true
+
 func _ready():
 	for btn in buttons.get_children():
 		btn.connect("pressed", reset_cursor)
@@ -171,25 +174,16 @@ func switchPos2():
 			await get_tree().create_timer(0.000001).timeout
 		GameManager.Players[str(multiplayer.get_unique_id())].spawn = Vector2i(spawnPos(start).x + 496, spawnPos(start).y)
 	
-	
-	
 func _input(event):
-	if Input.is_action_pressed("click"):
+	if Input.is_action_pressed("click"):			
 		var mouse_pos = get_global_mouse_position()
 		tile_map_pos = tile_map.local_to_map(mouse_pos)
-		if (mouse_pos.y <= 512 and !GameManager.INDESTRUCTIBLES.has(tile_map.get_cell_atlas_coords(ground_layer,tile_map_pos))):
+		if canBuild:
+			if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index && tile_map_pos.x < 31:
+				placeBlock(tile_map_pos, mouse_pos)
+			elif $MultiplayerSynchronizer.get_multiplayer_authority() != GameManager.Players[str(multiplayer.get_unique_id())].index && tile_map_pos.x > 31:
+				placeBlock(tile_map_pos, mouse_pos)
 			
-			if cursor_item:
-				var item = cursor_item.load_item()
-				item.set_tile_position(mouse_pos)
-				add_child(item)
-			
-			if bloc_coord:
-				if (bloc_coord == erase_text):
-					rpc("rpc_erase", ground_layer, tile_map_pos)
-				else:
-					rpc("rpc_place", ground_layer, tile_map_pos, source_id, bloc_coord)
-				
 	if event is InputEventMouseMotion:
 		var mouse_pos = get_global_mouse_position()
 		if (mouse_pos.y <= 512):
@@ -208,6 +202,19 @@ func _input(event):
 				sprite.set_modulate(Color(Color.WHITE,0.5))
 			
 			
+func placeBlock(tile_map_pos, mouse_pos):
+	if (mouse_pos.y <= 512 and !GameManager.INDESTRUCTIBLES.has(tile_map.get_cell_atlas_coords(ground_layer,tile_map_pos))):
+				
+			if cursor_item:
+				var item = cursor_item.load_item()
+				item.set_tile_position(mouse_pos)
+				add_child(item)
+			
+			if bloc_coord:
+				if (bloc_coord == erase_text):
+					rpc("rpc_erase", ground_layer, tile_map_pos)
+				else:
+					rpc("rpc_place", ground_layer, tile_map_pos, source_id, bloc_coord)
 
 @rpc("any_peer", "call_local")
 func rpc_erase(layer, pos):
@@ -219,6 +226,7 @@ func rpc_place(layer, pos, id, coord):
 
 func _on_round_timer_timeout():
 	rpc("switchPos1")
+	canBuild = false
 	print("Construction done Now play !")
 	player.kill()
 	playTimer.start()

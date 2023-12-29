@@ -33,6 +33,7 @@ var connectedStatus = false
 @onready var lobbyBtn = $"../JoinLobby"
 @onready var copyBtn = $"../Copy"
 @onready var lobbyCode = $"../lobbyCode"
+@onready var lobbyCodeLabel = $"LineEdit"
 @onready var copyStatus = $"../CopyStatus"
 @onready var globalStatus = $"../GlobalStatus"
 @onready var leaveBtn = $"../LeaveLobby"
@@ -85,6 +86,7 @@ func _process(delta):
 				hostId = data.host
 				lobbyValue = data.lobbyValue
 				lobbyCode.text = lobbyValue
+				lobbyCodeLabel.text = lobbyValue
 				globalStatus.text = "Lobby joined !"
 				userList.clear()
 				for player in GameManager.Players:
