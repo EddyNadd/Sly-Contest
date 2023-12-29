@@ -227,15 +227,19 @@ func removeLobby():
 
 func _on_join_lobby_button_down():
 	if username.text:
-		var message = {
-			"id" : id,
-			"message" : Message.lobby,
-			"name" : username.text,
-			"lobbyValue" : $LineEdit.text
-		}
-		peer.put_packet(JSON.stringify(message).to_utf8_buffer())
+		if lobbyValue != "":
+			globalStatus.text = "You already are in a lobby. Please leave it to join another one."
+		else:
+			var message = {
+				"id" : id,
+				"message" : Message.lobby,
+				"name" : username.text,
+				"lobbyValue" : $LineEdit.text
+			}
+			peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 	else:
-		globalStatus.text = "Please enter a username..."
+		if !username.text:
+			globalStatus.text = "Please enter a username..."
 	lobbyBtn.release_focus()
 
 func _on_copy_button_down():
@@ -246,14 +250,17 @@ func _on_copy_button_down():
 
 
 func _on_leave_lobby_button_down():
+	leaveLobby()
+	leaveBtn.release_focus()
+	get_tree().reload_current_scene()
+	
+func leaveLobby():
 	var message = {
 		"id" : id,
 		"message" : Message.userDisconnected,
 		"lobbyValue" : lobbyValue
 	}
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
-	leaveBtn.release_focus()
-	get_tree().reload_current_scene()
 
 func _on_username_text_changed(new_text):
 	save_file.username = new_text
