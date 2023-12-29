@@ -21,7 +21,7 @@ func _on_toggle_grid_pressed():
 	queue_redraw()
 
 func _draw():
-	if draw_grid:
+	if draw_grid && $"../MultiplayerSynchronizer".get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
 		# Draws vertical grid lines
 		for i in cells_amount.x:
 			var from = Vector2(i*cell_size.x, 0)
@@ -32,4 +32,17 @@ func _draw():
 		for i in cells_amount.y:
 			var from = Vector2(0, cell_size.y*i)
 			var to = Vector2(grid_size.x, from.y)
+			draw_line(from, to, Color(Color.BLACK,0.5))
+			
+	elif draw_grid && $"../MultiplayerSynchronizer".get_multiplayer_authority() != GameManager.Players[str(multiplayer.get_unique_id())].index:
+		# Draws vertical grid lines
+		for i in cells_amount.x:
+			var from = Vector2(i*cell_size.x + cell_size.x*32, 0)
+			var to = Vector2(from.x, grid_size.y)
+			draw_line(from, to, Color(Color.BLACK,0.5))
+
+		# Draws horizontal grid lines
+		for i in cells_amount.y:
+			var from = Vector2(cell_size.x*32, cell_size.y*i)
+			var to = Vector2(grid_size.x + cell_size.x*32, from.y)
 			draw_line(from, to, Color(Color.BLACK,0.5))
