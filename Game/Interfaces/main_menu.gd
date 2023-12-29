@@ -17,7 +17,7 @@ func _on_option_pressed():
 
 
 func _on_credit_pressed():
-	pass # Replace with function body.
+	get_tree().change_scene_to_file("res://Game/Interfaces/Credit.tscn")
 
 
 func _on_quit_pressed():

@@ -1,0 +1,83 @@
+[gd_scene load_steps=5 format=3 uid="uid://dudm178wbnfht"]
+
+[ext_resource type="Script" path="res://Game/Interfaces/Credit.gd" id="1_dfc1r"]
+[ext_resource type="Texture2D" uid="uid://b1jnhsltn85j7" path="res://Game/assets/Menu/MenuPicture/Credit.jpg" id="2_qsndy"]
+[ext_resource type="Texture2D" uid="uid://bjrudm1lro7u0" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_M_btn_bis.png" id="3_44gjh"]
+
+[sub_resource type="SystemFont" id="SystemFont_q8fgx"]
+font_names = PackedStringArray("Impact")
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dfc1r")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1008.0
+offset_bottom = 567.0
+texture = ExtResource("2_qsndy")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="TextureRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="TextureRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Separator" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer4"]
+layout_mode = 2
+theme_override_constants/separation = 150
+
+[node name="Separator" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "NAME"
+
+[node name="Separator2" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "JOB"
+
+[node name="Separator3" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+text = "SOUCE"
+
+[node name="Quit" type="Button" parent="TextureRect"]
+offset_left = 921.0
+offset_top = 521.0
+offset_right = 1007.0
+offset_bottom = 564.0
+theme_override_fonts/font = SubResource("SystemFont_q8fgx")
+text = "QUIT"
+icon = ExtResource("3_44gjh")
+flat = true
+icon_alignment = 1
+
+[connection signal="pressed" from="TextureRect/Quit" to="." method="_on_quit_pressed"]

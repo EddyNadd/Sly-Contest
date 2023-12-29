@@ -104,6 +104,7 @@ layout_mode = 2
 text = "0"
 
 [node name="Quit" type="Button" parent="TextureRect"]
+layout_mode = 0
 offset_left = 455.0
 offset_top = 432.0
 offset_right = 591.0
