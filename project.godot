@@ -12,12 +12,13 @@ config_version=5
 
 config/name="Sly Contest"
 run/main_scene="res://Game/Interfaces/main_menu.tscn"
-config/features=PackedStringArray("4.1", "Forward Plus")
+config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://Game/icon.svg"
 
 [autoload]
 
 GameManager="*res://Game/GameManager.gd"
+SaveFile="*res://save_file.gd"
 
 [display]
 

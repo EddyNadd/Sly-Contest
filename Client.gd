@@ -17,7 +17,9 @@ var peer = WebSocketMultiplayerPeer.new()
 
 var id = 0
  
-var ip = "localhost"
+# var ip = "localhost" # prod ip
+
+var ip = "127.0.0.1" # dev ip
 
 var rtcPeer : WebRTCMultiplayerPeer = WebRTCMultiplayerPeer.new()
 
@@ -37,12 +39,14 @@ var connectedStatus = false
 @onready var username = $Username
 @onready var userList = $"../ItemList"
 @onready var scene = load("res://Game/Levels/level.tscn").instantiate()
+@onready var save_file = SaveFile.game_data
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if "--server" in OS.get_cmdline_user_args():
 		print("Server mod!")
 	else:
+		username.text = save_file.username
 		multiplayer.connected_to_server.connect(RTCServerConnected)
 		multiplayer.peer_connected.connect(RTCPeerConnected)
 		multiplayer.peer_disconnected.connect(RTCPeerDisconnected)
@@ -246,11 +250,9 @@ func _on_leave_lobby_button_down():
 		"lobbyValue" : lobbyValue
 	}
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
-	#if len(GameManager.Players) == 1:
-	#	removeLobby()
-	#	lobbyValue = ""
-	#	lobbyCode.text = lobbyValue
-	#	copyStatus.text = ""
-	#	pass
 	leaveBtn.release_focus()
-	pass # Replace with function body.
+	get_tree().reload_current_scene()
+
+func _on_username_text_changed(new_text):
+	save_file.username = new_text
+	SaveFile.save_data()
