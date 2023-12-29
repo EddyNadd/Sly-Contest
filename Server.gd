@@ -25,6 +25,8 @@ func _ready():
 	if "--server" in OS.get_cmdline_args():
 		print("Hosting on " + str(hostPort))
 		peer.create_server(hostPort)
+	
+	# peer.create_server(hostPort) # Comment this line when in prod - dev mod
 	peer.connect("peer_connected", peer_connected)
 	peer.connect("peer_disconnected", peer_disconnected)
 	pass # Replace with function body.
@@ -52,19 +54,19 @@ func _process(delta):
 					lobbies.erase(data.lobbyID)
 					
 			if data.message == Message.userDisconnected:
-				if len(lobbies[data.lobbyID]) != 1:
-					if lobbies.has(data.lobbyID):
-						lobbies[data.lobbyID].erase(data.id)
-						for p in lobbies[data.lobbyID].Players:
+				if len(lobbies[data.lobbyValue].Players) != 1:
+					if lobbies.has(data.lobbyValue):
+						lobbies[data.lobbyValue].Players.erase(data.id)
+						for p in lobbies[data.lobbyValue].Players:
 							var lobbyInfo = {
 								"message" : Message.lobby,
-								"players" : JSON.stringify(lobbies[data.lobbyID].Players),
-								"host" : lobbies[data.lobbyID].HostId,
-								"lobbyValue" : data.lobbyID
+								"players" : JSON.stringify(lobbies[data.lobbyValue].Players),
+								"host" : lobbies[data.lobbyValue].HostId,
+								"lobbyValue" : data.lobbyValue
 							}
 							sendToPlayer(p, lobbyInfo)
 				else:
-					lobbies.erase(data.lobbyID)
+					lobbies.erase(data.lobbyValue)
 					
 	for lobbyValue in lobbies:
 		if lobbies[lobbyValue].TimeStamp + 300 < Time.get_unix_time_from_system():
