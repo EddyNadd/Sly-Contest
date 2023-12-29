@@ -26,7 +26,7 @@ func _ready():
 		print("Hosting on " + str(hostPort))
 		peer.create_server(hostPort)
 	
-	peer.create_server(hostPort) # Comment this line when in prod
+	# peer.create_server(hostPort) # Comment this line when in prod - dev mod
 	peer.connect("peer_connected", peer_connected)
 	peer.connect("peer_disconnected", peer_disconnected)
 	pass # Replace with function body.
