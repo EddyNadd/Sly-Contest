@@ -17,7 +17,9 @@ var peer = WebSocketMultiplayerPeer.new()
 
 var id = 0
  
-var ip = "localhost"
+var ip = "localhost" # prod ip
+
+# var ip = "127.0.0.1" # dev ip
 
 var rtcPeer : WebRTCMultiplayerPeer = WebRTCMultiplayerPeer.new()
 
@@ -31,18 +33,21 @@ var connectedStatus = false
 @onready var lobbyBtn = $"../JoinLobby"
 @onready var copyBtn = $"../Copy"
 @onready var lobbyCode = $"../lobbyCode"
+@onready var lobbyCodeLabel = $"LineEdit"
 @onready var copyStatus = $"../CopyStatus"
 @onready var globalStatus = $"../GlobalStatus"
 @onready var leaveBtn = $"../LeaveLobby"
 @onready var username = $Username
 @onready var userList = $"../ItemList"
 @onready var scene = load("res://Game/Levels/level.tscn").instantiate()
+@onready var save_file = SaveFile.game_data
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if "--server" in OS.get_cmdline_user_args():
 		print("Server mod!")
 	else:
+		username.text = save_file.username
 		multiplayer.connected_to_server.connect(RTCServerConnected)
 		multiplayer.peer_connected.connect(RTCPeerConnected)
 		multiplayer.peer_disconnected.connect(RTCPeerDisconnected)
@@ -81,6 +86,7 @@ func _process(delta):
 				hostId = data.host
 				lobbyValue = data.lobbyValue
 				lobbyCode.text = lobbyValue
+				lobbyCodeLabel.text = lobbyValue
 				globalStatus.text = "Lobby joined !"
 				userList.clear()
 				for player in GameManager.Players:
@@ -221,15 +227,19 @@ func removeLobby():
 
 func _on_join_lobby_button_down():
 	if username.text:
-		var message = {
-			"id" : id,
-			"message" : Message.lobby,
-			"name" : username.text,
-			"lobbyValue" : $LineEdit.text
-		}
-		peer.put_packet(JSON.stringify(message).to_utf8_buffer())
+		if lobbyValue != "":
+			globalStatus.text = "You already are in a lobby. Please leave it to join another one."
+		else:
+			var message = {
+				"id" : id,
+				"message" : Message.lobby,
+				"name" : username.text,
+				"lobbyValue" : $LineEdit.text
+			}
+			peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 	else:
-		globalStatus.text = "Please enter a username..."
+		if !username.text:
+			globalStatus.text = "Please enter a username..."
 	lobbyBtn.release_focus()
 
 func _on_copy_button_down():
@@ -240,17 +250,18 @@ func _on_copy_button_down():
 
 
 func _on_leave_lobby_button_down():
+	leaveLobby()
+	leaveBtn.release_focus()
+	get_tree().reload_current_scene()
+	
+func leaveLobby():
 	var message = {
 		"id" : id,
 		"message" : Message.userDisconnected,
 		"lobbyValue" : lobbyValue
 	}
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
-	#if len(GameManager.Players) == 1:
-	#	removeLobby()
-	#	lobbyValue = ""
-	#	lobbyCode.text = lobbyValue
-	#	copyStatus.text = ""
-	#	pass
-	leaveBtn.release_focus()
-	pass # Replace with function body.
+
+func _on_username_text_changed(new_text):
+	save_file.username = new_text
+	SaveFile.save_data()

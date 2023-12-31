@@ -102,6 +102,7 @@ offset_right = 188.0
 offset_bottom = 231.0
 text = "Leave Lobby"
 
+[connection signal="text_changed" from="Client/Username" to="Client" method="_on_username_text_changed"]
 [connection signal="button_down" from="StartGame" to="Client" method="_on_button_button_down"]
 [connection signal="button_down" from="JoinLobby" to="Client" method="_on_join_lobby_button_down"]
 [connection signal="button_down" from="Copy" to="Client" method="_on_copy_button_down"]
