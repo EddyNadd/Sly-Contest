@@ -95,7 +95,7 @@ func _physics_process(delta):
 				rpc("arrivee")
 				for player in GameManager.Players:
 					if(GameManager.Players[str(multiplayer.get_unique_id())] != GameManager.Players[player]):
-						print(str(GameManager.Players[str(multiplayer.get_unique_id())].spawn)+" = "+str(GameManager.Players[player].spawn))
+						GameManager.Players[str(multiplayer.get_unique_id())].spawn = GameManager.Players[player].spawn
 				kill()
 
 		move_and_slide()
