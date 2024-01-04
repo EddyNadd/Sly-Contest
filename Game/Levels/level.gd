@@ -47,8 +47,6 @@ var player
 
 var erase_text = Vector2i(18,5)
 
-var counterSwitch = 0
-
 var canBuild = true
 
 func _ready():
@@ -173,12 +171,17 @@ func _on_spike_pressed():
 		
 @rpc("any_peer", "call_local")			
 func switchPos1():
-	if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
-			GameManager.Players[str(multiplayer.get_unique_id())].spawn = Vector2i(onBlockPos(start).x + 496, onBlockPos(start).y)
-	else:
-		while start == Vector2i(0,0):
-			await get_tree().create_timer(0.000001).timeout
-		GameManager.Players[str(multiplayer.get_unique_id())].spawn = onBlockPos(start)
+	var tempSpawn = GameManager.Players[str(multiplayer.get_unique_id())].spawn
+	for player in GameManager.Players:
+		if(GameManager.Players[str(multiplayer.get_unique_id())] != GameManager.Players[player]):
+			GameManager.Players[str(multiplayer.get_unique_id())].spawn = GameManager.Players[player].spawn
+			GameManager.Players[player].spawn = tempSpawn
+#	if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
+#			GameManager.Players[str(multiplayer.get_unique_id())].spawn = Vector2i(onBlockPos(start).x + 496, onBlockPos(start).y)
+#	else:
+#		while start == Vector2i(0,0):
+#			await get_tree().create_timer(0.000001).timeout
+#		GameManager.Players[str(multiplayer.get_unique_id())].spawn = onBlockPos(start)
 
 @rpc("any_peer", "call_local")	
 func switchPos2():
@@ -240,10 +243,11 @@ func rpc_place(layer, pos, id, coord):
 	tile_map.set_cell(layer, pos, id, coord)
 
 func _on_round_timer_timeout():
-	rpc("switchPos1")
 	canBuild = false
+	switchPos1()
 	print("Construction done Now play !")
 	player.kill()
+	GameManager.canConfirmLevel = true
 	playTimer.start()
 	
 func _on_play_timer_timeout():

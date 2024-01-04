@@ -91,13 +91,12 @@ func _physics_process(delta):
 		if tile_data:
 			if(tile_data.get_custom_data("dead")):
 				kill()
-			if(tile_data.get_custom_data("end") and canConfirmLevel):
+			if(tile_data.get_custom_data("end") and GameManager.canConfirmLevel):
 				rpc("arrivee")
 				for player in GameManager.Players:
-					print(str(GameManager.Players[str(multiplayer.get_unique_id())].id)+" != "+str(GameManager.Players[player].id))
 					if(GameManager.Players[str(multiplayer.get_unique_id())] != GameManager.Players[player]):
 						print(str(GameManager.Players[str(multiplayer.get_unique_id())].spawn)+" = "+str(GameManager.Players[player].spawn))
-				#kill()
+				kill()
 
 		move_and_slide()
 		
@@ -130,5 +129,4 @@ func _ready():
 	
 @rpc("any_peer", "call_local")
 func arrivee():
-	canConfirmLevel = false
-	
+	GameManager.canConfirmLevel = false
