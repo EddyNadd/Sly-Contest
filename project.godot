@@ -19,6 +19,7 @@ config/icon="res://Game/icon.svg"
 
 GameManager="*res://Game/GameManager.gd"
 SaveFile="*res://save_file.gd"
+SaveTilemap="*res://save_tilemap.gd"
 
 [display]
 
