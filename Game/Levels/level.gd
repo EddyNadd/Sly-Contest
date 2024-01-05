@@ -265,7 +265,6 @@ func _on_load_button_down():
 	for cell in tile_map.get_used_cells(0):
 		tile_map.set_cell(0, cell, -1)
 	var game_data = SaveTilemap.load_data("test")
-	print(game_data)
 	for cell_str in game_data["tilemap"].keys():
 		var components = cell_str.split(",")
 		var x = int(components[0])
@@ -273,6 +272,4 @@ func _on_load_button_down():
 		var id = game_data["tilemap"][cell_str][0]
 		var atlas = game_data["tilemap"][cell_str][1]
 		var alternate = game_data["tilemap"][cell_str][2]
-		print(alternate)
-		print(str(x) + " " + str(y) + " " + str(id)) 
 		tile_map.set_cell(0, Vector2i(x, y), id, atlas, alternate)
