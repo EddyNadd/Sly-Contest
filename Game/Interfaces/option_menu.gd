@@ -3,15 +3,17 @@ extends Control
 var music_bus : int
 @onready var soundVolume = $TextureRect/VBoxContainer/HBoxContainer/HSlider
 @onready var mainMenu = preload("res://Game/Interfaces/main_menu.tscn") as PackedScene
+@onready var save_file = SaveFile.game_data
 var saveValue = 1
 
 func _ready():
 	var music_bus = AudioServer.get_bus_index("Music")
-	
 
 func _on_h_slider_value_changed(value : float) -> void:
 	AudioServer.set_bus_volume_db(music_bus, linear_to_db(value))
 	saveValue = value
+	save_file.soundLevel = value
+	SaveFile.save_data()
 	
 
 func _on_quit_pressed():
@@ -19,14 +21,17 @@ func _on_quit_pressed():
 	
 
 func _on_check_button_toggled(button_pressed):
+	save_file.fullScreen = button_pressed
+	SaveFile.save_data()
 	if button_pressed==true:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-	
-	
+
 func _on_sound_toggled(button_pressed):
 		AudioServer.set_bus_mute(music_bus, not AudioServer.is_bus_mute(music_bus))
+		save_file.toggledSound = not AudioServer.is_bus_mute(music_bus)
+		SaveFile.save_data()
 		if AudioServer.is_bus_mute(music_bus):	
 			soundVolume.set_value_no_signal(0)
 		else:

@@ -13,7 +13,6 @@ func _ready():
 			INDESTRUCTIBLES.append(Vector2i(6 + i, j))
 			INDESTRUCTIBLES.append(Vector2i(6 + i, 8 + j))
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
