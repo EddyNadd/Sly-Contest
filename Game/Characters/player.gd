@@ -15,8 +15,6 @@ var wall_jump_remaining
 
 var syncPos = Vector2(0,0)
 
-var canConfirmLevel = true
-
 func _physics_process(delta):
 	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
 		if (position.y > 512):
@@ -91,12 +89,16 @@ func _physics_process(delta):
 		if tile_data:
 			if(tile_data.get_custom_data("dead")):
 				kill()
-			if(tile_data.get_custom_data("end") and GameManager.canConfirmLevel):
-				rpc("arrivee")
-				for player in GameManager.Players:
-					if(GameManager.Players[str(multiplayer.get_unique_id())] != GameManager.Players[player]):
-						GameManager.Players[str(multiplayer.get_unique_id())].spawn = GameManager.Players[player].spawn
-				kill()
+			if(tile_data.get_custom_data("end")):
+				if(GameManager.canFinishLevel):
+					rpc("arrivee", multiplayer.get_unique_id())
+					for player in GameManager.Players:
+						if(GameManager.Players[str(multiplayer.get_unique_id())] != GameManager.Players[player]):
+							GameManager.Players[str(multiplayer.get_unique_id())].spawn = GameManager.Players[player].spawn
+					kill()
+				elif(GameManager.canConfirmLevel):
+					rpc("arrivee2", multiplayer.get_unique_id())
+						
 
 		move_and_slide()
 		
@@ -128,5 +130,24 @@ func _ready():
 	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
 	
 @rpc("any_peer", "call_local")
-func arrivee():
+func arrivee(id):
+	GameManager.canFinishLevel = false
+	GameManager.canConfirmLevel = true
+	for player in GameManager.Players:
+		if(GameManager.Players[str(id)] == GameManager.Players[player]):
+			GameManager.Players[player].points += 300
+		else:
+			GameManager.Players[player].points += 0
+			
+@rpc("any_peer", "call_local")
+func arrivee2(id):
+	GameManager.canFinishLevel = false
 	GameManager.canConfirmLevel = false
+	for player in GameManager.Players:
+		if(GameManager.Players[str(id)] == GameManager.Players[player]):
+			if(GameManager.Players[player].points == 300):
+				GameManager.Players[player].points += 100
+			else:
+				GameManager.Players[player].points += 200
+		else:
+			GameManager.Players[player].points += 0

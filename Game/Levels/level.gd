@@ -78,6 +78,9 @@ func _ready():
 		initBlockGen(start, end)
 		player = get_node(str(multiplayer.get_unique_id()))
 		
+	for player in GameManager.Players:
+		GameManager.Players[player].points = 0
+		
 	if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
 		for player in GameManager.Players:
 			if(GameManager.Players[str(multiplayer.get_unique_id())] == GameManager.Players[player]):
@@ -247,11 +250,17 @@ func _on_round_timer_timeout():
 	switchPos1()
 	print("Construction done Now play !")
 	player.kill()
-	GameManager.canConfirmLevel = true
+	GameManager.canFinishLevel = true
 	playTimer.start()
 	
 func _on_play_timer_timeout():
 	print("End of the game go to the scoreboard.")
+	if(GameManager.canConfirmLevel):
+		for player in GameManager.Players:
+			if(GameManager.Players[player].points == 300):
+				GameManager.Players[player].points -= 400
+	for player in GameManager.Players:
+		print(str(GameManager.Players[player].name)+": "+str(GameManager.Players[player].points))
 	
 @rpc("any_peer", "call_local")
 func updateStartEnd(newStart, newEnd):

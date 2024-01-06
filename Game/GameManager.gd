@@ -2,6 +2,7 @@ extends Node
 
 var Players = {}
 var INDESTRUCTIBLES = []
+var canFinishLevel = false
 var canConfirmLevel = false
 const TILE_SIZE = 16
 
