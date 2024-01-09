@@ -81,7 +81,6 @@ radius = 19.0
 
 [node name="Saw" type="Area2D"]
 script = ExtResource("1_njp84")
-this_scene = null
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vgxjx")

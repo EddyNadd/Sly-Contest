@@ -227,9 +227,7 @@ func placeBlock(tile_map_pos, mouse_pos):
 	if (mouse_pos.y <= 512 and !GameManager.INDESTRUCTIBLES.has(tile_map.get_cell_atlas_coords(ground_layer,tile_map_pos))):
 				
 			if cursor_item:
-				var item = cursor_item.load_item()
-				item.set_tile_position(mouse_pos)
-				add_child(item)
+				rpc("rpc_place_item", cursor_item.get_path(), mouse_pos)
 			
 			if bloc_coord:
 				if (bloc_coord == erase_text):
@@ -244,6 +242,12 @@ func rpc_erase(layer, pos):
 @rpc("any_peer", "call_local")
 func rpc_place(layer, pos, id, coord):
 	tile_map.set_cell(layer, pos, id, coord)
+	
+@rpc("any_peer", "call_local")
+func rpc_place_item(cursor_item, pos):
+	var item = get_node(cursor_item).load_item()
+	item.set_tile_position(pos)
+	add_child(item)
 
 func _on_round_timer_timeout():
 	canBuild = false
