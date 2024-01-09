@@ -70,6 +70,7 @@ layout_mode = 2
 text = "SOUCE"
 
 [node name="Quit" type="Button" parent="TextureRect"]
+layout_mode = 0
 offset_left = 921.0
 offset_top = 521.0
 offset_right = 1007.0
