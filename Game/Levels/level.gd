@@ -54,7 +54,7 @@ func _ready():
 	for btn in buttons.get_children():
 		btn.connect("pressed", reset_cursor)
 		btn.connect("pressed", Callable(self,"_on_" + btn.name.to_lower() + "_pressed"))
-	
+		add_child(get_node("Control"))
 	if GameManager.isSolo == false:
 		var index = 1
 		for i in GameManager.Players:
@@ -268,6 +268,7 @@ func _on_round_timer_timeout():
 		print("Construction done Now play !")
 		player.kill()
 		GameManager.canConfirmLevel = true
+		remove_child(get_node('Control'))
 		playTimer.start()
 	
 func _on_play_timer_timeout():
@@ -278,6 +279,7 @@ func _on_play_timer_timeout():
 				GameManager.Players[player].points -= 400
 	for player in GameManager.Players:
 		print(str(GameManager.Players[player].name)+": "+str(GameManager.Players[player].points))
+	get_tree().change_scene_to_file("res://Game/Interfaces/ScoreBoard.tscn")
 	
 @rpc("any_peer", "call_local")
 func updateStartEnd(newStart, newEnd):
