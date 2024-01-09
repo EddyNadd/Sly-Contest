@@ -73,9 +73,11 @@ func _physics_process(delta):
 			if Input.is_action_just_pressed("ui_accept") and velocity.y >= 0:
 				# Jump / Wall-jump
 				if ((is_on_floor() or !coyote_time.is_stopped()) or (is_on_wall() and wall_jump_remaining)):
+					jump_sound.play()
 					var new_speed = velocity.x
 					coyote_time.stop()
 					if is_on_wall() && !is_on_floor():
+						jump_sound.play()
 						wall_jump_remaining = 1
 						new_speed = SPEED * direction * -2
 					velocity.x = new_speed
