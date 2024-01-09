@@ -80,6 +80,9 @@ func _ready():
 			initBlockGen(start, end)
 			player = get_node(str(multiplayer.get_unique_id()))
 			
+		for player in GameManager.Players:
+			GameManager.Players[player].points = 0
+			
 		if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
 			for player in GameManager.Players:
 				if(GameManager.Players[str(multiplayer.get_unique_id())] == GameManager.Players[player]):
@@ -282,6 +285,12 @@ func updateStartEnd(newStart, newEnd):
 	end = newEnd
 
 func _on_save_button_down():
+	var Items = []
+	var id = 13
+	for _i in self.get_children():
+		if _i.name == str("@Area2D@" + str(id)):
+			print(_i.name)
+			id = id+1
 	if saveName.text != "":
 		SaveTilemap.save_data(saveName.text, tile_map, Vector2i(onBlockPos(start).x,onBlockPos(start).y), Vector2i(onBlockPos(start).x+496,onBlockPos(start).y))
 
