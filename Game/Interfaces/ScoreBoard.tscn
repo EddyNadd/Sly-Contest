@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bk0wxb81311tk"]
+[gd_scene load_steps=6 format=3 uid="uid://bk0wxb81311tk"]
 
+[ext_resource type="Script" path="res://Game/Interfaces/ScoreBoard.gd" id="1_l1uny"]
 [ext_resource type="Texture2D" uid="uid://cfiiqxpr3ywmm" path="res://Game/assets/Menu/MenuPicture/OIG.jpg" id="1_mt6pr"]
 [ext_resource type="Texture2D" uid="uid://bjrudm1lro7u0" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_M_btn_bis.png" id="2_g4pbp"]
 
@@ -16,6 +17,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_l1uny")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
@@ -167,30 +169,6 @@ vertical_alignment = 1
 [node name="Separator5" type="Control" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Quit" type="Button" parent="."]
-layout_mode = 2
-offset_left = 921.0
-offset_top = 521.0
-offset_right = 1007.0
-offset_bottom = 564.0
-theme_override_fonts/font = SubResource("SystemFont_p5qsx")
-text = "QUIT"
-icon = ExtResource("2_g4pbp")
-flat = true
-icon_alignment = 1
-
-[node name="Play" type="Button" parent="."]
-layout_mode = 0
-offset_left = 827.0
-offset_top = 521.0
-offset_right = 913.0
-offset_bottom = 564.0
-theme_override_fonts/font = SubResource("SystemFont_p5qsx")
-text = "PLAY"
-icon = ExtResource("2_g4pbp")
-flat = true
-icon_alignment = 1
-
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 2
 offset_left = 526.0
@@ -335,3 +313,82 @@ vertical_alignment = 1
 
 [node name="Separator5" type="Control" parent="MarginContainer2/VBoxContainer"]
 layout_mode = 2
+
+[node name="Separator6" type="Control" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Separator7" type="Control" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Separator8" type="Control" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Separator" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator2" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator3" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator4" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator5" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator6" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator7" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator8" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator9" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator10" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator11" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator12" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator13" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator14" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Separator15" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_p5qsx")
+action_mode = 0
+text = "PLAY"
+icon = ExtResource("2_g4pbp")
+flat = true
+icon_alignment = 1
+
+[node name="Quit" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_p5qsx")
+action_mode = 0
+text = "QUIT"
+icon = ExtResource("2_g4pbp")
+flat = true
+icon_alignment = 1
+
+[connection signal="pressed" from="MarginContainer2/VBoxContainer/HBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MarginContainer2/VBoxContainer/HBoxContainer/Quit" to="." method="_on_quit_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://djliv4h0uw8un"]
+[gd_scene load_steps=13 format=3 uid="uid://djliv4h0uw8un"]
 
 [ext_resource type="Texture2D" uid="uid://3kmkmruwhk5i" path="res://Game/assets/Terrain/Terrain (16x16).png" id="1_n1aru"]
 [ext_resource type="Script" path="res://Game/Levels/level.gd" id="1_ohocx"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Game/Levels/grid.gd" id="4_q3svo"]
 [ext_resource type="PackedScene" uid="uid://qw6hxtsdyo7e" path="res://Game/Items/items.tscn" id="5_w0afm"]
 [ext_resource type="PackedScene" uid="uid://b1weu27roatyo" path="res://Game/Interfaces/UI.tscn" id="6_uuvyi"]
+[ext_resource type="AudioStream" uid="uid://dtjp57oed87s" path="res://Game/assets/Menu/SFX/Jump.wav" id="8_6a1hy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7ajcq"]
 texture = ExtResource("1_n1aru")
@@ -705,6 +706,8 @@ offset_top = 52.0
 offset_right = 981.0
 offset_bottom = 85.0
 text = "Switch position"
+[node name="Jump" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_6a1hy")
 
 [connection signal="timeout" from="ConstructionTimer" to="." method="_on_round_timer_timeout"]
 [connection signal="timeout" from="PlayTimer" to="." method="_on_play_timer_timeout"]
