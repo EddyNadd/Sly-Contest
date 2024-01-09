@@ -2,7 +2,7 @@ extends Node
 
 var game_data = {}
 
-func save_data(name: String, tilemap: TileMap, start: Vector2i, end: Vector2i):
+func save_data(name: String, tilemap: TileMap, start: Vector2i, start2: Vector2i):
 	var file = FileAccess.open("user://" + name + ".SLAY", FileAccess.WRITE)
 	var tile_data = {}
 	for cell in tilemap.get_used_cells(0):
@@ -13,7 +13,7 @@ func save_data(name: String, tilemap: TileMap, start: Vector2i, end: Vector2i):
 	game_data = {
 		"tilemap": tile_data,
 		"start": start,
-		"end": end
+		"start2": start2 
 	}
 	file.store_var(game_data)
 	file.close()
@@ -22,7 +22,6 @@ func load_data(name):
 	var file = FileAccess.open("user://" + name + ".SLAY", FileAccess.READ)
 	if not file:
 		print("Error loading file")
-		file.close()
 		return null
 	file = FileAccess.open("user://" + name + ".SLAY", FileAccess.READ)
 	var game_data = file.get_var()

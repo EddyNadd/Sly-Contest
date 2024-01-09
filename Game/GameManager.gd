@@ -4,6 +4,9 @@ var Players = {}
 var INDESTRUCTIBLES = []
 var canConfirmLevel = false
 const TILE_SIZE = 16
+var isSolo = false
+var loadLevel = ""
+var soloSpawn = Vector2i(0,0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

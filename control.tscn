@@ -102,8 +102,17 @@ offset_right = 188.0
 offset_bottom = 231.0
 text = "Leave Lobby"
 
+[node name="Load Level" type="Button" parent="."]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 341.0
+offset_right = 189.0
+offset_bottom = 372.0
+text = "Load level (solo)"
+
 [connection signal="text_changed" from="Client/Username" to="Client" method="_on_username_text_changed"]
 [connection signal="button_down" from="StartGame" to="Client" method="_on_button_button_down"]
 [connection signal="button_down" from="JoinLobby" to="Client" method="_on_join_lobby_button_down"]
 [connection signal="button_down" from="Copy" to="Client" method="_on_copy_button_down"]
 [connection signal="button_down" from="LeaveLobby" to="Client" method="_on_leave_lobby_button_down"]
+[connection signal="button_down" from="Load Level" to="Client" method="_on_load_level_button_down"]

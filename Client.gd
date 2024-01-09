@@ -37,6 +37,7 @@ var connectedStatus = false
 @onready var copyStatus = $"../CopyStatus"
 @onready var globalStatus = $"../GlobalStatus"
 @onready var leaveBtn = $"../LeaveLobby"
+@onready var loadBtn = $"../Load Level"
 @onready var username = $Username
 @onready var userList = $"../ItemList"
 @onready var scene = load("res://Game/Levels/level.tscn").instantiate()
@@ -47,6 +48,7 @@ func _ready():
 	if "--server" in OS.get_cmdline_user_args():
 		print("Server mod!")
 	else:
+		GameManager.isSolo = false
 		username.text = save_file.username
 		multiplayer.connected_to_server.connect(RTCServerConnected)
 		multiplayer.peer_connected.connect(RTCPeerConnected)
@@ -265,3 +267,9 @@ func leaveLobby():
 func _on_username_text_changed(new_text):
 	save_file.username = new_text
 	SaveFile.save_data()
+
+
+func _on_load_level_button_down():
+	get_tree().change_scene_to_file("res://Game/Interfaces/saved_level.tscn")
+	loadBtn.release_focus()
+	pass # Replace with function body.
