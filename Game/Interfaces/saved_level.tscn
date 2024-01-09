@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://dofljsf6wra8f"]
+
+[ext_resource type="Script" path="res://Game/Interfaces/saved_level.gd" id="1_qp84g"]
+
+[node name="SavedLevel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qp84g")
+
+[node name="ItemList" type="ItemList" parent="."]
+layout_mode = 0
+offset_left = 266.0
+offset_top = 89.0
+offset_right = 764.0
+offset_bottom = 459.0
+
+[node name="Back" type="Button" parent="."]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 13.0
+offset_right = 99.0
+offset_bottom = 48.0
+text = "Back"
+
+[node name="Load" type="Button" parent="."]
+layout_mode = 0
+offset_left = 468.0
+offset_top = 491.0
+offset_right = 558.0
+offset_bottom = 522.0
+text = "Load"
+
+[connection signal="button_down" from="Back" to="." method="_on_back_button_down"]
+[connection signal="button_down" from="Load" to="." method="_on_load_button_down"]
