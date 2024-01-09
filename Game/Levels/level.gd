@@ -286,14 +286,26 @@ func updateStartEnd(newStart, newEnd):
 
 func _on_save_button_down():
 	var Items = []
+	var currentItem = {}
 	var id = 13
 	for _i in self.get_children():
 		if _i.name == str("@Area2D@" + str(id)):
-			print(_i.name)
+			var script = _i.get_script()
+
+			var name = script.get_script_property_list()[0].name
+			currentItem = {
+				"name" : name.substr(0, name.length() - 3),
+				"position" : _i.position
+			}
+			Items.append(currentItem)
+			#_i.
+			#currentItem = {
+			#	"name" = 
+			#}
 			id = id+1
 	if saveName.text != "":
-		SaveTilemap.save_data(saveName.text, tile_map, Vector2i(onBlockPos(start).x,onBlockPos(start).y), Vector2i(onBlockPos(start).x+496,onBlockPos(start).y))
-
+		SaveTilemap.save_data(saveName.text, tile_map, Vector2i(onBlockPos(start).x,onBlockPos(start).y), Vector2i(onBlockPos(start).x+496,onBlockPos(start).y), Items)
+		
 func _on_load_button_down():
 	for cell in tile_map.get_used_cells(0):
 		tile_map.set_cell(0, cell, -1)
@@ -308,3 +320,8 @@ func _on_load_button_down():
 		tile_map.set_cell(0, Vector2i(x, y), id, atlas, alternate)
 	print(game_data["start"])
 	GameManager.soloSpawn = game_data["start"]
+	for _i in game_data["items"]:
+		var item = get_node(str("Items/"+_i.name)).load_item()
+		item.set_tile_position(_i.position)
+		add_child(item)
+		pass
