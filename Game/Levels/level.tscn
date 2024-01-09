@@ -698,6 +698,15 @@ offset_top = 10.0
 offset_right = 861.0
 offset_bottom = 42.0
 
+[node name="switchPos" type="Button" parent="."]
+visible = false
+offset_left = 855.0
+offset_top = 52.0
+offset_right = 981.0
+offset_bottom = 85.0
+text = "Switch position"
+
 [connection signal="timeout" from="ConstructionTimer" to="." method="_on_round_timer_timeout"]
 [connection signal="timeout" from="PlayTimer" to="." method="_on_play_timer_timeout"]
 [connection signal="button_down" from="Save" to="." method="_on_save_button_down"]
+[connection signal="button_down" from="switchPos" to="." method="_on_switch_pos_button_down"]
