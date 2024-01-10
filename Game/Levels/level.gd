@@ -275,10 +275,11 @@ func _on_play_timer_timeout():
 	print("End of the game go to the scoreboard.")
 	if(GameManager.canConfirmLevel):
 		for player in GameManager.Players:
-			if(GameManager.Players[player].points == 300):
-				GameManager.Players[player].points -= 400
+			if(GameManager.Players[player].completionPoints > 0):
+				GameManager.Players[player].penaltyPoints -= 400
 	for player in GameManager.Players:
-		print(str(GameManager.Players[player].name)+": "+str(GameManager.Players[player].points))
+		GameManager.Players[player].points = GameManager.Players[player].completionPoints + GameManager.Players[player].validationPoints + GameManager.Players[player].penaltyPoints
+		print(str(GameManager.Players[player].name)+": "+str(GameManager.Players[player].points)+" (c: "+str(GameManager.Players[player].completionPoints)+", v: "+str(GameManager.Players[player].validationPoints)+", p: "+str(GameManager.Players[player].penaltyPoints)+")")
 	get_tree().change_scene_to_file("res://Game/Interfaces/ScoreBoard.tscn")
 	
 @rpc("any_peer", "call_local")
