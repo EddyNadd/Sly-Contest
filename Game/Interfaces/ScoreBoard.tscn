@@ -327,50 +327,19 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Separator" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="TextEdit" type="TextEdit" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 2.08165e-12)
 layout_mode = 2
+placeholder_text = "Save Name"
 
-[node name="Separator2" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="Save" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-
-[node name="Separator3" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Separator4" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Separator5" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Separator6" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Separator7" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Separator8" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Separator9" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Separator10" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Separator11" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Separator12" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Separator13" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Separator14" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Separator15" type="Control" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_p5qsx")
+action_mode = 0
+text = "SAVE"
+icon = ExtResource("2_g4pbp")
+flat = true
+icon_alignment = 1
 
 [node name="Play" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -390,5 +359,6 @@ icon = ExtResource("2_g4pbp")
 flat = true
 icon_alignment = 1
 
+[connection signal="pressed" from="MarginContainer2/VBoxContainer/HBoxContainer/Save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/HBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/HBoxContainer/Quit" to="." method="_on_quit_pressed"]
