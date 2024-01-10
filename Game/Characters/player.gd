@@ -224,7 +224,7 @@ func _ready():
 	
 func animation(animation_string):
 	if !GameManager.isSolo:
-		if GameManager.Players[str(multiplayer.get_unique_id())].index == 2:
+		if GameManager.Players[str(multiplayer.get_unique_id())].index == 1:
 			animation_string += "2"
 	animated_sprite.animation = animation_string
 	
