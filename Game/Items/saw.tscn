@@ -80,6 +80,7 @@ animations = [{
 radius = 19.0
 
 [node name="Saw" type="Area2D"]
+collision_mask = 3
 script = ExtResource("1_njp84")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]

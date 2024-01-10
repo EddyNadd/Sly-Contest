@@ -81,6 +81,9 @@ func _ready():
 			player = get_node(str(multiplayer.get_unique_id()))
 			
 		for player in GameManager.Players:
+			GameManager.Players[player].completionPoints = 0
+			GameManager.Players[player].validationPoints = 0
+			GameManager.Players[player].penaltyPoints = 0
 			GameManager.Players[player].points = 0
 			
 		if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
@@ -267,7 +270,7 @@ func _on_round_timer_timeout():
 		switchPos1()
 		print("Construction done Now play !")
 		player.kill()
-		GameManager.canConfirmLevel = true
+		GameManager.canFinishLevel = true
 		remove_child(get_node('Control'))
 		playTimer.start()
 	

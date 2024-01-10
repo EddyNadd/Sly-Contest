@@ -30,17 +30,17 @@ func _physics_process(delta):
 				else:
 					velocity.y = move_toward(velocity.y, 980, gravity * delta)
 				if (velocity.y <= 0):
-					animated_sprite.animation = "jump"
+					animation("jump")
 				else:
 					if is_on_wall():
-						animated_sprite.animation = "wall_jump"
+						animation("wall_jump")
 					else:
-						animated_sprite.animation = "fall"
+						animation("fall")
 			else:
 				if(velocity.x == 0):
-					animated_sprite.animation = "idle"
+					animation("idle")
 				else:
-					animated_sprite.animation = "run"
+					animation("run")
 
 			# move_and_slide() is called is_on_floor() is updated but was_on_floor keep the previous value
 			var was_on_floor = is_on_floor()
@@ -93,12 +93,16 @@ func _physics_process(delta):
 			if tile_data:
 				if(tile_data.get_custom_data("dead")):
 					kill()
-				if(tile_data.get_custom_data("end") and GameManager.canConfirmLevel):
-					rpc("arrivee")
-					for player in GameManager.Players:
-						if(GameManager.Players[str(multiplayer.get_unique_id())] != GameManager.Players[player]):
-							GameManager.Players[str(multiplayer.get_unique_id())].spawn = GameManager.Players[player].spawn
-					kill()
+				if(tile_data.get_custom_data("end")):
+					if(GameManager.canFinishLevel):
+						rpc("arrivee",GameManager.Players[str(multiplayer.get_unique_id())].id)
+						for player in GameManager.Players:
+							if(GameManager.Players[str(multiplayer.get_unique_id())] != GameManager.Players[player]):
+								GameManager.Players[str(multiplayer.get_unique_id())].spawn = GameManager.Players[player].spawn
+						kill()
+					elif(GameManager.canConfirmLevel):
+						rpc("arrivee2",GameManager.Players[str(multiplayer.get_unique_id())].id)
+						
 
 			move_and_slide()
 			
