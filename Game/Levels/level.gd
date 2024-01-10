@@ -111,7 +111,7 @@ func _ready():
 		add_child(currentPlayer)
 		for spawn in get_tree().get_nodes_in_group("PlayerSpawnPoint"):
 			currentPlayer.global_position = spawn.global_position
-		_on_load_button_down()
+		loadLevel()
 		player = currentPlayer
 		
 func blockGen2x2(ULx,ULy,TMx,TMy):
@@ -287,6 +287,7 @@ func _on_play_timer_timeout():
 	for player in GameManager.Players:
 		GameManager.Players[player].points = GameManager.Players[player].completionPoints + GameManager.Players[player].validationPoints + GameManager.Players[player].penaltyPoints
 		print(str(GameManager.Players[player].name)+": "+str(GameManager.Players[player].points)+" (c: "+str(GameManager.Players[player].completionPoints)+", v: "+str(GameManager.Players[player].validationPoints)+", p: "+str(GameManager.Players[player].penaltyPoints)+")")
+	saveGameDatas()
 	get_tree().change_scene_to_file("res://Game/Interfaces/ScoreBoard.tscn")
 	
 @rpc("any_peer", "call_local")
@@ -294,7 +295,7 @@ func updateStartEnd(newStart, newEnd):
 	start = newStart
 	end = newEnd
 
-func _on_save_button_down():
+func saveGameDatas():
 	var Items = []
 	var currentItem = {}
 	var id = 13
@@ -308,15 +309,10 @@ func _on_save_button_down():
 				"position" : _i.position
 			}
 			Items.append(currentItem)
-			#_i.
-			#currentItem = {
-			#	"name" = 
-			#}
 			id = id+1
-	if saveName.text != "":
-		SaveTilemap.save_data(saveName.text, tile_map, Vector2i(onBlockPos(start).x,onBlockPos(start).y), Vector2i(onBlockPos(start).x+496,onBlockPos(start).y), Items)
+	SaveTilemap.save_data(tile_map, Vector2i(onBlockPos(start).x,onBlockPos(start).y), Vector2i(onBlockPos(start).x+496,onBlockPos(start).y), Items)
 		
-func _on_load_button_down():
+func loadLevel():
 	for cell in tile_map.get_used_cells(0):
 		tile_map.set_cell(0, cell, -1)
 	var game_data = SaveTilemap.load_data(GameManager.loadLevel)

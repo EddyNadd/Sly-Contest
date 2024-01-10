@@ -39,3 +39,9 @@ func _on_play_pressed():
 @rpc("any_peer", "call_local")
 func loadScene():
 	get_tree().change_scene_to_file("res://Game/Levels/level.tscn")
+
+
+func _on_save_pressed():
+	if $MarginContainer2/VBoxContainer/HBoxContainer/TextEdit.text != "":
+		SaveTilemap.write_data($MarginContainer2/VBoxContainer/HBoxContainer/TextEdit.text)
+		pass # Replace with function body.

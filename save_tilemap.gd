@@ -2,10 +2,7 @@ extends Node
 
 var game_data = {}
 
-func save_data(name: String, tilemap: TileMap, start: Vector2i, start2: Vector2i, Items : Array):
-	var dir = DirAccess.open("user://")
-	dir.make_dir("levels")
-	var file = FileAccess.open("user://levels/" + name + ".SLAY", FileAccess.WRITE)
+func save_data(tilemap: TileMap, start: Vector2i, start2: Vector2i, Items : Array):
 	var tile_data = {}
 	for cell in tilemap.get_used_cells(0):
 		var atlas = tilemap.get_cell_atlas_coords(0, cell)
@@ -18,8 +15,6 @@ func save_data(name: String, tilemap: TileMap, start: Vector2i, start2: Vector2i
 		"start2": start2 ,
 		"items": Items
 	}
-	file.store_var(game_data)
-	file.close()
 	
 	
 func load_data(name):
@@ -31,3 +26,10 @@ func load_data(name):
 	var game_data = file.get_var()
 	file.close()
 	return(game_data)
+
+func write_data(name):
+	var dir = DirAccess.open("user://")
+	dir.make_dir("levels")
+	var file = FileAccess.open("user://levels/" + name + ".SLAY", FileAccess.WRITE)
+	file.store_var(game_data)
+	file.close()
