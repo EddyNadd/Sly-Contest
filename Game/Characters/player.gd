@@ -223,8 +223,9 @@ func _ready():
 	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
 	
 func animation(animation_string):
-	if GameManager.Players[str(multiplayer.get_unique_id())].index == 2:
-		animation_string += "2"
+	if !GameManager.isSolo:
+		if GameManager.Players[str(multiplayer.get_unique_id())].index == 2:
+			animation_string += "2"
 	animated_sprite.animation = animation_string
 	
 @rpc("any_peer", "call_local")

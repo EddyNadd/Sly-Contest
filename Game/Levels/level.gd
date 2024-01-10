@@ -105,6 +105,7 @@ func _ready():
 					GameManager.Players[player].spawn = onBlockPos(start)
 					GameManager.Players[player].end = onBlockPos(end)
 	else:
+		remove_child(get_node('Control'))
 		switchBtn.visible = true
 		var currentPlayer = PlayerScene.instantiate()
 		add_child(currentPlayer)
