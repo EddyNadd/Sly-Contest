@@ -6,7 +6,7 @@ var levelListArray = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GameManager.isSolo = true
-	var dir = DirAccess.open("user://")
+	var dir = DirAccess.open("user://levels/")
 	if dir:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
