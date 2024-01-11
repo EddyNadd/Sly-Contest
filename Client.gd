@@ -211,18 +211,22 @@ func StartGame():
 	get_tree().root.add_child(scene)
 	
 func GameCrash(idPeer):
-	if get_tree().root.get_children().has(scene):
-		for scenes in get_tree().root.get_children():
-			if scenes != get_tree().current_scene:
-				get_tree().root.remove_child(scenes)
+	scene = load("res://Game/Levels/level.tscn").instantiate()
+	var hasLevel = false
+	for scenes in get_tree().root.get_children():
+		if scenes.name == "Level":
+			hasLevel = true
+		if scenes != get_tree().current_scene and scenes.name != "GameManager" and scenes.name != "SaveFile" and scenes.name != "SaveTilemap":
+			get_tree().root.remove_child(scenes)
+	if hasLevel:
 		get_tree().reload_current_scene()
-	else:
-		var message = {
-			"id" : idPeer,
-			"message" : Message.userDisconnected,
-			"lobbyValue" : lobbyValue
-		}
-		peer.put_packet(JSON.stringify(message).to_utf8_buffer())
+
+	var message = {
+		"id" : idPeer,
+		"message" : Message.userDisconnected,
+		"lobbyValue" : lobbyValue
+	}
+	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 
 func removeLobby():
 	var message = {
