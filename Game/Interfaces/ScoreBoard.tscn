@@ -10,7 +10,7 @@ font_names = PackedStringArray("Impact")
 [sub_resource type="SystemFont" id="SystemFont_p5qsx"]
 font_names = PackedStringArray("Impact")
 
-[node name="Control" type="Control"]
+[node name="ScoreBoard" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
