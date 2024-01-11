@@ -9,6 +9,8 @@ var isSolo = false
 var loadLevel = ""
 var soloSpawn = Vector2i(0,0)
 var soloSpawn2 = Vector2i(0,0)
+var lobby
+var finished = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

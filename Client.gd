@@ -89,6 +89,7 @@ func _process(delta):
 				lobbyValue = data.lobbyValue
 				lobbyCode.text = lobbyValue
 				lobbyCodeLabel.text = lobbyValue
+				GameManager.lobby = lobbyValue
 				globalStatus.text = "Lobby joined !"
 				userList.clear()
 				for player in GameManager.Players:
@@ -103,6 +104,9 @@ func _process(delta):
 			if data.message == Message.answer:
 				if rtcPeer.has_peer(data.orgPeer):
 					rtcPeer.get_peer(data.orgPeer).connection.set_remote_description("answer", data.data)
+	if GameManager.finished:
+		GameCrash(-1)
+		GameManager.finished = false
 
 func connected(id):
 	rtcPeer.create_mesh(id)

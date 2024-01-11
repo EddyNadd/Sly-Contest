@@ -17,6 +17,7 @@ extends Node2D
 @onready var saveName = $nameOfSave
 @onready var switchBtn = $switchPos
 @onready var soloSpawn = Vector2i(0,0)
+@onready var scene = load("res://Game/Interfaces/ScoreBoard.tscn").instantiate()
 
 @export var PlayerScene : PackedScene
 
@@ -278,6 +279,7 @@ func _on_round_timer_timeout():
 		remove_child(get_node('Control'))
 		playTimer.start()
 	
+	
 func _on_play_timer_timeout():
 	print("End of the game go to the scoreboard.")
 	if(GameManager.canConfirmLevel):
@@ -288,7 +290,15 @@ func _on_play_timer_timeout():
 		GameManager.Players[player].points = GameManager.Players[player].completionPoints + GameManager.Players[player].validationPoints + GameManager.Players[player].penaltyPoints
 		print(str(GameManager.Players[player].name)+": "+str(GameManager.Players[player].points)+" (c: "+str(GameManager.Players[player].completionPoints)+", v: "+str(GameManager.Players[player].validationPoints)+", p: "+str(GameManager.Players[player].penaltyPoints)+")")
 	saveGameDatas()
-	get_tree().change_scene_to_file("res://Game/Interfaces/ScoreBoard.tscn")
+	get_tree().root.add_child(scene)
+	self.queue_free()
+	
+	for player in GameManager.Players:
+		GameManager.Players[player].spawn = Vector2i(200,1000)
+	GameManager.canFinishLevel = false
+	GameManager.canConfirmLevel = false
+
+	print("hello")
 	
 @rpc("any_peer", "call_local")
 func updateStartEnd(newStart, newEnd):

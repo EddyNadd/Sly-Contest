@@ -359,8 +359,6 @@ icon = ExtResource("2_g4pbp")
 flat = true
 icon_alignment = 1
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/HBoxContainer/Save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/HBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/HBoxContainer/Quit" to="." method="_on_quit_pressed"]
