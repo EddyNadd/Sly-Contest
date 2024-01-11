@@ -308,9 +308,8 @@ func updateStartEnd(newStart, newEnd):
 func saveGameDatas():
 	var Items = []
 	var currentItem = {}
-	var id = 13
 	for _i in self.get_children():
-		if _i.name == str("@Area2D@" + str(id)):
+		if _i.name.begins_with("@Area2D@"):
 			var script = _i.get_script()
 
 			var name = script.get_script_property_list()[0].name
@@ -319,7 +318,6 @@ func saveGameDatas():
 				"position" : _i.position
 			}
 			Items.append(currentItem)
-			id = id+1
 	SaveTilemap.save_data(tile_map, Vector2i(onBlockPos(start).x,onBlockPos(start).y), Vector2i(onBlockPos(start).x+496,onBlockPos(start).y), Items)
 		
 func loadLevel():
