@@ -3,9 +3,22 @@ extends Control
 
 var levelListArray = []
 
+@onready var scene = preload("res://control.tscn").instantiate()
+@onready var btnLoad = $Load
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GameManager.isSolo = true
+	if !GameManager.isInSave:
+		GameManager.isInSave = true
+		for scenes in get_tree().root.get_children():
+			if scenes.name == "Control":
+				get_tree().current_scene = scenes
+				get_tree().reload_current_scene()
+	else:
+		for scenes in get_tree().root.get_children():
+			if scenes.name != "SavedLevel" and scenes.name != "GameManager" and scenes.name != "SaveFile" and scenes.name != "SaveTilemap":
+				get_tree().root.remove_child(scenes)
 	var dir = DirAccess.open("user://levels/")
 	if dir:
 		dir.list_dir_begin()
@@ -27,11 +40,14 @@ func _process(delta):
 
 
 func _on_back_button_down():
-	get_tree().change_scene_to_file("res://control.tscn")
+	GameManager.isInSave = false
+	get_tree().root.add_child(scene)
 	pass # Replace with function body.
 
 
 func _on_load_button_down():
+	GameManager.isInSave = false
+	btnLoad.release_focus()
 	GameManager.loadLevel = levelList.get_item_text(levelList.get_selected_items()[0])
 	get_tree().change_scene_to_file("res://Game/Levels/level.tscn")
 	pass # Replace with function body.
