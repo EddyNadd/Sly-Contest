@@ -275,6 +275,8 @@ func _on_round_timer_timeout():
 		switchPos1()
 		print("Construction done Now play !")
 		player.kill()
+		cursor_item = null
+		bloc_coord = null
 		GameManager.canFinishLevel = true
 		remove_child(get_node('Control'))
 		playTimer.start()

@@ -678,12 +678,12 @@ position = Vector2(856, 600)
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 
 [node name="ConstructionTimer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 120.0
 one_shot = true
 autostart = true
 
 [node name="PlayTimer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 120.0
 one_shot = true
 
 [node name="switchPos" type="Button" parent="."]
