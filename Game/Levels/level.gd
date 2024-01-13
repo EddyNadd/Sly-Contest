@@ -21,6 +21,7 @@ extends Node2D
 @onready var scene = load("res://Game/Interfaces/ScoreBoard.tscn").instantiate()
 @onready var scene2 = load("res://control.tscn").instantiate()
 var Items = []
+var side = false
 
 @export var PlayerScene : PackedScene
 
@@ -74,6 +75,7 @@ func _ready():
 		pass
 		#if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
 		if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
+			side = false
 			start = startBlockCoords(padding)
 			end = finishBlockCoords(start, padding)
 			rpc("updateStartEnd", start, end)
@@ -81,6 +83,7 @@ func _ready():
 			player = get_node(str(multiplayer.get_unique_id()))
 			print(player)
 		else:
+			side = true
 			while start == Vector2i(0,0):
 				await get_tree().create_timer(0.001).timeout
 			initBlockGen(start, end)
@@ -238,7 +241,7 @@ func _input(event):
 					placeBlock(tile_map_pos, mouse_pos)
 				elif $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index && mouse_pos.x < 16*30.5 and cursor_item:
 					placeBlock(tile_map_pos, mouse_pos)
-				elif $MultiplayerSynchronizer.get_multiplayer_authority() != GameManager.Players[str(multiplayer.get_unique_id())].index && mouse_pos.x > 16*31.5 and cursor_item:
+				elif $MultiplayerSynchronizer.get_multiplayer_authority() != GameManager.Players[str(multiplayer.get_unique_id())].index && mouse_pos.x > 16*31.8 and cursor_item:
 					placeBlock(tile_map_pos, mouse_pos)
 				
 		if event is InputEventMouseMotion:

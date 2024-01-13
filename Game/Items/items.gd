@@ -23,14 +23,25 @@ func _mouse_exit():
 func _input(event):
 	var bloc_coord = get_node("/root/Level").bloc_coord
 	var erase_text = get_node("/root/Level").erase_text
+	var side = get_node("/root/Level").side
+	var mouse_pos = get_global_mouse_position()
 	
 	if Input.is_action_pressed("click") and inside:
-		if (bloc_coord == erase_text):
-			for items in get_node("/root/Level").Items:
-				if items.position == currentPostition:
-					get_node("/root/Level").Items.erase(items)
-			rpc("rpc_delete_item")
+		if !side && mouse_pos.x < 16*30.5:
+			deleteNode(bloc_coord, erase_text)
+		elif side && mouse_pos.x > 16*31.8:
+			deleteNode(bloc_coord, erase_text)
+		
+		
 			
+func deleteNode(bloc_coord, erase_text):
+	if (bloc_coord == erase_text):
+		for items in get_node("/root/Level").Items:
+			if items.position == currentPostition:
+				get_node("/root/Level").Items.erase(items)
+		rpc("rpc_delete_item")
+
 @rpc("any_peer", "call_local")
 func rpc_delete_item():
+	print("delete")
 	queue_free()
