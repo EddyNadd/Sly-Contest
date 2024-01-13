@@ -30,7 +30,6 @@ func _input(event):
 				if items.position == currentPostition:
 					get_node("/root/Level").Items.erase(items)
 			rpc("rpc_delete_item")
-			print(get_node("/root/Level").Items)
 			
 @rpc("any_peer", "call_local")
 func rpc_delete_item():
