@@ -20,6 +20,7 @@ extends Node2D
 @onready var soloSpawn = Vector2i(0,0)
 @onready var scene = load("res://Game/Interfaces/ScoreBoard.tscn").instantiate()
 @onready var scene2 = load("res://control.tscn").instantiate()
+var Items = []
 
 @export var PlayerScene : PackedScene
 
@@ -227,7 +228,7 @@ func switchPos2():
 	
 func _input(event):
 	if GameManager.isSolo == false:
-		if Input.is_action_pressed("click"):			
+		if Input.is_action_pressed("click"):
 			var mouse_pos = get_global_mouse_position()
 			tile_map_pos = tile_map.local_to_map(mouse_pos)
 			if canBuild:
@@ -280,7 +281,21 @@ func rpc_place(layer, pos, id, coord):
 	
 @rpc("any_peer", "call_local")
 func rpc_place_item(cursor_item, pos):
+	var currentItem = {}
 	var item = get_node(cursor_item).load_item()
+	if str(cursor_item).contains("Saw"):
+		currentItem = {
+			"name" : "Saw",
+			"position" : pos
+		}
+		print(pos)
+		Items.append(currentItem)
+	if str(cursor_item).contains("Spike"):
+		currentItem = {
+			"name" : "Spike",
+			"position" : pos
+		}
+		Items.append(currentItem)
 	item.set_tile_position(pos)
 	add_child(item)
 
@@ -323,18 +338,6 @@ func updateStartEnd(newStart, newEnd):
 	end = newEnd
 
 func saveGameDatas():
-	var Items = []
-	var currentItem = {}
-	for _i in self.get_children():
-		if _i.name.begins_with("@Area2D@"):
-			var script = _i.get_script()
-
-			var name = script.get_script_property_list()[0].name
-			currentItem = {
-				"name" : name.substr(0, name.length() - 3),
-				"position" : _i.position
-			}
-			Items.append(currentItem)
 	SaveTilemap.save_data(tile_map, Vector2i(onBlockPos(start).x,onBlockPos(start).y), Vector2i(onBlockPos(start).x+496,onBlockPos(start).y), Items)
 		
 func loadLevel():
@@ -354,7 +357,8 @@ func loadLevel():
 	soloSpawn = game_data["start"]
 	GameManager.soloSpawn2 = game_data["start2"]
 	for _i in game_data["items"]:
-		var item = get_node(str("Items/"+_i.name)).load_item()
+		var item
+		item = get_node(str("Items/"+_i.name)).load_item()
 		item.set_tile_position(_i.position)
 		add_child(item)
 		pass

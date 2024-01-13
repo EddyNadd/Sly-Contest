@@ -4,13 +4,15 @@ extends Node2D
 @onready var item
 
 var inside = false
+var currentPostition
 
 func load_item():
 	item = scene.instantiate()
 	return item
 
-func set_tile_position(position):
-	global_position = Vector2(round(position.x / GameManager.TILE_SIZE) * GameManager.TILE_SIZE, round(position.y / GameManager.TILE_SIZE) * GameManager.TILE_SIZE)
+func set_tile_position(positionParam):
+	currentPostition = positionParam
+	global_position = Vector2(round(positionParam.x / GameManager.TILE_SIZE) * GameManager.TILE_SIZE, round(positionParam.y / GameManager.TILE_SIZE) * GameManager.TILE_SIZE)
 
 func _mouse_enter():
 	inside = true
@@ -24,7 +26,11 @@ func _input(event):
 	
 	if Input.is_action_pressed("click") and inside:
 		if (bloc_coord == erase_text):
+			for items in get_node("/root/Level").Items:
+				if items.position == currentPostition:
+					get_node("/root/Level").Items.erase(items)
 			rpc("rpc_delete_item")
+			print(get_node("/root/Level").Items)
 			
 @rpc("any_peer", "call_local")
 func rpc_delete_item():

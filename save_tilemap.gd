@@ -30,6 +30,7 @@ func load_data(name):
 func write_data(name):
 	var dir = DirAccess.open("user://")
 	dir.make_dir("levels")
+	print(game_data.items)
 	var file = FileAccess.open("user://levels/" + name + ".SLAY", FileAccess.WRITE)
 	file.store_var(game_data)
 	file.close()
