@@ -5,6 +5,7 @@ extends Node2D
 
 @onready var spawn1 = $"SpawnLocations/0"
 @onready var spawn2 = $"SpawnLocations/1"
+@onready var grid = $Grid
 @onready var buttons = get_node("Control/CanvasLayer/PanelContainer/MarginContainer/GridContainer")
 @onready var btn1 = buttons.get_node("Button")
 @onready var btn2 = buttons.get_node("Button2")
@@ -74,7 +75,6 @@ func _ready():
 					currentPlayer.global_position = spawn.global_position
 			index += 1
 		pass
-		#if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
 		if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
 			side = false
 			start = startBlockCoords(padding)
@@ -325,6 +325,12 @@ func _on_round_timer_timeout():
 		GameManager.canFinishLevel = true
 		remove_child(get_node('Control'))
 		playTimer.start()
+		if sprite:
+			sprite.set_global_position(Vector2(2000,2000))
+		tile_map_no_collision.clear_layer(overlay)
+		grid.draw_grid = false
+		grid.queue_redraw()
+		
 	
 	
 func _on_play_timer_timeout():
