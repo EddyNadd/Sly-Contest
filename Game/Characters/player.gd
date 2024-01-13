@@ -248,3 +248,4 @@ func arrivee2(id):
 				GameManager.Players[player].validationPoints += 100
 			else:
 				GameManager.Players[player].completionPoints += 200
+	get_node("/root/Level").finishGame()

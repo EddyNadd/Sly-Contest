@@ -313,6 +313,10 @@ func _on_round_timer_timeout():
 	
 	
 func _on_play_timer_timeout():
+	finishGame()
+	
+@rpc("any_peer", "call_local")
+func finishGame():
 	print("End of the game go to the scoreboard.")
 	if(GameManager.canConfirmLevel):
 		for player in GameManager.Players:
@@ -329,8 +333,6 @@ func _on_play_timer_timeout():
 		GameManager.Players[player].spawn = Vector2i(200,1000)
 	GameManager.canFinishLevel = false
 	GameManager.canConfirmLevel = false
-
-	print("hello")
 	
 @rpc("any_peer", "call_local")
 func updateStartEnd(newStart, newEnd):
