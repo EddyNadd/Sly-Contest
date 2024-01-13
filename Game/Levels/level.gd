@@ -21,6 +21,7 @@ extends Node2D
 @onready var scene = load("res://Game/Interfaces/ScoreBoard.tscn").instantiate()
 @onready var scene2 = load("res://control.tscn").instantiate()
 var Items = []
+var ItemsToMaybeDelete = []
 var side = false
 
 @export var PlayerScene : PackedScene
@@ -258,7 +259,7 @@ func _input(event):
 				if cursor_item:
 					sprite = cursor_item.get_node("Sprite")
 					sprite.set_global_position(Vector2(2000,2000))
-					sprite.set_global_position(Vector2(round(mouse_pos.x / GameManager.TILE_SIZE) * GameManager.TILE_SIZE, round(mouse_pos.y / GameManager.TILE_SIZE) * GameManager.TILE_SIZE))
+					sprite.set_global_position(Vector2i(tile_map_no_collision.local_to_map(mouse_pos).x * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2, tile_map_no_collision.local_to_map(mouse_pos).y * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2))
 					sprite.set_modulate(Color(Color.WHITE,0.5))
 				
 				
@@ -277,6 +278,10 @@ func placeBlock(tile_map_pos, mouse_pos):
 @rpc("any_peer", "call_local")
 func rpc_erase(layer, pos):
 	tile_map.erase_cell(layer, pos)
+	for items in ItemsToMaybeDelete:
+		if tile_map.local_to_map(items.position) == pos:
+			items.queue_free()
+			ItemsToMaybeDelete.erase(items)
 
 @rpc("any_peer", "call_local")
 func rpc_place(layer, pos, id, coord):
@@ -284,6 +289,7 @@ func rpc_place(layer, pos, id, coord):
 	
 @rpc("any_peer", "call_local")
 func rpc_place_item(cursor_item, pos):
+	pos = Vector2i(tile_map_no_collision.local_to_map(pos).x * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2, tile_map_no_collision.local_to_map(pos).y * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2)
 	var currentItem = {}
 	var item = get_node(cursor_item).load_item()
 	if str(cursor_item).contains("Saw"):
@@ -299,7 +305,8 @@ func rpc_place_item(cursor_item, pos):
 			"position" : pos
 		}
 		Items.append(currentItem)
-	item.set_tile_position(pos)
+	var positionOfItem = item.set_tile_position(pos)
+	ItemsToMaybeDelete.append(item)
 	add_child(item)
 
 func _on_round_timer_timeout():

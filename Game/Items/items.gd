@@ -11,37 +11,11 @@ func load_item():
 	return item
 
 func set_tile_position(positionParam):
-	currentPostition = positionParam
-	global_position = Vector2(round(positionParam.x / GameManager.TILE_SIZE) * GameManager.TILE_SIZE, round(positionParam.y / GameManager.TILE_SIZE) * GameManager.TILE_SIZE)
+	global_position = Vector2(positionParam.x, positionParam.y)
+	return global_position
 
 func _mouse_enter():
 	inside = true
 
 func _mouse_exit():
 	inside = false
-
-func _input(event):
-	var bloc_coord = get_node("/root/Level").bloc_coord
-	var erase_text = get_node("/root/Level").erase_text
-	var side = get_node("/root/Level").side
-	var mouse_pos = get_global_mouse_position()
-	
-	if Input.is_action_pressed("click") and inside:
-		if !side && mouse_pos.x < 16*30.5:
-			deleteNode(bloc_coord, erase_text)
-		elif side && mouse_pos.x > 16*31.8:
-			deleteNode(bloc_coord, erase_text)
-		
-		
-			
-func deleteNode(bloc_coord, erase_text):
-	if (bloc_coord == erase_text):
-		for items in get_node("/root/Level").Items:
-			if items.position == currentPostition:
-				get_node("/root/Level").Items.erase(items)
-		rpc("rpc_delete_item")
-
-@rpc("any_peer", "call_local")
-func rpc_delete_item():
-	print("delete")
-	queue_free()
