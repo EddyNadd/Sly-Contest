@@ -57,6 +57,9 @@ func _ready():
 			for scenes in get_tree().root.get_children():
 				if scenes.name != "Control" and scenes.name != "GameManager" and scenes.name != "SaveFile" and scenes.name != "SaveTilemap":
 					get_tree().root.remove_child(scenes)
+			for scenes in get_tree().root.get_children():
+				if scenes.name == "Control":
+					get_tree().current_scene = scenes
 		else:
 			global.visible = false
 			lobbyCodeLabel.visible = false
@@ -97,6 +100,21 @@ func _process(delta):
 				#GameManager.Players[data.id] = data.player
 				createPeer(data.id)
 			if data.message == Message.lobby:
+				print("id test " + str(id) + " GameManager : " + str(GameManager.Players))
+				print("id test " + str(id) + " newDatas : " + str(JSON.parse_string(data.players)))
+				if JSON.parse_string(data.players).size() == 1:
+					var newPlayers = JSON.parse_string(data.players)
+					print(newPlayers)
+					for key in newPlayers.keys():
+						if newPlayers[key].index == 2:
+							OS.alert('The player hosting the lobby deleted it.', 'Lobby information')
+							leaveLobby()
+							for scenes in get_tree().root.get_children():
+								if scenes.name == "Control":
+									get_tree().current_scene = scenes
+							get_tree().reload_current_scene()
+							connectedStatus = false
+							lobbyValue = null
 				GameManager.Players = JSON.parse_string(data.players)
 				hostId = data.host
 				lobbyValue = data.lobbyValue
@@ -106,6 +124,7 @@ func _process(delta):
 				globalStatus.text = "Lobby joined !"
 				userList.clear()
 				for player in GameManager.Players:
+					print("RTC CODE " + str(player))
 					userList.add_item(GameManager.Players[player].name)
 			if data.message == Message.candidate:
 				if rtcPeer.has_peer(data.orgPeer):
