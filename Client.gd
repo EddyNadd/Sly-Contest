@@ -45,6 +45,7 @@ var connectedStatus = false
 @onready var scene = load("res://Game/Levels/level.tscn").instantiate()
 @onready var scene2 = load("res://Game/Interfaces/saved_level.tscn").instantiate()
 @onready var scene3 = load("res://control.tscn").instantiate()
+@onready var scene4 = load("res://Game/Interfaces/main_menu.tscn").instantiate()
 @onready var save_file = SaveFile.game_data
 @onready var global = $".."
 
@@ -53,7 +54,7 @@ func _ready():
 	if "--server" in OS.get_cmdline_user_args():
 		print("Server mod!")
 	else:
-		if !GameManager.isInSave:
+		if !GameManager.isInSave or !GameManager.isInMenu:
 			for scenes in get_tree().root.get_children():
 				if scenes.name != "Control" and scenes.name != "GameManager" and scenes.name != "SaveFile" and scenes.name != "SaveTilemap":
 					get_tree().root.remove_child(scenes)
@@ -100,8 +101,6 @@ func _process(delta):
 				#GameManager.Players[data.id] = data.player
 				createPeer(data.id)
 			if data.message == Message.lobby:
-				print("id test " + str(id) + " GameManager : " + str(GameManager.Players))
-				print("id test " + str(id) + " newDatas : " + str(JSON.parse_string(data.players)))
 				if JSON.parse_string(data.players).size() == 1:
 					var newPlayers = JSON.parse_string(data.players)
 					print(newPlayers)
@@ -217,6 +216,8 @@ func connectToServer(ip):
 			globalStatus.text = "Connected !"
 			if GameManager.isInSave:
 				get_tree().change_scene_to_file("res://Game/Interfaces/saved_level.tscn")
+			elif GameManager.isInMenu:
+				get_tree().change_scene_to_file("res://Game/Interfaces/main_menu.tscn")
 			break	
 		else:
 			globalStatus.text = "Connecting to server..."
@@ -326,4 +327,18 @@ func _on_load_level_button_down():
 	else:
 		loadBtn.release_focus()
 		get_tree().root.add_child(scene2)
+	pass # Replace with function body.
+
+
+func _on_back_button_down():
+	if connectedStatus and lobbyValue:
+		leaveLobby()
+		loadBtn.release_focus()
+		get_tree().root.add_child(scene4)
+	elif !connectedStatus and lobbyValue:
+		pass
+	else:
+		loadBtn.release_focus()
+		get_tree().root.add_child(scene4)
+	pass # Replace with function body.
 	pass # Replace with function body.

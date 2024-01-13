@@ -8,6 +8,7 @@ const TILE_SIZE = 16
 var isSolo = false
 var loadLevel = ""
 var isInSave = false
+var isInMenu = true
 var soloSpawn = Vector2i(0,0)
 var soloSpawn2 = Vector2i(0,0)
 var lobby
