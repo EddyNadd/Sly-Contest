@@ -181,7 +181,7 @@ func initBlockGen(start_block_coords,end_block_coords):
 	blockGen2x2(end_block_coords.x+31,end_block_coords.y,6,8)
 	
 func reset_cursor():
-	if cursor_item:
+	if cursor_item and sprite:
 		sprite.set_global_position(Vector2(2000,2000))
 	tile_map_no_collision.clear_layer(overlay)
 	cursor_item = null
