@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://djliv4h0uw8un"]
+[gd_scene load_steps=14 format=3 uid="uid://djliv4h0uw8un"]
 
 [ext_resource type="Texture2D" uid="uid://3kmkmruwhk5i" path="res://Game/assets/Terrain/Terrain (16x16).png" id="1_n1aru"]
 [ext_resource type="Script" path="res://Game/Levels/level.gd" id="1_ohocx"]
@@ -627,6 +627,8 @@ texture = ExtResource("1_n1aru")
 [sub_resource type="TileSet" id="TileSet_ih1w7"]
 sources/0 = SubResource("TileSetAtlasSource_kshby")
 
+[sub_resource type="SystemFont" id="SystemFont_sk8xr"]
+
 [node name="Level" type="Node2D"]
 script = ExtResource("1_ohocx")
 PlayerScene = ExtResource("2_grx4m")
@@ -696,6 +698,17 @@ text = "Switch position"
 
 [node name="Jump" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_6a1hy")
+
+[node name="timer" type="Label" parent="."]
+offset_left = 408.0
+offset_top = 526.0
+offset_right = 602.0
+offset_bottom = 577.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("SystemFont_sk8xr")
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="timeout" from="ConstructionTimer" to="." method="_on_round_timer_timeout"]
 [connection signal="timeout" from="PlayTimer" to="." method="_on_play_timer_timeout"]

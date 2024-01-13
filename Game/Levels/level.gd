@@ -135,6 +135,10 @@ func finishCoords(coord,padding,min_coord,max_coord,uppergap=0):
 	else:
 		return rand2
 
+func _process(delta):
+	$timer.set_text(str(round($ConstructionTimer.get_time_left()))+"s")
+	if($ConstructionTimer.get_time_left() == 0):
+		$timer.set_text(str(round($PlayTimer.get_time_left()))+"s")
 
 func startBlockCoords(padding):
 	var startx = randi_range(x1Min,x1Max-1)
