@@ -12,6 +12,7 @@ var SFX_bus = AudioServer.get_bus_index("SFX")
 @onready var sfxButton = $TextureRect/VBoxContainer3/HBoxContainer2/SFX
 @onready var sfxSlider = $TextureRect/VBoxContainer3/HBoxContainer/SFXSlider
 @onready var sfxSound = $SFXPlayer
+@onready var getIn = true
 var saveValue
 var sfxValue
 func _ready():
@@ -85,13 +86,15 @@ func _on_sfx_toggled(button_pressed):
 		print(AudioServer.is_bus_mute(SFX_bus))
 		sfxSlider.set_value_no_signal(0)
 		sfxText.text="0"
+		getIn = false
 	else:
 		AudioServer.set_bus_mute(SFX_bus, false)
 		save_file.toggledSFX = AudioServer.is_bus_mute(SFX_bus)
 		SaveFile.save_data()
 		sfxSlider.set_value_no_signal(sfxValue)
 		sfxText.text = str(sfxValue*100)
-		sfxSound.play()
+		if getIn == false :
+			sfxSound.play()
 		
 
 
