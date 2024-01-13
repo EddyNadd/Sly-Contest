@@ -236,13 +236,9 @@ func _input(event):
 			var mouse_pos = get_global_mouse_position()
 			tile_map_pos = tile_map.local_to_map(mouse_pos)
 			if canBuild:
-				if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index && mouse_pos.x < 16*31 and !cursor_item:
+				if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index && mouse_pos.x < 16*31:
 					placeBlock(tile_map_pos, mouse_pos)
-				elif $MultiplayerSynchronizer.get_multiplayer_authority() != GameManager.Players[str(multiplayer.get_unique_id())].index && mouse_pos.x > 16*31 and !cursor_item:
-					placeBlock(tile_map_pos, mouse_pos)
-				elif $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index && mouse_pos.x < 16*30.5 and cursor_item:
-					placeBlock(tile_map_pos, mouse_pos)
-				elif $MultiplayerSynchronizer.get_multiplayer_authority() != GameManager.Players[str(multiplayer.get_unique_id())].index && mouse_pos.x > 16*31.8 and cursor_item:
+				elif $MultiplayerSynchronizer.get_multiplayer_authority() != GameManager.Players[str(multiplayer.get_unique_id())].index && mouse_pos.x > 16*31:
 					placeBlock(tile_map_pos, mouse_pos)
 				
 		if event is InputEventMouseMotion:
@@ -285,6 +281,10 @@ func rpc_erase(layer, pos):
 		if tile_map.local_to_map(items.position) == pos:
 			items.queue_free()
 			ItemsToMaybeDelete.erase(items)
+			for item in Items:
+				if tile_map.local_to_map(item.position) == pos:
+					Items.erase(item)
+
 
 @rpc("any_peer", "call_local")
 func rpc_place(layer, pos, id, coord):
