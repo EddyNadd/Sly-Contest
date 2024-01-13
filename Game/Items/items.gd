@@ -24,4 +24,8 @@ func _input(event):
 	
 	if Input.is_action_pressed("click") and inside:
 		if (bloc_coord == erase_text):
-			queue_free()
+			rpc("rpc_delete_item")
+			
+@rpc("any_peer", "call_local")
+func rpc_delete_item():
+	queue_free()
