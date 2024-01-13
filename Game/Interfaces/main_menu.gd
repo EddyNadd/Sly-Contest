@@ -1,7 +1,9 @@
 extends Control
+@onready var save_file = SaveFile.game_data
 
 func _ready():
 	print("ready")
+	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound)
 	if "--server" in OS.get_cmdline_args():
 		print("Server mod!")
 		get_tree().change_scene_to_file("res://control.tscn")
