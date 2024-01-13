@@ -259,7 +259,10 @@ func _input(event):
 				if cursor_item:
 					sprite = cursor_item.get_node("Sprite")
 					sprite.set_global_position(Vector2(2000,2000))
-					sprite.set_global_position(Vector2i(tile_map_no_collision.local_to_map(mouse_pos).x * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2, tile_map_no_collision.local_to_map(mouse_pos).y * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2))
+					if str(cursor_item).contains("Saw"):
+						sprite.set_global_position(Vector2i(tile_map_no_collision.local_to_map(mouse_pos).x * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2, tile_map_no_collision.local_to_map(mouse_pos).y * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2))
+					else:
+						sprite.set_global_position(Vector2i(tile_map_no_collision.local_to_map(mouse_pos).x * GameManager.TILE_SIZE, tile_map_no_collision.local_to_map(mouse_pos).y * GameManager.TILE_SIZE))
 					sprite.set_modulate(Color(Color.WHITE,0.5))
 				
 				
@@ -291,13 +294,14 @@ func rpc_place(layer, pos, id, coord):
 func rpc_place_item(cursor_item, pos):
 	pos = Vector2i(tile_map_no_collision.local_to_map(pos).x * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2, tile_map_no_collision.local_to_map(pos).y * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2)
 	var currentItem = {}
+	var itemName
 	var item = get_node(cursor_item).load_item()
 	if str(cursor_item).contains("Saw"):
 		currentItem = {
 			"name" : "Saw",
 			"position" : pos
 		}
-		print(pos)
+		itemName = "Saw"
 		Items.append(currentItem)
 	if str(cursor_item).contains("Spike"):
 		currentItem = {
@@ -305,7 +309,8 @@ func rpc_place_item(cursor_item, pos):
 			"position" : pos
 		}
 		Items.append(currentItem)
-	var positionOfItem = item.set_tile_position(pos)
+		itemName = "Spike"
+	var positionOfItem = item.set_tile_position(pos, itemName)
 	ItemsToMaybeDelete.append(item)
 	add_child(item)
 
@@ -371,7 +376,7 @@ func loadLevel():
 	for _i in game_data["items"]:
 		var item
 		item = get_node(str("Items/"+_i.name)).load_item()
-		item.set_tile_position(_i.position)
+		item.set_tile_position(_i.position, _i.name)
 		add_child(item)
 		pass
 
