@@ -16,8 +16,10 @@ extends Node2D
 @onready var playTimer = $PlayTimer
 @onready var saveName = $nameOfSave
 @onready var switchBtn = $switchPos
+@onready var quitBtn = $Quit
 @onready var soloSpawn = Vector2i(0,0)
 @onready var scene = load("res://Game/Interfaces/ScoreBoard.tscn").instantiate()
+@onready var scene2 = load("res://control.tscn").instantiate()
 
 @export var PlayerScene : PackedScene
 
@@ -108,6 +110,7 @@ func _ready():
 	else:
 		remove_child(get_node('Control'))
 		switchBtn.visible = true
+		quitBtn.visible = true
 		var currentPlayer = PlayerScene.instantiate()
 		add_child(currentPlayer)
 		for spawn in get_tree().get_nodes_in_group("PlayerSpawnPoint"):
@@ -357,3 +360,13 @@ func _on_switch_pos_button_down():
 		GameManager.soloSpawn = soloSpawn
 		player.kill()
 	switchBtn.release_focus()
+
+
+func _on_quit_button_down():
+	for scenes in get_tree().root.get_children():
+		if scenes != get_tree().current_scene and scenes.name != "GameManager" and scenes.name != "SaveFile" and scenes.name != "SaveTilemap":
+			get_tree().root.remove_child(scenes)
+	scene2 = load("res://control.tscn").instantiate()
+	get_tree().root.add_child(scene2)
+	self.queue_free()
+	pass # Replace with function body.

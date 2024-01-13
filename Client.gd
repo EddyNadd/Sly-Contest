@@ -13,6 +13,8 @@ enum Message {
 	checkIn
 }
 
+var current_scene = null
+
 var peer = WebSocketMultiplayerPeer.new()
 
 var id = 0
@@ -41,20 +43,34 @@ var connectedStatus = false
 @onready var username = $Username
 @onready var userList = $"../ItemList"
 @onready var scene = load("res://Game/Levels/level.tscn").instantiate()
+@onready var scene2 = load("res://Game/Interfaces/saved_level.tscn").instantiate()
+@onready var scene3 = load("res://control.tscn").instantiate()
 @onready var save_file = SaveFile.game_data
+@onready var global = $".."
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if "--server" in OS.get_cmdline_user_args():
 		print("Server mod!")
 	else:
+		if !GameManager.isInSave:
+			for scenes in get_tree().root.get_children():
+				if scenes.name != "Control" and scenes.name != "GameManager" and scenes.name != "SaveFile" and scenes.name != "SaveTilemap":
+					get_tree().root.remove_child(scenes)
+			for scenes in get_tree().root.get_children():
+				if scenes.name == "Control":
+					get_tree().current_scene = scenes
+		else:
+			global.visible = false
+			lobbyCodeLabel.visible = false
+			username.visible = false
+			
 		GameManager.isSolo = false
 		username.text = save_file.username
 		multiplayer.connected_to_server.connect(RTCServerConnected)
 		multiplayer.peer_connected.connect(RTCPeerConnected)
 		multiplayer.peer_disconnected.connect(RTCPeerDisconnected)
 		connectToServer(ip)
-	pass # Replace with function body.
 	
 func RTCServerConnected():
 	print("RTC server connected")
@@ -84,6 +100,21 @@ func _process(delta):
 				#GameManager.Players[data.id] = data.player
 				createPeer(data.id)
 			if data.message == Message.lobby:
+				print("id test " + str(id) + " GameManager : " + str(GameManager.Players))
+				print("id test " + str(id) + " newDatas : " + str(JSON.parse_string(data.players)))
+				if JSON.parse_string(data.players).size() == 1:
+					var newPlayers = JSON.parse_string(data.players)
+					print(newPlayers)
+					for key in newPlayers.keys():
+						if newPlayers[key].index == 2:
+							OS.alert('The player hosting the lobby deleted it.', 'Lobby information')
+							leaveLobby()
+							for scenes in get_tree().root.get_children():
+								if scenes.name == "Control":
+									get_tree().current_scene = scenes
+							get_tree().reload_current_scene()
+							connectedStatus = false
+							lobbyValue = null
 				GameManager.Players = JSON.parse_string(data.players)
 				hostId = data.host
 				lobbyValue = data.lobbyValue
@@ -93,6 +124,7 @@ func _process(delta):
 				globalStatus.text = "Lobby joined !"
 				userList.clear()
 				for player in GameManager.Players:
+					print("RTC CODE " + str(player))
 					userList.add_item(GameManager.Players[player].name)
 			if data.message == Message.candidate:
 				if rtcPeer.has_peer(data.orgPeer):
@@ -111,7 +143,7 @@ func _process(delta):
 func connected(id):
 	rtcPeer.create_mesh(id)
 	multiplayer.multiplayer_peer = rtcPeer
-	
+
 #web rtc connection
 func createPeer(id):
 	if id != self.id:
@@ -183,6 +215,8 @@ func connectToServer(ip):
 		await get_tree().create_timer(0.001).timeout
 		if peer.get_connection_status() == 2:
 			globalStatus.text = "Connected !"
+			if GameManager.isInSave:
+				get_tree().change_scene_to_file("res://Game/Interfaces/saved_level.tscn")
 			break	
 		else:
 			globalStatus.text = "Connecting to server..."
@@ -207,19 +241,18 @@ func _on_button_button_down():
 @rpc("any_peer", "call_local")
 func StartGame():
 	removeLobby()
-	scene = load("res://Game/Levels/level.tscn").instantiate()
 	get_tree().root.add_child(scene)
 	
 func GameCrash(idPeer):
-	scene = load("res://Game/Levels/level.tscn").instantiate()
 	var hasLevel = false
-	for scenes in get_tree().root.get_children():
-		if scenes.name == "Level":
-			hasLevel = true
-		if scenes != get_tree().current_scene and scenes.name != "GameManager" and scenes.name != "SaveFile" and scenes.name != "SaveTilemap":
-			get_tree().root.remove_child(scenes)
-	if hasLevel:
-		get_tree().reload_current_scene()
+	if get_tree().root.get_children():
+		for scenes in get_tree().root.get_children():
+			if scenes.name == "Level":
+				hasLevel = true
+			if scenes.name != "Control" and scenes.name != "GameManager" and scenes.name != "SaveFile" and scenes.name != "SaveTilemap":
+				get_tree().root.remove_child(scenes)
+		if hasLevel:
+			get_tree().reload_current_scene()
 
 	var message = {
 		"id" : idPeer,
@@ -260,9 +293,15 @@ func _on_copy_button_down():
 
 
 func _on_leave_lobby_button_down():
-	leaveLobby()
+	if connectedStatus and lobbyValue:
+		leaveLobby()
+		get_tree().reload_current_scene()
+		connectedStatus = false
+		lobbyValue = null
+	elif !connectedStatus and userList.item_count == 1:
+		leaveLobby()
+		get_tree().reload_current_scene()
 	leaveBtn.release_focus()
-	get_tree().reload_current_scene()
 	
 func leaveLobby():
 	var message = {
@@ -278,6 +317,13 @@ func _on_username_text_changed(new_text):
 
 
 func _on_load_level_button_down():
-	get_tree().change_scene_to_file("res://Game/Interfaces/saved_level.tscn")
-	loadBtn.release_focus()
+	if connectedStatus and lobbyValue:
+		leaveLobby()
+		loadBtn.release_focus()
+		get_tree().root.add_child(scene2)
+	elif !connectedStatus and lobbyValue:
+		pass
+	else:
+		loadBtn.release_focus()
+		get_tree().root.add_child(scene2)
 	pass # Replace with function body.

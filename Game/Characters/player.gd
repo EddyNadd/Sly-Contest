@@ -207,12 +207,14 @@ func _physics_process(delta):
 		syncPos = global_position
 
 func kill():
+	
 	velocity.x = 0
 	velocity.y = 0
 	if !GameManager.isSolo:
-		if "spawn" in GameManager.Players[str(multiplayer.get_unique_id())]:
-			#print(GameManager.Players[str(multiplayer.get_unique_id())].spawn) #replace this by your actual code
-			position = GameManager.Players[str(multiplayer.get_unique_id())].spawn
+		if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
+			if "spawn" in GameManager.Players[str(multiplayer.get_unique_id())]:
+				#print(GameManager.Players[str(multiplayer.get_unique_id())].spawn) #replace this by your actual code
+				position = GameManager.Players[str(multiplayer.get_unique_id())].spawn
 	else:
 		position = GameManager.soloSpawn
 func _on_kill_pressed():
