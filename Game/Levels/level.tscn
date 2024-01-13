@@ -696,6 +696,8 @@ text = "Switch position"
 
 [node name="Jump" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_6a1hy")
+volume_db = -7.0
+bus = &"SFX"
 
 [connection signal="timeout" from="ConstructionTimer" to="." method="_on_round_timer_timeout"]
 [connection signal="timeout" from="PlayTimer" to="." method="_on_play_timer_timeout"]

@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bto2fiy002i8a"]
+[gd_scene load_steps=9 format=3 uid="uid://bto2fiy002i8a"]
 
 [ext_resource type="Texture2D" uid="uid://dhyab4ryoq7aq" path="res://Game/assets/Menu/MenuPicture/MainMenu.png" id="1_oqkyx"]
 [ext_resource type="Script" path="res://Game/Interfaces/option_menu.gd" id="1_ufnyb"]
 [ext_resource type="AudioStream" uid="uid://c5g3431a0xmw3" path="res://Game/assets/Menu/Music/cruising-down-8bit-lane-159615.mp3" id="3_4uhnc"]
 [ext_resource type="Texture2D" uid="uid://be2iywf0a03f0" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_M_btn.png" id="3_45qn4"]
-[ext_resource type="AudioStream" uid="uid://dtjp57oed87s" path="res://Game/assets/Menu/SFX/Jump.wav" id="5_hjjh4"]
 
 [sub_resource type="SystemFont" id="SystemFont_34t2d"]
 font_names = PackedStringArray("Impact")
@@ -37,9 +36,9 @@ expand_mode = 1
 [node name="VBoxContainer2" type="VBoxContainer" parent="TextureRect"]
 layout_mode = 0
 offset_left = 470.0
-offset_top = 100.0
+offset_top = 250.0
 offset_right = 588.0
-offset_bottom = 152.0
+offset_bottom = 302.0
 
 [node name="Label" type="Label" parent="TextureRect/VBoxContainer2"]
 layout_mode = 2
@@ -66,9 +65,9 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="TextureRect"]
 layout_mode = 0
 offset_left = 470.0
-offset_top = 200.0
+offset_top = 350.0
 offset_right = 612.0
-offset_bottom = 254.0
+offset_bottom = 404.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="TextureRect/VBoxContainer"]
 layout_mode = 2
@@ -79,7 +78,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = SubResource("SystemFont_k5mxm")
-text = "Music"
+text = "Sound"
 
 [node name="Sound" type="CheckButton" parent="TextureRect/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
@@ -103,41 +102,6 @@ value = 1.0
 [node name="Label" type="Label" parent="TextureRect/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="TextureRect"]
-offset_left = 470.0
-offset_top = 300.0
-offset_right = 612.0
-offset_bottom = 354.0
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="TextureRect/VBoxContainer3"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="TextureRect/VBoxContainer3/HBoxContainer2"]
-layout_mode = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = SubResource("SystemFont_k5mxm")
-text = "SFX"
-
-[node name="SFX" type="CheckButton" parent="TextureRect/VBoxContainer3/HBoxContainer2"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TextureRect/VBoxContainer3"]
-layout_direction = 1
-layout_mode = 2
-auto_translate = false
-localize_numeral_system = false
-
-[node name="SFXSlider" type="HSlider" parent="TextureRect/VBoxContainer3/HBoxContainer"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-max_value = 1.0
-step = 0.001
-
-[node name="Label" type="Label" parent="TextureRect/VBoxContainer3/HBoxContainer"]
-layout_mode = 2
-
 [node name="Quit" type="Button" parent="TextureRect"]
 layout_mode = 0
 offset_left = 455.0
@@ -158,14 +122,11 @@ autoplay = true
 bus = &"Music"
 
 [node name="SFXPlayer" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_hjjh4")
-volume_db = -7.0
+stream = ExtResource("3_4uhnc")
+autoplay = true
 bus = &"SFX"
 
 [connection signal="toggled" from="TextureRect/VBoxContainer2/HBoxContainer/fullscreen" to="." method="_on_check_button_toggled"]
 [connection signal="toggled" from="TextureRect/VBoxContainer/HBoxContainer2/Sound" to="." method="_on_sound_toggled"]
 [connection signal="value_changed" from="TextureRect/VBoxContainer/HBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
-[connection signal="toggled" from="TextureRect/VBoxContainer3/HBoxContainer2/SFX" to="." method="_on_sfx_toggled"]
-[connection signal="drag_ended" from="TextureRect/VBoxContainer3/HBoxContainer/SFXSlider" to="." method="_on_sfx_slider_drag_ended"]
-[connection signal="value_changed" from="TextureRect/VBoxContainer3/HBoxContainer/SFXSlider" to="." method="_on_sfx_slider_value_changed"]
 [connection signal="pressed" from="TextureRect/Quit" to="." method="_on_quit_pressed"]
