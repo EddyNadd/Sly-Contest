@@ -106,8 +106,8 @@ func _process(delta):
 					print(newPlayers)
 					for key in newPlayers.keys():
 						if newPlayers[key].index == 2:
-							OS.alert('The player hosting the lobby deleted it.', 'Lobby information')
 							leaveLobby()
+							OS.alert('The player hosting the lobby deleted it.', 'Lobby information')
 							for scenes in get_tree().root.get_children():
 								if scenes.name == "Control":
 									get_tree().current_scene = scenes
@@ -316,19 +316,17 @@ func _on_username_text_changed(new_text):
 	save_file.username = new_text
 	SaveFile.save_data()
 
-
 func _on_load_level_button_down():
 	if connectedStatus and lobbyValue:
 		leaveLobby()
 		loadBtn.release_focus()
 		get_tree().root.add_child(scene2)
 	elif !connectedStatus and lobbyValue:
-		pass
+		globalStatus.text = "Leave the lobby before doing any actions."
 	else:
 		loadBtn.release_focus()
 		get_tree().root.add_child(scene2)
 	pass # Replace with function body.
-
 
 func _on_back_button_down():
 	if connectedStatus and lobbyValue:
@@ -336,7 +334,7 @@ func _on_back_button_down():
 		loadBtn.release_focus()
 		get_tree().root.add_child(scene4)
 	elif !connectedStatus and lobbyValue:
-		pass
+		globalStatus.text = "Leave the lobby before doing any actions."
 	else:
 		loadBtn.release_focus()
 		get_tree().root.add_child(scene4)
