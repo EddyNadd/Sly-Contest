@@ -13,6 +13,7 @@ config_version=5
 config/name="Sly Contest"
 run/main_scene="res://Game/Interfaces/main_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+boot_splash/image="res://logo.png"
 config/icon="res://Game/icon.svg"
 
 [autoload]
@@ -26,6 +27,7 @@ SaveTilemap="*res://save_tilemap.gd"
 window/size/viewport_width=1008
 window/size/viewport_height=567
 window/stretch/mode="viewport"
+mouse_cursor/custom_image="res://Game/assets/cursor.png"
 
 [dotnet]
 
