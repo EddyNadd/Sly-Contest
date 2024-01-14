@@ -27,11 +27,9 @@ enum Message {
 @onready	var player2_PenaltyPointsLabel = $MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer3/PenalityPoint2
 @onready	var player2_TotalPointsLabel = $MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer4/TotalScore2
 
-@onready var save_file = SaveFile.game_data
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
-	$MusicPlayer.play(GameManager.musicProgress)  
 	for player in GameManager.Players:
 		if (GameManager.Players[player].index == 1):
 			player1_NameLabel.text = str(GameManager.Players[player].name)
@@ -72,5 +70,3 @@ func _on_save_pressed():
 	if $MarginContainer2/VBoxContainer/HBoxContainer/TextEdit.text != "":
 		SaveTilemap.write_data($MarginContainer2/VBoxContainer/HBoxContainer/TextEdit.text)
 
-func _exit_tree():
-	GameManager.musicProgress = $MusicPlayer.get_playback_position()   

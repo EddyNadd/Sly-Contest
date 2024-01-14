@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bk0wxb81311tk"]
+[gd_scene load_steps=9 format=3 uid="uid://bk0wxb81311tk"]
 
 [ext_resource type="Script" path="res://Game/Interfaces/ScoreBoard.gd" id="1_l1uny"]
 [ext_resource type="Texture2D" uid="uid://cfiiqxpr3ywmm" path="res://Game/assets/Menu/MenuPicture/OIG.jpg" id="1_mt6pr"]
 [ext_resource type="Texture2D" uid="uid://bjrudm1lro7u0" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_M_btn_bis.png" id="2_g4pbp"]
-[ext_resource type="AudioStream" uid="uid://by375dppuhwy" path="res://Game/assets/Menu/Music/AdhesiveWombat - Night Shade NO COPYRIGHT 8-bit Music.mp3" id="4_rljsr"]
 
 [sub_resource type="SystemFont" id="SystemFont_skruk"]
 font_names = PackedStringArray("Impact")
@@ -370,10 +369,6 @@ flat = true
 icon_alignment = 1
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-
-[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_rljsr")
-bus = &"Music"
 
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/HBoxContainer/Save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/HBoxContainer/Play" to="." method="_on_play_pressed"]
