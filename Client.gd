@@ -51,6 +51,8 @@ var connectedStatus = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$MusicPlayer.play(GameManager.musicProgress)  
+	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
 	if "--server" in OS.get_cmdline_user_args():
 		print("Server mod!")
 	else:
@@ -342,3 +344,6 @@ func _on_back_button_down():
 		get_tree().root.add_child(scene4)
 	pass # Replace with function body.
 	pass # Replace with function body.
+	
+func _exit_tree():
+	GameManager.musicProgress = $MusicPlayer.get_playback_position() 

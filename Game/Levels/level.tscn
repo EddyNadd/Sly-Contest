@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://djliv4h0uw8un"]
+[gd_scene load_steps=15 format=3 uid="uid://djliv4h0uw8un"]
 
 [ext_resource type="Texture2D" uid="uid://3kmkmruwhk5i" path="res://Game/assets/Terrain/Terrain (16x16).png" id="1_n1aru"]
 [ext_resource type="Script" path="res://Game/Levels/level.gd" id="1_ohocx"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://qw6hxtsdyo7e" path="res://Game/Items/items.tscn" id="5_w0afm"]
 [ext_resource type="PackedScene" uid="uid://b1weu27roatyo" path="res://Game/Interfaces/UI.tscn" id="6_uuvyi"]
 [ext_resource type="AudioStream" uid="uid://dtjp57oed87s" path="res://Game/assets/Menu/SFX/Jump.wav" id="8_6a1hy"]
+[ext_resource type="AudioStream" uid="uid://by375dppuhwy" path="res://Game/assets/Menu/Music/AdhesiveWombat - Night Shade NO COPYRIGHT 8-bit Music.mp3" id="9_ikr1m"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7ajcq"]
 texture = ExtResource("1_n1aru")
@@ -719,6 +720,10 @@ theme_override_fonts/font = SubResource("SystemFont_sk8xr")
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_ikr1m")
+bus = &"Music"
 
 [connection signal="timeout" from="ConstructionTimer" to="." method="_on_round_timer_timeout"]
 [connection signal="timeout" from="PlayTimer" to="." method="_on_play_timer_timeout"]
