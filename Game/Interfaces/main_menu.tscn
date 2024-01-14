@@ -46,7 +46,7 @@ expand_mode = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0
-offset_right = 1012.0
+offset_right = 1008.0
 offset_bottom = 567.0
 theme_override_constants/margin_bottom = -100
 
