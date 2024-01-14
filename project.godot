@@ -13,6 +13,7 @@ config_version=5
 config/name="Sly Contest"
 run/main_scene="res://Game/Interfaces/main_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+boot_splash/image="res://logo.png"
 config/icon="res://Game/icon.svg"
 
 [autoload]

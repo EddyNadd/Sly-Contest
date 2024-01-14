@@ -6,6 +6,7 @@ extends Node2D
 var inside = false
 var can_place = true
 var currentPostition
+var offset = Vector2(0,0)
 
 func load_item():
 	item = scene.instantiate()

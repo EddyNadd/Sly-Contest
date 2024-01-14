@@ -21,6 +21,8 @@ extends Node2D
 @onready var soloSpawn = Vector2i(0,0)
 @onready var scene = load("res://Game/Interfaces/ScoreBoard.tscn").instantiate()
 @onready var scene2 = load("res://control.tscn").instantiate()
+@onready var save_file = SaveFile.game_data
+
 var Items = []
 var ItemsToMaybeDelete = []
 var side = false
@@ -113,6 +115,8 @@ func _ready():
 					GameManager.Players[player].spawn = onBlockPos(start)
 					GameManager.Players[player].end = onBlockPos(end)
 	else:
+		$MusicPlayer.play(GameManager.musicProgress)  
+		AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
 		remove_child(get_node('Control'))
 		switchBtn.visible = true
 		quitBtn.visible = true
@@ -259,6 +263,8 @@ func _input(event):
 						sprite.set_global_position(Vector2i(tile_map_no_collision.local_to_map(mouse_pos).x * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2, tile_map_no_collision.local_to_map(mouse_pos).y * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2))
 					else:
 						sprite.set_global_position(Vector2i(tile_map_no_collision.local_to_map(mouse_pos).x * GameManager.TILE_SIZE, tile_map_no_collision.local_to_map(mouse_pos).y * GameManager.TILE_SIZE))
+					if str(cursor_item).contains("Spike"):
+						cursor_item.change_rotation(cursor_item)
 					sprite.set_modulate(Color(Color.WHITE,0.5))
 				
 				
@@ -266,7 +272,7 @@ func placeBlock(tile_map_pos, mouse_pos):
 	if (mouse_pos.y <= 512 and !GameManager.INDESTRUCTIBLES.has(tile_map.get_cell_atlas_coords(ground_layer,tile_map_pos))):
 				
 			if cursor_item and cursor_item.can_place:
-				rpc("rpc_place_item", cursor_item.get_path(), mouse_pos)
+				rpc("rpc_place_item", cursor_item.get_path(), mouse_pos + cursor_item.offset, cursor_item.get_global_rotation())
 			
 			if bloc_coord:
 				if (bloc_coord == erase_text):
@@ -291,7 +297,7 @@ func rpc_place(layer, pos, id, coord):
 	tile_map.set_cell(layer, pos, id, coord)
 	
 @rpc("any_peer", "call_local")
-func rpc_place_item(cursor_item, pos):
+func rpc_place_item(cursor_item, pos, rotation):
 	pos = Vector2i(tile_map_no_collision.local_to_map(pos).x * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2, tile_map_no_collision.local_to_map(pos).y * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2)
 	var currentItem = {}
 	var itemName
@@ -299,17 +305,20 @@ func rpc_place_item(cursor_item, pos):
 	if str(cursor_item).contains("Saw"):
 		currentItem = {
 			"name" : "Saw",
-			"position" : pos
+			"position" : pos,
+			"rotation" : rotation
 		}
 		itemName = "Saw"
 		Items.append(currentItem)
 	if str(cursor_item).contains("Spike"):
 		currentItem = {
 			"name" : "Spike",
-			"position" : pos
+			"position" : pos,
+			"rotation" : rotation
 		}
 		Items.append(currentItem)
 		itemName = "Spike"
+	item.set_global_rotation(rotation)
 	var positionOfItem = item.set_tile_position(pos, itemName)
 	ItemsToMaybeDelete.append(item)
 	add_child(item)
@@ -330,8 +339,6 @@ func _on_round_timer_timeout():
 		tile_map_no_collision.clear_layer(overlay)
 		grid.draw_grid = false
 		grid.queue_redraw()
-		
-	
 	
 func _on_play_timer_timeout():
 	finishGame()
@@ -382,6 +389,7 @@ func loadLevel():
 	for _i in game_data["items"]:
 		var item
 		item = get_node(str("Items/"+_i.name)).load_item()
+		item.set_global_rotation(_i.rotation)
 		item.set_tile_position(_i.position, _i.name)
 		add_child(item)
 		pass
@@ -405,3 +413,6 @@ func _on_quit_button_down():
 	get_tree().root.add_child(scene2)
 	self.queue_free()
 	pass # Replace with function body.
+
+func _exit_tree():
+	GameManager.musicProgress = $MusicPlayer.get_playback_position()  

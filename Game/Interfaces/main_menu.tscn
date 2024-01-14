@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Game/Interfaces/main_menu.gd" id="1_7euu5"]
 [ext_resource type="Texture2D" uid="uid://dhyab4ryoq7aq" path="res://Game/assets/Menu/MenuPicture/MainMenu.png" id="1_yqybd"]
 [ext_resource type="Texture2D" uid="uid://be2iywf0a03f0" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_M_btn.png" id="2_1prkl"]
-[ext_resource type="AudioStream" uid="uid://c5g3431a0xmw3" path="res://Game/assets/Menu/Music/cruising-down-8bit-lane-159615.mp3" id="4_lva2w"]
+[ext_resource type="AudioStream" uid="uid://by375dppuhwy" path="res://Game/assets/Menu/Music/AdhesiveWombat - Night Shade NO COPYRIGHT 8-bit Music.mp3" id="4_jpb1j"]
 
 [sub_resource type="SystemFont" id="SystemFont_6cxcy"]
 font_names = PackedStringArray("Rockwell", "Impact")
@@ -46,7 +46,7 @@ expand_mode = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0
-offset_right = 1012.0
+offset_right = 1008.0
 offset_bottom = 567.0
 theme_override_constants/margin_bottom = -100
 
@@ -134,7 +134,7 @@ flat = true
 icon_alignment = 1
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_lva2w")
+stream = ExtResource("4_jpb1j")
 bus = &"Music"
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
