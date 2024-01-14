@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dofljsf6wra8f"]
+[gd_scene load_steps=3 format=3 uid="uid://dofljsf6wra8f"]
 
 [ext_resource type="Script" path="res://Game/Interfaces/saved_level.gd" id="1_qp84g"]
+[ext_resource type="AudioStream" uid="uid://by375dppuhwy" path="res://Game/assets/Menu/Music/AdhesiveWombat - Night Shade NO COPYRIGHT 8-bit Music.mp3" id="2_rv202"]
 
 [node name="SavedLevel" type="Control"]
 layout_mode = 3
@@ -33,6 +34,10 @@ offset_top = 491.0
 offset_right = 558.0
 offset_bottom = 522.0
 text = "Load"
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_rv202")
+bus = &"Music"
 
 [connection signal="button_down" from="Back" to="." method="_on_back_button_down"]
 [connection signal="button_down" from="Load" to="." method="_on_load_button_down"]

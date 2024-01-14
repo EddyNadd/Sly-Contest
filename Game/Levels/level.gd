@@ -21,6 +21,7 @@ extends Node2D
 @onready var soloSpawn = Vector2i(0,0)
 @onready var scene = load("res://Game/Interfaces/ScoreBoard.tscn").instantiate()
 @onready var scene2 = load("res://control.tscn").instantiate()
+@onready var save_file = SaveFile.game_data
 
 var Items = []
 var ItemsToMaybeDelete = []
@@ -114,6 +115,8 @@ func _ready():
 					GameManager.Players[player].spawn = onBlockPos(start)
 					GameManager.Players[player].end = onBlockPos(end)
 	else:
+		$MusicPlayer.play(GameManager.musicProgress)  
+		AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
 		remove_child(get_node('Control'))
 		switchBtn.visible = true
 		quitBtn.visible = true
@@ -407,3 +410,5 @@ func _on_quit_button_down():
 	self.queue_free()
 	pass # Replace with function body.
 
+func _exit_tree():
+	GameManager.musicProgress = $MusicPlayer.get_playback_position()  

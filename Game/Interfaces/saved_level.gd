@@ -5,9 +5,12 @@ var levelListArray = []
 
 @onready var scene = preload("res://control.tscn").instantiate()
 @onready var btnLoad = $Load
+@onready var save_file = SaveFile.game_data
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
+	$MusicPlayer.play(GameManager.musicProgress)  
 	GameManager.isSolo = true
 	if !GameManager.isInSave:
 		GameManager.isInSave = true
@@ -51,3 +54,6 @@ func _on_load_button_down():
 	GameManager.loadLevel = levelList.get_item_text(levelList.get_selected_items()[0])
 	get_tree().change_scene_to_file("res://Game/Levels/level.tscn")
 	pass # Replace with function body.
+
+func _exit_tree():
+	GameManager.musicProgress = $MusicPlayer.get_playback_position()  
