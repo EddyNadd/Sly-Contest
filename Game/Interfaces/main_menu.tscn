@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ctrlx1c7tg5an"]
+[gd_scene load_steps=14 format=3 uid="uid://ctrlx1c7tg5an"]
 
 [ext_resource type="Script" path="res://Game/Interfaces/main_menu.gd" id="1_7euu5"]
 [ext_resource type="Texture2D" uid="uid://dhyab4ryoq7aq" path="res://Game/assets/Menu/MenuPicture/MainMenu.png" id="1_yqybd"]
@@ -11,14 +11,22 @@ font_names = PackedStringArray("Rockwell", "Impact")
 [sub_resource type="SystemFont" id="SystemFont_n0irk"]
 font_names = PackedStringArray("Impact")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_irtjy"]
+
 [sub_resource type="SystemFont" id="SystemFont_uknv5"]
 font_names = PackedStringArray("Impact")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w1mi0"]
 
 [sub_resource type="SystemFont" id="SystemFont_r8l1d"]
 font_names = PackedStringArray("Impact")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g3hql"]
+
 [sub_resource type="SystemFont" id="SystemFont_w2jpr"]
 font_names = PackedStringArray("Impact")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yjy6f"]
 
 [node name="Main_Menu" type="Control"]
 layout_mode = 3
@@ -31,10 +39,8 @@ script = ExtResource("1_7euu5")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = -8.0
-offset_top = -11.0
-offset_right = 1009.0
-offset_bottom = 569.0
+offset_right = 1008.0
+offset_bottom = 567.0
 texture = ExtResource("1_yqybd")
 expand_mode = 1
 
@@ -81,6 +87,7 @@ layout_mode = 2
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = SubResource("SystemFont_n0irk")
 theme_override_font_sizes/font_size = 35
+theme_override_styles/focus = SubResource("StyleBoxEmpty_irtjy")
 text = "PLAY"
 icon = ExtResource("2_1prkl")
 flat = true
@@ -93,7 +100,8 @@ layout_mode = 2
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_uknv5")
 theme_override_font_sizes/font_size = 35
-text = "OPTION"
+theme_override_styles/focus = SubResource("StyleBoxEmpty_w1mi0")
+text = "OPTIONS"
 icon = ExtResource("2_1prkl")
 flat = true
 icon_alignment = 1
@@ -105,7 +113,8 @@ layout_mode = 2
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_r8l1d")
 theme_override_font_sizes/font_size = 35
-text = "CREDIT"
+theme_override_styles/focus = SubResource("StyleBoxEmpty_g3hql")
+text = "CREDITS"
 icon = ExtResource("2_1prkl")
 flat = true
 icon_alignment = 1
@@ -117,6 +126,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_w2jpr")
 theme_override_font_sizes/font_size = 35
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yjy6f")
 action_mode = 0
 text = "QUIT"
 icon = ExtResource("2_1prkl")

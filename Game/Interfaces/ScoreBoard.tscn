@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bk0wxb81311tk"]
+[gd_scene load_steps=9 format=3 uid="uid://bk0wxb81311tk"]
 
 [ext_resource type="Script" path="res://Game/Interfaces/ScoreBoard.gd" id="1_l1uny"]
 [ext_resource type="Texture2D" uid="uid://cfiiqxpr3ywmm" path="res://Game/assets/Menu/MenuPicture/OIG.jpg" id="1_mt6pr"]
@@ -9,6 +9,12 @@ font_names = PackedStringArray("Impact")
 
 [sub_resource type="SystemFont" id="SystemFont_p5qsx"]
 font_names = PackedStringArray("Impact")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e2xsq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pwm0v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lqnmw"]
 
 [node name="ScoreBoard" type="Control"]
 layout_mode = 3
@@ -335,6 +341,7 @@ placeholder_text = "Save Name"
 [node name="Save" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_p5qsx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_e2xsq")
 action_mode = 0
 text = "SAVE"
 icon = ExtResource("2_g4pbp")
@@ -344,6 +351,7 @@ icon_alignment = 1
 [node name="Play" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_p5qsx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pwm0v")
 action_mode = 0
 text = "PLAY"
 icon = ExtResource("2_g4pbp")
@@ -353,6 +361,7 @@ icon_alignment = 1
 [node name="Quit" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_p5qsx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_lqnmw")
 action_mode = 0
 text = "QUIT"
 icon = ExtResource("2_g4pbp")

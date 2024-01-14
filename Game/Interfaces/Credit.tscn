@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dudm178wbnfht"]
+[gd_scene load_steps=7 format=3 uid="uid://dudm178wbnfht"]
 
 [ext_resource type="Script" path="res://Game/Interfaces/Credit.gd" id="1_dfc1r"]
 [ext_resource type="Texture2D" uid="uid://b1jnhsltn85j7" path="res://Game/assets/Menu/MenuPicture/Credit.jpg" id="2_qsndy"]
@@ -7,6 +7,8 @@
 
 [sub_resource type="SystemFont" id="SystemFont_q8fgx"]
 font_names = PackedStringArray("Impact")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mv3me"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -77,6 +79,7 @@ offset_top = 521.0
 offset_right = 1007.0
 offset_bottom = 564.0
 theme_override_fonts/font = SubResource("SystemFont_q8fgx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mv3me")
 text = "QUIT"
 icon = ExtResource("3_44gjh")
 flat = true
