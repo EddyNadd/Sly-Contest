@@ -2,8 +2,9 @@ extends Node2D
 
 @onready var scene
 @onready var item
-
+@onready var level = get_node("/root/Level")
 var inside = false
+var can_place = true
 var currentPostition
 
 func load_item():
@@ -11,10 +12,7 @@ func load_item():
 	return item
 
 func set_tile_position(positionParam, item):
-	if item == "Saw":
-		global_position = Vector2(positionParam.x, positionParam.y)
-	else:
-		global_position = Vector2(round(positionParam.x / GameManager.TILE_SIZE) * GameManager.TILE_SIZE, round(positionParam.y / GameManager.TILE_SIZE) * GameManager.TILE_SIZE)
+	global_position = Vector2(round(positionParam.x / GameManager.TILE_SIZE) * GameManager.TILE_SIZE, round(positionParam.y / GameManager.TILE_SIZE) * GameManager.TILE_SIZE)
 	return global_position
 
 func _mouse_enter():

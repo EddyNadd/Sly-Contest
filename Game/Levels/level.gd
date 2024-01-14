@@ -265,7 +265,7 @@ func _input(event):
 func placeBlock(tile_map_pos, mouse_pos):
 	if (mouse_pos.y <= 512 and !GameManager.INDESTRUCTIBLES.has(tile_map.get_cell_atlas_coords(ground_layer,tile_map_pos))):
 				
-			if cursor_item:
+			if cursor_item and cursor_item.can_place:
 				rpc("rpc_place_item", cursor_item.get_path(), mouse_pos)
 			
 			if bloc_coord:
