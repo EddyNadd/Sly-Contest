@@ -27,7 +27,6 @@ SaveTilemap="*res://save_tilemap.gd"
 window/size/viewport_width=1008
 window/size/viewport_height=567
 window/stretch/mode="viewport"
-mouse_cursor/custom_image="res://Game/assets/cursor.png"
 
 [dotnet]
 
