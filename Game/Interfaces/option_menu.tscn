@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://dhyab4ryoq7aq" path="res://Game/assets/Menu/MenuPicture/MainMenu.png" id="1_oqkyx"]
 [ext_resource type="Script" path="res://Game/Interfaces/option_menu.gd" id="1_ufnyb"]
-[ext_resource type="AudioStream" uid="uid://c5g3431a0xmw3" path="res://Game/assets/Menu/Music/cruising-down-8bit-lane-159615.mp3" id="3_4uhnc"]
 [ext_resource type="Texture2D" uid="uid://be2iywf0a03f0" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_M_btn.png" id="3_45qn4"]
+[ext_resource type="AudioStream" uid="uid://by375dppuhwy" path="res://Game/assets/Menu/Music/AdhesiveWombat - Night Shade NO COPYRIGHT 8-bit Music.mp3" id="4_hadmb"]
 [ext_resource type="AudioStream" uid="uid://dtjp57oed87s" path="res://Game/assets/Menu/SFX/Jump.wav" id="5_hjjh4"]
 
 [sub_resource type="SystemFont" id="SystemFont_34t2d"]
@@ -158,7 +158,7 @@ icon_alignment = 1
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(-19, 14)
-stream = ExtResource("3_4uhnc")
+stream = ExtResource("4_hadmb")
 bus = &"Music"
 
 [node name="SFXPlayer" type="AudioStreamPlayer2D" parent="."]

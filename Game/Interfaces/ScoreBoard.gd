@@ -27,10 +27,9 @@ enum Message {
 @onready	var player2_PenaltyPointsLabel = $MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer3/PenalityPoint2
 @onready	var player2_TotalPointsLabel = $MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer4/TotalScore2
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-
-	
 	for player in GameManager.Players:
 		if (GameManager.Players[player].index == 1):
 			player1_NameLabel.text = str(GameManager.Players[player].name)

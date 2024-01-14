@@ -21,6 +21,7 @@ extends Node2D
 @onready var soloSpawn = Vector2i(0,0)
 @onready var scene = load("res://Game/Interfaces/ScoreBoard.tscn").instantiate()
 @onready var scene2 = load("res://control.tscn").instantiate()
+
 var Items = []
 var ItemsToMaybeDelete = []
 var side = false
@@ -405,3 +406,4 @@ func _on_quit_button_down():
 	get_tree().root.add_child(scene2)
 	self.queue_free()
 	pass # Replace with function body.
+
