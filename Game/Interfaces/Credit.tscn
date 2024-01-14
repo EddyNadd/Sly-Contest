@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dudm178wbnfht"]
+[gd_scene load_steps=6 format=3 uid="uid://dudm178wbnfht"]
 
 [ext_resource type="Script" path="res://Game/Interfaces/Credit.gd" id="1_dfc1r"]
 [ext_resource type="Texture2D" uid="uid://b1jnhsltn85j7" path="res://Game/assets/Menu/MenuPicture/Credit.jpg" id="2_qsndy"]
 [ext_resource type="Texture2D" uid="uid://bjrudm1lro7u0" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_M_btn_bis.png" id="3_44gjh"]
+[ext_resource type="AudioStream" uid="uid://c5g3431a0xmw3" path="res://Game/assets/Menu/Music/cruising-down-8bit-lane-159615.mp3" id="4_331t1"]
 
 [sub_resource type="SystemFont" id="SystemFont_q8fgx"]
 font_names = PackedStringArray("Impact")
@@ -80,5 +81,9 @@ text = "QUIT"
 icon = ExtResource("3_44gjh")
 flat = true
 icon_alignment = 1
+
+[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_331t1")
+bus = &"Music"
 
 [connection signal="pressed" from="TextureRect/Quit" to="." method="_on_quit_pressed"]

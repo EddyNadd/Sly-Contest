@@ -16,6 +16,7 @@ var SFX_bus = AudioServer.get_bus_index("SFX")
 var saveValue
 var sfxValue
 func _ready():
+	$MusicPlayer.play(GameManager.musicProgress)  
 	saveValue = save_file.soundLevel
 	sfxValue = save_file.sfxLevel
 	if DisplayServer.window_get_mode() == 3:
@@ -40,7 +41,7 @@ func _ready():
 		sfxButton.button_pressed = true
 		sfxValue = save_file.sfxLevel
 		sfxText.text = str(sfxValue*100)
-		sfxSlider.value = sfxValue
+		sfxSlider.value = sfxValue 
 
 func _on_h_slider_value_changed(value : float) -> void:
 	AudioServer.set_bus_volume_db(music_bus, linear_to_db(value))
@@ -109,4 +110,7 @@ func _on_sfx_slider_value_changed(sValue : float) -> void:
 
 func _on_sfx_slider_drag_ended(value_changed):
 	sfxSound.play()
+	
+func _exit_tree():
+	GameManager.musicProgress = $MusicPlayer.get_playback_position()   
 	
