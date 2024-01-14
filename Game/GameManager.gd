@@ -5,6 +5,7 @@ var INDESTRUCTIBLES = []
 var canFinishLevel = false
 var canConfirmLevel = false
 const TILE_SIZE = 16
+var musicProgress = 0.0
 var isSolo = false
 var loadLevel = ""
 var isInSave = false

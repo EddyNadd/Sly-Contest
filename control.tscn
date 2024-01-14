@@ -39,6 +39,7 @@ offset_bottom = 181.0
 script = ExtResource("2_h6iss")
 
 [node name="Back" type="Button" parent="."]
+layout_mode = 0
 offset_left = 51.0
 offset_top = 13.0
 offset_right = 187.0

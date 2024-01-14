@@ -155,7 +155,6 @@ icon_alignment = 1
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_4uhnc")
-autoplay = true
 bus = &"Music"
 
 [node name="SFXPlayer" type="AudioStreamPlayer2D" parent="."]
