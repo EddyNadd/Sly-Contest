@@ -156,6 +156,15 @@ func _process(delta):
 		if($ConstructionTimer.get_time_left() == 0):
 			$timer.set_text(str(round($PlayTimer.get_time_left()))+"s")
 
+@rpc("any_peer", "call_local")
+func graceTime():
+	if playTimer.get_time_left() < 60:
+		playTimer.set("wait_time",60)
+		playTimer.start()
+		$timer.set("theme_override_colors/font_color","green")
+		await get_tree().create_timer(2.0).timeout
+		$timer.set("theme_override_colors/font_color","white")
+
 func startBlockCoords(padding):
 	var startx = randi_range(x1Min,x1Max-1)
 	var starty = randi_range(yMin,yMax-1)
