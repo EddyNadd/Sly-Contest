@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 const SPEED = 200.0
 const JUMP_VELOCITY = -400.0
+const MIN_JUMP = -80
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -47,7 +48,7 @@ func _physics_process(delta):
 		
 		var acceleration
 		if !is_on_floor():
-			acceleration = 37.5
+			acceleration = 40.0
 		else:
 			acceleration = 100.0
 			
@@ -70,12 +71,12 @@ func _physics_process(delta):
 			wall_jump_remaining = 1
 		
 		# Handle Jump.
-		if Input.is_action_just_pressed("ui_accept") and velocity.y >= 0:
+		if Input.is_action_just_pressed("ui_accept"): #and velocity.y >= 0:
 			# Jump / Wall-jump
-			if ((is_on_floor() or !coyote_time.is_stopped()) or (is_on_wall() and wall_jump_remaining)):
+			if ((is_on_floor() or !coyote_time.is_stopped()) or (is_on_wall_only() and wall_jump_remaining)):
 				var new_speed = velocity.x
 				coyote_time.stop()
-				if is_on_wall() && !is_on_floor():
+				if is_on_wall_only():
 					wall_jump_remaining = 1
 					new_speed = SPEED * direction * -2
 				jump_sound.play()
@@ -86,8 +87,8 @@ func _physics_process(delta):
 				jump_buffer.start()
 		
 		# allows to make short jumps
-		if Input.is_action_just_released("ui_accept") and velocity.y < -75:
-			velocity.y = -75
+		if Input.is_action_just_released("ui_accept") and velocity.y < MIN_JUMP:
+			velocity.y = MIN_JUMP
 			
 		var tile_map_pos = tile_map.local_to_map(Vector2i(position.x, position.y))
 		var tile_data : TileData = tile_map.get_cell_tile_data(0, Vector2i(tile_map_pos.x,tile_map_pos.y+1))
@@ -111,9 +112,14 @@ func _physics_process(delta):
 			coyote_time.start()
 		
 		# Jumps if a jump was buffered
-		if is_on_floor() && !jump_buffer.is_stopped():
+		if (is_on_floor() or is_on_wall()) && !jump_buffer.is_stopped():
 			jump_buffer.stop()
 			jump_sound.play()
+			var new_speed = velocity.x
+			if is_on_wall_only():
+				wall_jump_remaining = 1
+				new_speed = SPEED * direction * -2
+			velocity.x = new_speed
 			velocity.y = JUMP_VELOCITY
 			
 		syncPos = global_position
@@ -149,6 +155,7 @@ func arrivee(id):
 	for player in GameManager.Players:
 		if(GameManager.Players[str(id)] == GameManager.Players[player]):
 			GameManager.Players[player].completionPoints += 300
+	get_node("/root/Level").graceTime()
 			
 @rpc("any_peer", "call_local")
 func arrivee2(id):
