@@ -36,13 +36,13 @@ func _ready():
 			player1_CompletionPointsLabel.text = str(GameManager.Players[player].completionPoints)
 			player1_ValidationPointsLabel.text = str(GameManager.Players[player].validationPoints)
 			player1_PenaltyPointsLabel.text = str(GameManager.Players[player].penaltyPoints)
-			player1_TotalPointsLabel.text = str(GameManager.Players[player].points)
+			player1_TotalPointsLabel.text = str(GameManager.Players[player].totalPoints)
 		else:
 			player2_NameLabel.text = str(GameManager.Players[player].name)
 			player2_CompletionPointsLabel.text = str(GameManager.Players[player].completionPoints)
 			player2_ValidationPointsLabel.text = str(GameManager.Players[player].validationPoints)
 			player2_PenaltyPointsLabel.text = str(GameManager.Players[player].penaltyPoints)
-			player2_TotalPointsLabel.text = str(GameManager.Players[player].points)
+			player2_TotalPointsLabel.text = str(GameManager.Players[player].totalPoints)
 
 
 func _on_quit_pressed():

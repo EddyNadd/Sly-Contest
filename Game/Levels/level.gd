@@ -84,7 +84,7 @@ func _ready():
 			rpc("updateStartEnd", start, end)
 			initBlockGen(start, end)
 			player = get_node(str(multiplayer.get_unique_id()))
-			print(player)
+			#print(player)
 		else:
 			side = true
 			while start == Vector2i(0,0):
@@ -351,7 +351,7 @@ func finishGame():
 			if(GameManager.Players[player].completionPoints > 0):
 				GameManager.Players[player].penaltyPoints -= 400
 	for player in GameManager.Players:
-		GameManager.Players[player].points = GameManager.Players[player].completionPoints + GameManager.Players[player].validationPoints + GameManager.Players[player].penaltyPoints
+		GameManager.Players[player].totalPoints += GameManager.Players[player].completionPoints + GameManager.Players[player].validationPoints + GameManager.Players[player].penaltyPoints
 		print(str(GameManager.Players[player].name)+": "+str(GameManager.Players[player].points)+" (c: "+str(GameManager.Players[player].completionPoints)+", v: "+str(GameManager.Players[player].validationPoints)+", p: "+str(GameManager.Players[player].penaltyPoints)+")")
 	saveGameDatas()
 	get_tree().root.add_child(scene)

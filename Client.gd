@@ -127,6 +127,7 @@ func _process(delta):
 				for player in GameManager.Players:
 					print("RTC CODE " + str(player))
 					userList.add_item(GameManager.Players[player].name)
+					GameManager.Players[player].totalPoints = 0
 			if data.message == Message.candidate:
 				if rtcPeer.has_peer(data.orgPeer):
 					print("Got Candidate: " + str(data.orgPeer) + " my id is " + str(id))
