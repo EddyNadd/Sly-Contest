@@ -79,35 +79,41 @@ func JoinLobby(user):
 		user.lobbyValue = generateRandomString()
 		lobbies[user.lobbyValue] = Lobby.new(user.id)
 		print("SERVER - " + str(user.lobbyValue))
-	var player = lobbies[user.lobbyValue].AddPlayer(user.id, user.name)
+	var hasLobby = false
+	for item in lobbies:
+		if item == user.lobbyValue:
+			hasLobby = true
+	if hasLobby:
+		print("SERVER - JOINING MESSAGE")
+		var player = lobbies[user.lobbyValue].AddPlayer(user.id, user.name)
 	
-	for p in lobbies[user.lobbyValue].Players:
+		for p in lobbies[user.lobbyValue].Players:
+			var data = {
+				"message" : Message.userConnected,
+				"id" : user.id
+			}
+			sendToPlayer(p, data)
+			var data2 = {
+				"message" : Message.userConnected,
+				"id" : p
+			}
+			sendToPlayer(user.id, data2)
+			var lobbyInfo = {
+				"message" : Message.lobby,
+				"players" : JSON.stringify(lobbies[user.lobbyValue].Players),
+				"host" : lobbies[user.lobbyValue].HostId,
+				"lobbyValue" : user.lobbyValue
+			}
+			sendToPlayer(p, lobbyInfo)
+	
 		var data = {
 			"message" : Message.userConnected,
-			"id" : user.id
-		}
-		sendToPlayer(p, data)
-		var data2 = {
-			"message" : Message.userConnected,
-			"id" : p
-		}
-		sendToPlayer(user.id, data2)
-		var lobbyInfo = {
-			"message" : Message.lobby,
-			"players" : JSON.stringify(lobbies[user.lobbyValue].Players),
+			"id" : user.id,
 			"host" : lobbies[user.lobbyValue].HostId,
+			"player" : lobbies[user.lobbyValue].Players[user.id],
 			"lobbyValue" : user.lobbyValue
 		}
-		sendToPlayer(p, lobbyInfo)
-	
-	var data = {
-		"message" : Message.userConnected,
-		"id" : user.id,
-		"host" : lobbies[user.lobbyValue].HostId,
-		"player" : lobbies[user.lobbyValue].Players[user.id],
-		"lobbyValue" : user.lobbyValue
-	}
-	sendToPlayer(user.id, data)
+		sendToPlayer(user.id, data)
 
 func sendToPlayer(userId, data):
 	peer.get_peer(userId).put_packet(JSON.stringify(data).to_utf8_buffer())
