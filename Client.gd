@@ -43,6 +43,7 @@ var connectedStatus = false
 @onready var username = $Username
 @onready var userList = $"../ItemList"
 @onready var back = $"../Back"
+@onready var serverMod = $"../ServerMod"
 @onready var scene = load("res://Game/Levels/level.tscn").instantiate()
 @onready var scene2 = load("res://Game/Interfaces/saved_level.tscn").instantiate()
 @onready var scene3 = load("res://control.tscn").instantiate()
@@ -56,6 +57,9 @@ func _ready():
 	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
 	if "--server" in OS.get_cmdline_user_args() or GameManager.serverLaunch == true:
 		print("Server mod!")
+		for scenes in get_tree().root.get_children():
+			if scenes.name != "Control" and scenes.name != "GameManager" and scenes.name != "SaveFile" and scenes.name != "SaveTilemap":
+				get_tree().root.remove_child(scenes)
 		startGameBtn.hide()
 		lobbyBtn.hide()
 		copyBtn.hide()
@@ -68,6 +72,7 @@ func _ready():
 		username.hide()
 		userList.hide()
 		back.hide()
+		serverMod.visible = true
 	else:
 		if !GameManager.isInSave or !GameManager.isInMenu:
 			for scenes in get_tree().root.get_children():
@@ -312,11 +317,13 @@ func _on_copy_button_down():
 func _on_leave_lobby_button_down():
 	if connectedStatus and lobbyValue:
 		leaveLobby()
+		await get_tree().create_timer(0.1).timeout
 		get_tree().reload_current_scene()
 		connectedStatus = false
 		lobbyValue = null
 	elif !connectedStatus and userList.item_count == 1:
 		leaveLobby()
+		await get_tree().create_timer(0.1).timeout
 		get_tree().reload_current_scene()
 	leaveBtn.release_focus()
 	
@@ -324,12 +331,9 @@ func leaveLobby():
 	var message = {
 		"id" : id,
 		"message" : Message.userDisconnected,
-		"lobbyValue" : lobbyValue
+		"lobbyValue" : $LineEdit.text
 	}
-	print("SERVER - " + "J'envoie la déco")
-	peer
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
-	print("SERVER - " + "J'ai envoyé la déco")
 
 func _on_username_text_changed(new_text):
 	save_file.username = new_text

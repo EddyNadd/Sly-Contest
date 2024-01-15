@@ -54,6 +54,7 @@ func _process(delta):
 					lobbies.erase(data.lobbyID)
 					
 			if data.message == Message.userDisconnected:
+				print("SERVER - DISCONNECTING")
 				if len(lobbies[data.lobbyValue].Players) != 1:
 					if lobbies.has(data.lobbyValue):
 						lobbies[data.lobbyValue].Players.erase(data.id)

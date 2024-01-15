@@ -123,6 +123,17 @@ offset_right = 189.0
 offset_bottom = 372.0
 text = "Load level (solo)"
 
+[node name="ServerMod" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 458.0
+offset_top = 262.0
+offset_right = 556.0
+offset_bottom = 285.0
+text = "Server mod !"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="text_changed" from="Client/Username" to="Client" method="_on_username_text_changed"]
 [connection signal="button_down" from="Back" to="Client" method="_on_back_button_down"]
 [connection signal="button_down" from="StartGame" to="Client" method="_on_button_button_down"]
