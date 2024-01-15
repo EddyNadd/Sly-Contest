@@ -35,7 +35,7 @@ offset_right = 558.0
 offset_bottom = 522.0
 text = "Load"
 
-[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_rv202")
 bus = &"Music"
 

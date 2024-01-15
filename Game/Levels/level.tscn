@@ -721,7 +721,7 @@ theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("9_mg8d3")
 bus = &"Music"
 

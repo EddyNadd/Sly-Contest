@@ -272,24 +272,23 @@ func placeBlock(tile_map_pos, mouse_pos):
 	if (mouse_pos.y <= 512 and !GameManager.INDESTRUCTIBLES.has(tile_map.get_cell_atlas_coords(ground_layer,tile_map_pos))):
 				
 			if cursor_item and cursor_item.can_place:
-				rpc("rpc_place_item", cursor_item.get_path(), mouse_pos + cursor_item.offset, cursor_item.get_global_rotation())
+				rpc("rpc_place_item", cursor_item.get_path(), mouse_pos + cursor_item.offset, cursor_item.get_global_rotation(), cursor_item.offset)
 			
 			if bloc_coord:
-				if (bloc_coord == erase_text):
-					rpc("rpc_erase", ground_layer, tile_map_pos)
-				else:
+				rpc("rpc_erase", ground_layer, tile_map_pos)
+				if (bloc_coord != erase_text):
 					rpc("rpc_place", ground_layer, tile_map_pos, source_id, bloc_coord)
 
 @rpc("any_peer", "call_local")
 func rpc_erase(layer, pos):
 	tile_map.erase_cell(layer, pos)
-	for items in ItemsToMaybeDelete:
-		if tile_map.local_to_map(items.position) == pos:
-			items.queue_free()
-			ItemsToMaybeDelete.erase(items)
-			for item in Items:
-				if tile_map.local_to_map(item.position) == pos:
-					Items.erase(item)
+	for item in Items:
+		if tile_map.local_to_map(item.position-Vector2i(item.offset)) == pos:
+			Items.erase(item)
+			for items in ItemsToMaybeDelete:
+				if tile_map.local_to_map(items.position-item.offset) == pos:
+					items.queue_free()
+					ItemsToMaybeDelete.erase(items)
 
 
 @rpc("any_peer", "call_local")
@@ -297,7 +296,7 @@ func rpc_place(layer, pos, id, coord):
 	tile_map.set_cell(layer, pos, id, coord)
 	
 @rpc("any_peer", "call_local")
-func rpc_place_item(cursor_item, pos, rotation):
+func rpc_place_item(cursor_item, pos, rotation, offset):
 	pos = Vector2i(tile_map_no_collision.local_to_map(pos).x * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2, tile_map_no_collision.local_to_map(pos).y * GameManager.TILE_SIZE + GameManager.TILE_SIZE/2)
 	var currentItem = {}
 	var itemName
@@ -306,7 +305,8 @@ func rpc_place_item(cursor_item, pos, rotation):
 		currentItem = {
 			"name" : "Saw",
 			"position" : pos,
-			"rotation" : rotation
+			"rotation" : rotation,
+			"offset" : offset
 		}
 		itemName = "Saw"
 		Items.append(currentItem)
@@ -314,7 +314,8 @@ func rpc_place_item(cursor_item, pos, rotation):
 		currentItem = {
 			"name" : "Spike",
 			"position" : pos,
-			"rotation" : rotation
+			"rotation" : rotation,
+			"offset" : offset
 		}
 		Items.append(currentItem)
 		itemName = "Spike"
