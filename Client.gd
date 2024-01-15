@@ -42,6 +42,7 @@ var connectedStatus = false
 @onready var loadBtn = $"../Load Level"
 @onready var username = $Username
 @onready var userList = $"../ItemList"
+@onready var back = $"../Back"
 @onready var scene = load("res://Game/Levels/level.tscn").instantiate()
 @onready var scene2 = load("res://Game/Interfaces/saved_level.tscn").instantiate()
 @onready var scene3 = load("res://control.tscn").instantiate()
@@ -53,8 +54,20 @@ var connectedStatus = false
 func _ready():
 	$MusicPlayer.play(GameManager.musicProgress)  
 	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
-	if "--server" in OS.get_cmdline_user_args():
+	if "--server" in OS.get_cmdline_user_args() or GameManager.serverLaunch == true:
 		print("Server mod!")
+		startGameBtn.hide()
+		lobbyBtn.hide()
+		copyBtn.hide()
+		lobbyCode.hide()
+		lobbyCodeLabel.hide()
+		copyStatus.hide()
+		globalStatus.hide()
+		leaveBtn.hide()
+		loadBtn.hide()
+		username.hide()
+		userList.hide()
+		back.hide()
 	else:
 		if !GameManager.isInSave or !GameManager.isInMenu:
 			for scenes in get_tree().root.get_children():
@@ -73,7 +86,7 @@ func _ready():
 		multiplayer.connected_to_server.connect(RTCServerConnected)
 		multiplayer.peer_connected.connect(RTCPeerConnected)
 		multiplayer.peer_disconnected.connect(RTCPeerDisconnected)
-		connectToServer(ip)
+		connectToServer(save_file.server)
 	
 func RTCServerConnected():
 	print("RTC server connected")
@@ -251,7 +264,7 @@ func GameCrash(idPeer):
 	var hasLevel = false
 	if get_tree().root.get_children():
 		for scenes in get_tree().root.get_children():
-			if scenes.name == "Level":
+			if scenes.name == "Level" or scenes.name == "ScoreBoard":
 				hasLevel = true
 			if scenes.name != "Control" and scenes.name != "GameManager" and scenes.name != "SaveFile" and scenes.name != "SaveTilemap":
 				get_tree().root.remove_child(scenes)
@@ -313,7 +326,10 @@ func leaveLobby():
 		"message" : Message.userDisconnected,
 		"lobbyValue" : lobbyValue
 	}
+	print("SERVER - " + "J'envoie la déco")
+	peer
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
+	print("SERVER - " + "J'ai envoyé la déco")
 
 func _on_username_text_changed(new_text):
 	save_file.username = new_text

@@ -33,7 +33,8 @@ func load_data():
 			"toggledSound" : false,
 			"fullScreen" : false,
 			"sfxLevel" : 1,
-			"toggledSFX" : false
+			"toggledSFX" : false,
+			"server" : "localhost"
 		}
 		save_data()
 	file = FileAccess.open(SAVE_FILE, FileAccess.READ)

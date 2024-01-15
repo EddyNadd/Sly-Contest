@@ -4,6 +4,7 @@ var music_bus = AudioServer.get_bus_index("Music")
 var SFX_bus = AudioServer.get_bus_index("SFX")
 @onready var soundVolume = $TextureRect/VBoxContainer/HBoxContainer/HSlider
 @onready var mainMenu = preload("res://Game/Interfaces/main_menu.tscn") as PackedScene
+@onready var control = preload("res://control.tscn") as PackedScene
 @onready var save_file = SaveFile.game_data
 @onready var soundText = $TextureRect/VBoxContainer/HBoxContainer/Label
 @onready var soundButton = $TextureRect/VBoxContainer/HBoxContainer2/Sound
@@ -11,6 +12,7 @@ var SFX_bus = AudioServer.get_bus_index("SFX")
 @onready var sfxText = $TextureRect/VBoxContainer3/HBoxContainer/Label
 @onready var sfxButton = $TextureRect/VBoxContainer3/HBoxContainer2/SFX
 @onready var sfxSlider = $TextureRect/VBoxContainer3/HBoxContainer/SFXSlider
+@onready var server = $TextureRect/VBoxContainer4/HBoxContainer2/TextEdit
 @onready var sfxSound = $SFXPlayer
 @onready var getIn = true
 var saveValue
@@ -19,6 +21,7 @@ func _ready():
 	$MusicPlayer.play(GameManager.musicProgress)  
 	saveValue = save_file.soundLevel
 	sfxValue = save_file.sfxLevel
+	server.text = save_file.server
 	if DisplayServer.window_get_mode() == 3:
 		fullScreen.button_pressed = true
 	else:
@@ -114,3 +117,17 @@ func _on_sfx_slider_drag_ended(value_changed):
 func _exit_tree():
 	GameManager.musicProgress = $MusicPlayer.get_playback_position()   
 	
+
+
+func _on_text_edit_text_changed():
+	if server.text == "":
+		save_file.server = "localhost"
+	else:
+		save_file.server = server.text
+	pass # Replace with function body.
+
+
+func _on_button_button_down():
+	GameManager.serverLaunch = true
+	get_tree().change_scene_to_packed(control)
+	pass # Replace with function body.

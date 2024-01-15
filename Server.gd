@@ -22,8 +22,8 @@ var Characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if "--server" in OS.get_cmdline_args():
-		print("Hosting on " + str(hostPort))
+	if "--server" in OS.get_cmdline_args() or GameManager.serverLaunch == true:
+		print("SERVER - " + "Hosting on " + str(hostPort))
 		peer.create_server(hostPort)
 	
 	# peer.create_server(hostPort) # Comment this line when in prod - dev mod
@@ -40,13 +40,13 @@ func _process(delta):
 		if packet != null:
 			var dataString = packet.get_string_from_utf8()
 			var data = JSON.parse_string(dataString)
-			print(data)
+			print("SERVER - " + str(data))
 			
 			if data.message == Message.lobby:
 				JoinLobby(data)
 				
 			if data.message == Message.offer || data.message == Message.answer || data.message == Message.candidate:
-				print("source id is " + str(data.orgPeer))
+				print("SERVER - " + "source id is " + str(data.orgPeer))
 				sendToPlayer(data.peer, data)
 				
 			if data.message == Message.removeLobby:
@@ -77,7 +77,7 @@ func JoinLobby(user):
 	if user.lobbyValue == "":
 		user.lobbyValue = generateRandomString()
 		lobbies[user.lobbyValue] = Lobby.new(user.id)
-		print(user.lobbyValue)
+		print("SERVER - " + str(user.lobbyValue))
 	var player = lobbies[user.lobbyValue].AddPlayer(user.id, user.name)
 	
 	for p in lobbies[user.lobbyValue].Players:
@@ -120,7 +120,7 @@ func generateRandomString():
 
 func startServer():
 	peer.create_server(hostPort)
-	print("started Server")
+	print("SERVER - " + "started Server")
 
 func _on_button_2_button_down():
 	var message = {
@@ -131,7 +131,7 @@ func _on_button_2_button_down():
 	pass # Replace with function body.
 	
 func peer_connected(id):
-	print("Peer Connected " + str(id))
+	print("SERVER - " + "Peer Connected " + str(id))
 	users[id] = {
 		"id" : id,
 		"message" : Message.id
