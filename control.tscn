@@ -69,10 +69,10 @@ script = ExtResource("2_h6iss")
 
 [node name="Back" type="Button" parent="TextureRect"]
 layout_mode = 0
-offset_left = 55.0
-offset_top = 13.0
-offset_right = 191.0
-offset_bottom = 68.0
+offset_left = 872.0
+offset_top = 512.0
+offset_right = 1008.0
+offset_bottom = 567.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_d4c1h")
 text = "Back"
 icon = ExtResource("4_pduc1")
@@ -82,9 +82,9 @@ icon_alignment = 1
 [node name="StartGame" type="Button" parent="TextureRect"]
 layout_mode = 0
 offset_left = 55.0
-offset_top = 102.0
+offset_top = 292.0
 offset_right = 191.0
-offset_bottom = 145.0
+offset_bottom = 335.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_8bnfq")
 text = "Start "
 icon = ExtResource("4_pduc1")
@@ -94,9 +94,9 @@ icon_alignment = 1
 [node name="JoinLobby" type="Button" parent="TextureRect"]
 layout_mode = 0
 offset_left = 55.0
-offset_top = 151.0
+offset_top = 144.0
 offset_right = 191.0
-offset_bottom = 194.0
+offset_bottom = 187.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_7kans")
 text = "Join "
 icon = ExtResource("4_pduc1")
@@ -105,10 +105,10 @@ icon_alignment = 1
 
 [node name="Copy" type="Button" parent="TextureRect"]
 layout_mode = 0
-offset_left = 542.0
-offset_top = 149.0
-offset_right = 678.0
-offset_bottom = 192.0
+offset_left = 489.0
+offset_top = 144.0
+offset_right = 625.0
+offset_bottom = 187.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_vx7xk")
 text = "Copy"
 icon = ExtResource("4_pduc1")
@@ -154,9 +154,9 @@ vertical_alignment = 1
 [node name="LeaveLobby" type="Button" parent="TextureRect"]
 layout_mode = 0
 offset_left = 55.0
-offset_top = 200.0
+offset_top = 193.0
 offset_right = 191.0
-offset_bottom = 243.0
+offset_bottom = 236.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_nnh8b")
 text = "Leave"
 icon = ExtResource("4_pduc1")
