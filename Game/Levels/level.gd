@@ -52,7 +52,7 @@ var player
 
 var erase_text = Vector2i(18,5)
 
-var canBuild = true
+var canBuild = false
 
 func _ready():
 	for btn in buttons.get_children():
@@ -148,6 +148,9 @@ func _process(delta):
 		$timer.set_text(str(round($ConstructionTimer.get_time_left()))+"s")
 		if($ConstructionTimer.get_time_left() == 0):
 			$timer.set_text(str(round($PlayTimer.get_time_left()))+"s")
+		await get_tree().create_timer(0.3).timeout
+		canBuild = true
+		
 
 @rpc("any_peer", "call_local")
 func graceTime():
