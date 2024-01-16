@@ -73,6 +73,7 @@ func _physics_process(delta):
 		else:
 			velocity.x = move_toward(velocity.x, 0, acceleration)
 		
+		# reset number of wall jumps remaining when touching floor
 		if is_on_floor():
 			wall_jump_remaining = 1
 		
@@ -80,14 +81,8 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("ui_accept"): #and velocity.y >= 0:
 			# Jump / Wall-jump
 			if ((is_on_floor() or !coyote_time.is_stopped()) or (is_sliding and wall_jump_remaining)):
-				var new_speed = velocity.x
 				coyote_time.stop()
-				if is_sliding:
-					wall_jump_remaining = 1
-					new_speed = SPEED * oppositeWallDirection * 2
-				jump_sound.play()
-				velocity.x = new_speed
-				velocity.y = JUMP_VELOCITY
+				jump()
 			# Buffers jump if not on floor
 			else:
 				jump_buffer.start()
@@ -123,13 +118,7 @@ func _physics_process(delta):
 		# Jumps if a jump was buffered
 		if (is_on_floor() or is_sliding) && !jump_buffer.is_stopped():
 			jump_buffer.stop()
-			jump_sound.play()
-			var new_speed = velocity.x
-			if is_sliding:
-				wall_jump_remaining = 1
-				new_speed = SPEED * oppositeWallDirection * 2
-			velocity.x = new_speed
-			velocity.y = JUMP_VELOCITY
+			jump()
 
 		if is_on_wall():
 			startSlide(direction)
@@ -147,13 +136,12 @@ func kill():
 	if !GameManager.isSolo:
 		if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
 			if "spawn" in GameManager.Players[str(multiplayer.get_unique_id())]:
-				#print(GameManager.Players[str(multiplayer.get_unique_id())].spawn) #replace this by your actual code
 				position = GameManager.Players[str(multiplayer.get_unique_id())].spawn
 	else:
 		position = GameManager.soloSpawn
+	
 func _on_kill_pressed():
 	kill()
-	
 	
 func _ready():
 	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
@@ -163,7 +151,23 @@ func animation(animation_string):
 		if GameManager.Players[str(multiplayer.get_unique_id())].index == 1:
 			animation_string += "2"
 	animated_sprite.animation = animation_string
+	
+func jump():
+	# choose one comment the other
+	#jump_sound.play() # only player jump SFX
+	rpc("jumpSFX") #both players jump SFX
+	var new_speed = velocity.x
+	if is_sliding:
+		# decreases wall jumps remaining by one
+		#wall_jump_remaining -= 1
+		new_speed = SPEED * oppositeWallDirection * 2
+	velocity.x = new_speed
+	velocity.y = JUMP_VELOCITY
 
+@rpc("any_peer", "call_local")
+func jumpSFX():
+	jump_sound.play()
+	
 func startSlide(direction):
 	is_sliding = true
 	if direction:
