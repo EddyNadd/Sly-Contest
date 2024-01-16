@@ -691,18 +691,18 @@ one_shot = true
 
 [node name="switchPos" type="Button" parent="."]
 visible = false
-offset_left = 857.0
-offset_top = 10.0
-offset_right = 983.0
-offset_bottom = 43.0
+offset_left = 20.0
+offset_top = 484.0
+offset_right = 146.0
+offset_bottom = 517.0
 text = "Switch position"
 
 [node name="Quit" type="Button" parent="."]
 visible = false
-offset_left = 858.0
-offset_top = 49.0
-offset_right = 984.0
-offset_bottom = 82.0
+offset_left = 20.0
+offset_top = 530.0
+offset_right = 146.0
+offset_bottom = 563.0
 text = "Quit"
 
 [node name="Jump" type="AudioStreamPlayer" parent="."]
