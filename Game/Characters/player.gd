@@ -15,6 +15,11 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var jump_sound = $"../Jump"
 var wall_jump_remaining
 
+var is_sliding = false
+var oppositeWallDirection = 0
+var xPositionSliding = null
+var lastMovementDirection
+
 var syncPos = Vector2(0,0)
 
 func _physics_process(delta):
@@ -27,14 +32,14 @@ func _physics_process(delta):
 		
 		# Add the gravity.
 		if not is_on_floor():
-			if is_on_wall():
+			if is_sliding:
 				velocity.y = move_toward(velocity.y, 180, gravity * delta)
 			else:
 				velocity.y = move_toward(velocity.y, 980, gravity * delta)
 			if (velocity.y <= 0):
 				animation("jump")
 			else:
-				if is_on_wall():
+				if is_sliding:
 					animation("wall_jump")
 				else:
 					animation("fall")
@@ -73,12 +78,12 @@ func _physics_process(delta):
 		# Handle Jump.
 		if Input.is_action_just_pressed("ui_accept"): #and velocity.y >= 0:
 			# Jump / Wall-jump
-			if ((is_on_floor() or !coyote_time.is_stopped()) or (is_on_wall_only() and wall_jump_remaining)):
+			if ((is_on_floor() or !coyote_time.is_stopped()) or (is_sliding and wall_jump_remaining)):
 				var new_speed = velocity.x
 				coyote_time.stop()
-				if is_on_wall_only():
+				if is_sliding:
 					wall_jump_remaining = 1
-					new_speed = SPEED * direction * -2
+					new_speed = SPEED * oppositeWallDirection * 2
 				jump_sound.play()
 				velocity.x = new_speed
 				velocity.y = JUMP_VELOCITY
@@ -108,20 +113,30 @@ func _physics_process(delta):
 					
 		move_and_slide()
 		
+		if velocity.x:
+			lastMovementDirection = sign(velocity.x)
+		
 		if was_on_floor && !is_on_floor():
 			coyote_time.start()
 		
 		# Jumps if a jump was buffered
-		if (is_on_floor() or is_on_wall()) && !jump_buffer.is_stopped():
+		if (is_on_floor() or is_sliding) && !jump_buffer.is_stopped():
 			jump_buffer.stop()
 			jump_sound.play()
 			var new_speed = velocity.x
-			if is_on_wall_only():
+			if is_sliding:
 				wall_jump_remaining = 1
-				new_speed = SPEED * direction * -2
+				new_speed = SPEED * oppositeWallDirection * 2
 			velocity.x = new_speed
 			velocity.y = JUMP_VELOCITY
+
+		if is_on_wall_only():
+			startSlide(direction)
 			
+		if(position.x != xPositionSliding):
+			is_sliding = false
+			xPositionSliding = null
+		
 		syncPos = global_position
 
 func kill():
@@ -147,6 +162,14 @@ func animation(animation_string):
 		if GameManager.Players[str(multiplayer.get_unique_id())].index == 1:
 			animation_string += "2"
 	animated_sprite.animation = animation_string
+
+func startSlide(direction):
+	is_sliding = true
+	if direction:
+		oppositeWallDirection = -direction
+	else:
+		oppositeWallDirection = -lastMovementDirection
+	xPositionSliding = position.x
 	
 @rpc("any_peer", "call_local")
 func arrivee(id):
