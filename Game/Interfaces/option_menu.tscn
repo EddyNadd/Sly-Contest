@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://bto2fiy002i8a"]
+[gd_scene load_steps=12 format=3 uid="uid://bto2fiy002i8a"]
 
 [ext_resource type="Texture2D" uid="uid://dhyab4ryoq7aq" path="res://Game/assets/Menu/MenuPicture/MainMenu.png" id="1_oqkyx"]
 [ext_resource type="Script" path="res://Game/Interfaces/option_menu.gd" id="1_ufnyb"]
 [ext_resource type="Texture2D" uid="uid://be2iywf0a03f0" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_M_btn.png" id="3_45qn4"]
 [ext_resource type="AudioStream" uid="uid://by375dppuhwy" path="res://Game/assets/Menu/Music/AdhesiveWombat - Night Shade NO COPYRIGHT 8-bit Music.mp3" id="4_hadmb"]
 [ext_resource type="AudioStream" uid="uid://dtjp57oed87s" path="res://Game/assets/Menu/SFX/Jump.wav" id="5_hjjh4"]
+[ext_resource type="Texture2D" uid="uid://di4e3rtmwoumu" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_L_btn_bis.png" id="6_6tr1i"]
 
 [sub_resource type="SystemFont" id="SystemFont_34t2d"]
 font_names = PackedStringArray("Impact")
@@ -203,11 +204,14 @@ bus = &"SFX"
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_left = 879.0
+offset_left = 862.0
 offset_top = 14.0
-offset_right = 997.0
-offset_bottom = 45.0
+offset_right = 998.0
+offset_bottom = 57.0
 text = "Launch server"
+icon = ExtResource("6_6tr1i")
+flat = true
+icon_alignment = 1
 
 [connection signal="toggled" from="TextureRect/VBoxContainer2/HBoxContainer/fullscreen" to="." method="_on_check_button_toggled"]
 [connection signal="toggled" from="TextureRect/VBoxContainer/HBoxContainer2/Sound" to="." method="_on_sound_toggled"]
