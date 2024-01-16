@@ -225,12 +225,6 @@ func switchPos1():
 			if(GameManager.Players[str(multiplayer.get_unique_id())] != GameManager.Players[player]):
 				GameManager.Players[str(multiplayer.get_unique_id())].spawn = GameManager.Players[player].spawn
 				GameManager.Players[player].spawn = tempSpawn
-	#	if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
-	#			GameManager.Players[str(multiplayer.get_unique_id())].spawn = Vector2i(onBlockPos(start).x + 496, onBlockPos(start).y)
-	#	else:
-	#		while start == Vector2i(0,0):
-	#			await get_tree().create_timer(0.000001).timeout
-	#		GameManager.Players[str(multiplayer.get_unique_id())].spawn = onBlockPos(start)
 
 @rpc("any_peer", "call_local")	
 func switchPos2():
