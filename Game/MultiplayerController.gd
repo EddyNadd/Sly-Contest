@@ -12,12 +12,6 @@ func _ready():
 	multiplayer.connection_failed.connect(connection_failed)
 	pass # Replace with function body.
 
-@rpc("any_peer", "call_local")
-func StartGame():
-	var scene = load("res://Game/Levels/level.tscn").instantiate()
-	get_tree().root.add_child(scene)
-	self.hide()
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
@@ -52,32 +46,3 @@ func SendPlayerInformation(name, id):
 # Called only from client
 func connection_failed():
 	print("Couldnt Connect")
-
-func _on_host_button_down():
-	peer = ENetMultiplayerPeer.new()
-	var error = peer.create_server(port, 2)
-	if error != OK:
-		print("cannot host : " + error)
-		return
-		
-	# Limit bandwidht
-	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
-	
-	multiplayer.set_multiplayer_peer(peer)
-	
-	print("Waiting For Players!")
-	SendPlayerInformation($LineEdit.text, multiplayer.get_unique_id())
-	pass # Replace with function body.
-
-func _on_join_button_down():
-	peer = ENetMultiplayerPeer.new()
-	peer.create_client(Address, port)
-	
-	# Limit bandwidht
-	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
-	multiplayer.set_multiplayer_peer(peer)
-	pass # Replace with function body.
-
-func _on_start_game_button_down():
-	StartGame.rpc()
-	pass # Replace with function body.
