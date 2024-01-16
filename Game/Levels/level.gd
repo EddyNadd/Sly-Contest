@@ -218,7 +218,7 @@ func _on_spike_pressed():
 	cursor_item = get_node("Items/Spike")
 		
 @rpc("any_peer", "call_local")			
-func switchPos1():
+func switchPos():
 	if !GameManager.isSolo:
 		var tempSpawn = GameManager.Players[str(multiplayer.get_unique_id())].spawn
 		for player in GameManager.Players:
@@ -226,16 +226,6 @@ func switchPos1():
 				GameManager.Players[str(multiplayer.get_unique_id())].spawn = GameManager.Players[player].spawn
 				GameManager.Players[player].spawn = tempSpawn
 
-@rpc("any_peer", "call_local")	
-func switchPos2():
-	if !GameManager.isSolo:
-		if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
-				GameManager.Players[str(multiplayer.get_unique_id())].spawn = onBlockPos(start)
-		else:
-			while start == Vector2i(0,0):
-				await get_tree().create_timer(0.000001).timeout
-			GameManager.Players[str(multiplayer.get_unique_id())].spawn = Vector2i(onBlockPos(start).x + 496, onBlockPos(start).y)
-	
 func _input(event):
 	if GameManager.isSolo == false:
 		if Input.is_action_pressed("click"):
@@ -329,7 +319,7 @@ func rpc_place_item(cursor_item, pos, rotation, offset):
 func _on_round_timer_timeout():
 	if !GameManager.isSolo:
 		canBuild = false
-		switchPos1()
+		switchPos()
 		print("Construction done Now play !")
 		player.kill()
 		cursor_item = null

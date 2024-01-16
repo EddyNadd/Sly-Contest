@@ -341,6 +341,7 @@ placeholder_text = "Save Name"
 [node name="Save" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_p5qsx")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/focus = SubResource("StyleBoxEmpty_e2xsq")
 action_mode = 0
 text = "SAVE"
@@ -351,9 +352,10 @@ icon_alignment = 1
 [node name="Play" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_p5qsx")
+theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = SubResource("StyleBoxEmpty_pwm0v")
 action_mode = 0
-text = "PLAY"
+text = "PLAY AGAIN"
 icon = ExtResource("2_g4pbp")
 flat = true
 icon_alignment = 1
@@ -361,9 +363,10 @@ icon_alignment = 1
 [node name="Quit" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_p5qsx")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/focus = SubResource("StyleBoxEmpty_lqnmw")
 action_mode = 0
-text = "QUIT"
+text = "LOBBY"
 icon = ExtResource("2_g4pbp")
 flat = true
 icon_alignment = 1

@@ -33,6 +33,7 @@ func _physics_process(delta):
 		# Add the gravity.
 		if not is_on_floor():
 			if is_sliding:
+				velocity.x = -60 * oppositeWallDirection
 				velocity.y = move_toward(velocity.y, 180, gravity * delta)
 			else:
 				velocity.y = move_toward(velocity.y, 980, gravity * delta)
@@ -130,10 +131,10 @@ func _physics_process(delta):
 			velocity.x = new_speed
 			velocity.y = JUMP_VELOCITY
 
-		if is_on_wall_only():
+		if is_on_wall():
 			startSlide(direction)
 			
-		if(position.x != xPositionSliding):
+		if(position.x != xPositionSliding or is_on_floor()):
 			is_sliding = false
 			xPositionSliding = null
 		
