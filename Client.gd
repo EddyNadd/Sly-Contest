@@ -44,6 +44,7 @@ var connectedStatus = false
 @onready var userList = $"../ItemList"
 @onready var back = $"../Back"
 @onready var serverMod = $"../ServerMod"
+@onready var serverModImage = $"../ServerModImage"
 @onready var scene = load("res://Game/Levels/level.tscn").instantiate()
 @onready var scene2 = load("res://Game/Interfaces/saved_level.tscn").instantiate()
 @onready var scene3 = load("res://control.tscn").instantiate()
@@ -70,6 +71,7 @@ func _ready():
 		username.hide()
 		userList.hide()
 		back.hide()
+		serverModImage.visible = true
 		serverMod.visible = true
 	else:
 		if !GameManager.isInSave or !GameManager.isInMenu:

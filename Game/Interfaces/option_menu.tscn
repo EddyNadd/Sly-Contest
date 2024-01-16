@@ -155,7 +155,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = SubResource("SystemFont_34t2d")
-text = "Server"
+text = "Server IP"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TextureRect/VBoxContainer4"]
 layout_mode = 2
@@ -166,7 +166,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = SubResource("SystemFont_satah")
-text = "IP (leave blank for default server) : "
+text = "(leave blank for default server) : "
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="TextureRect/VBoxContainer4"]
 layout_mode = 2

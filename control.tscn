@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cw3xfxax0cpjx"]
+[gd_scene load_steps=7 format=3 uid="uid://cw3xfxax0cpjx"]
 
 [ext_resource type="Script" path="res://Client.gd" id="1_10a01"]
 [ext_resource type="Texture2D" uid="uid://dvr1ximwuuemh" path="res://Game/assets/Menu/MenuPicture/Lobby.jpg" id="1_e4n57"]
 [ext_resource type="Script" path="res://Server.gd" id="2_h6iss"]
 [ext_resource type="AudioStream" uid="uid://by375dppuhwy" path="res://Game/assets/Menu/Music/AdhesiveWombat - Night Shade NO COPYRIGHT 8-bit Music.mp3" id="3_euoa1"]
 [ext_resource type="Texture2D" uid="uid://bjrudm1lro7u0" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_M_btn_bis.png" id="4_pduc1"]
+[ext_resource type="Texture2D" uid="uid://by88p2v3d38xv" path="res://Game/assets/Menu/Buttons/PNG/CGB02-green_L_btn_bis.png" id="6_butvm"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -155,6 +156,21 @@ text = "Solo"
 icon = ExtResource("4_pduc1")
 flat = true
 icon_alignment = 1
+
+[node name="ServerModImage" type="Sprite2D" parent="TextureRect"]
+visible = false
+position = Vector2(541, 298)
+texture = ExtResource("6_butvm")
+
+[node name="ServerMod" type="Label" parent="TextureRect"]
+visible = false
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 400.0
+offset_top = 284.0
+offset_right = 686.0
+offset_bottom = 307.0
+text = "Server mode ! Running on port 8915 !"
 
 [connection signal="text_changed" from="TextureRect/Client/Username" to="TextureRect/Client" method="_on_username_text_changed"]
 [connection signal="button_down" from="TextureRect/Back" to="TextureRect/Client" method="_on_back_button_down"]
