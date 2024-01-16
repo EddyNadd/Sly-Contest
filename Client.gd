@@ -53,8 +53,6 @@ var connectedStatus = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$MusicPlayer.play(GameManager.musicProgress)  
-	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
 	if "--server" in OS.get_cmdline_user_args() or GameManager.serverLaunch == true:
 		print("Server mod!")
 		for scenes in get_tree().root.get_children():
@@ -92,6 +90,8 @@ func _ready():
 		multiplayer.peer_connected.connect(RTCPeerConnected)
 		multiplayer.peer_disconnected.connect(RTCPeerDisconnected)
 		connectToServer(save_file.server)
+	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
+	$MusicPlayer.play(GameManager.musicProgress)  
 	
 func RTCServerConnected():
 	print("RTC server connected")
