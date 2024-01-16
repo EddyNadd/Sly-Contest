@@ -15,7 +15,6 @@ extends Node2D
 @onready var spike = buttons.get_node("Spike")
 @onready var ui = $Control
 @onready var playTimer = $PlayTimer
-@onready var saveName = $nameOfSave
 @onready var switchBtn = $switchPos
 @onready var quitBtn = $Quit
 @onready var soloSpawn = Vector2i(0,0)
