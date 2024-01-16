@@ -7,12 +7,6 @@ extends Node2D
 @onready var spawn2 = $"SpawnLocations/1"
 @onready var grid = $Grid
 @onready var buttons = get_node("Control/CanvasLayer/PanelContainer/MarginContainer/GridContainer")
-@onready var btn1 = buttons.get_node("Button")
-@onready var btn2 = buttons.get_node("Button2")
-@onready var erase = buttons.get_node("Erase")
-@onready var kill = buttons.get_node("Kill")
-@onready var saw = buttons.get_node("Saw")
-@onready var spike = buttons.get_node("Spike")
 @onready var ui = $Control
 @onready var playTimer = $PlayTimer
 @onready var switchBtn = $switchPos

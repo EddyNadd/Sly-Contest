@@ -5,7 +5,6 @@ extends Node2D
 @onready var level = get_node("/root/Level")
 var inside = false
 var can_place = true
-var currentPostition
 var offset = Vector2(0,0)
 
 func load_item():
