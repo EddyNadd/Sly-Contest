@@ -1,18 +1,5 @@
 extends Control
 
-enum Message {
-	id,
-	join,
-	userConnected,
-	userDisconnected,
-	lobby,
-	candidate,
-	offer,
-	answer,
-	removeLobby,
-	checkIn
-}
-
 @onready var scene = load("res://Game/Levels/level.tscn").instantiate()
 
 @onready	var player1_NameLabel = $"MarginContainer/VBoxContainer/Player 1"
