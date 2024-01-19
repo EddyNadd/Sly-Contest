@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dofljsf6wra8f"]
+[gd_scene load_steps=5 format=3 uid="uid://dofljsf6wra8f"]
 
 [ext_resource type="Script" path="res://Game/Interfaces/saved_level.gd" id="1_qp84g"]
 [ext_resource type="AudioStream" uid="uid://by375dppuhwy" path="res://Game/assets/Menu/Music/AdhesiveWombat - Night Shade NO COPYRIGHT 8-bit Music.mp3" id="2_rv202"]
+[ext_resource type="Texture2D" uid="uid://dx2xo56ihn74r" path="res://Game/assets/Menu/MenuPicture/Solo.jpg" id="2_yf27y"]
+[ext_resource type="Texture2D" uid="uid://bjrudm1lro7u0" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_M_btn_bis.png" id="3_xfbbm"]
 
 [node name="SavedLevel" type="Control"]
 layout_mode = 3
@@ -11,6 +13,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qp84g")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1008.0
+offset_bottom = 567.0
+texture = ExtResource("2_yf27y")
+expand_mode = 1
 
 [node name="ItemList" type="ItemList" parent="."]
 layout_mode = 0
@@ -24,16 +33,22 @@ layout_mode = 0
 offset_left = 13.0
 offset_top = 13.0
 offset_right = 99.0
-offset_bottom = 48.0
+offset_bottom = 56.0
 text = "Back"
+icon = ExtResource("3_xfbbm")
+flat = true
+icon_alignment = 1
 
 [node name="Load" type="Button" parent="."]
 layout_mode = 0
 offset_left = 468.0
 offset_top = 491.0
 offset_right = 558.0
-offset_bottom = 522.0
+offset_bottom = 534.0
 text = "Load"
+icon = ExtResource("3_xfbbm")
+flat = true
+icon_alignment = 1
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_rv202")

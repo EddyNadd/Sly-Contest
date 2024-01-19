@@ -1,9 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://dudm178wbnfht"]
+[gd_scene load_steps=9 format=3 uid="uid://dudm178wbnfht"]
 
 [ext_resource type="Script" path="res://Game/Interfaces/Credit.gd" id="1_dfc1r"]
-[ext_resource type="Texture2D" uid="uid://b1jnhsltn85j7" path="res://Game/assets/Menu/MenuPicture/Credit.jpg" id="2_qsndy"]
+[ext_resource type="Texture2D" uid="uid://lrl3av1bqaq0" path="res://Game/assets/Menu/MenuPicture/Credit 2.jpg" id="2_p7fib"]
 [ext_resource type="Texture2D" uid="uid://bjrudm1lro7u0" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_M_btn_bis.png" id="3_44gjh"]
+[ext_resource type="Texture2D" uid="uid://0g1x5cwkjdw7" path="res://logo1.png" id="4_0j4lv"]
 [ext_resource type="AudioStream" uid="uid://by375dppuhwy" path="res://Game/assets/Menu/Music/AdhesiveWombat - Night Shade NO COPYRIGHT 8-bit Music.mp3" id="4_po5te"]
+
+[sub_resource type="SystemFont" id="SystemFont_4p1o5"]
+font_names = PackedStringArray("Impact")
 
 [sub_resource type="SystemFont" id="SystemFont_q8fgx"]
 font_names = PackedStringArray("Impact")
@@ -23,7 +27,7 @@ script = ExtResource("1_dfc1r")
 layout_mode = 0
 offset_right = 1008.0
 offset_bottom = 567.0
-texture = ExtResource("2_qsndy")
+texture = ExtResource("2_p7fib")
 expand_mode = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="TextureRect"]
@@ -40,37 +44,230 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer4"]
 layout_mode = 2
-theme_override_constants/separation = 150
+theme_override_constants/separation = 35
 
 [node name="Separator" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 30
 
-[node name="Name" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
+[node name="Name6" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-text = "NAME"
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_4p1o5")
+text = "Names"
+
+[node name="Separator" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name2" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_4p1o5")
+text = "Goloviatinski Elisa"
+
+[node name="Separator3" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Separator4" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name3" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_4p1o5")
+text = "Jaton David"
+
+[node name="Separator5" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Separator6" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name4" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_4p1o5")
+text = "Mendes Sebastien"
+
+[node name="Separator7" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Separator8" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name5" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_4p1o5")
+text = "Naddeo Eddy"
 
 [node name="Separator2" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
 layout_mode = 2
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="Job" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
-text = "JOB"
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_4p1o5")
+text = "Jobs"
+
+[node name="Separator" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Separator2" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Separator3" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Separator4" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Separator5" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Job2" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_4p1o5")
+text = "- Grid system
+- Level editor
+- Traps system"
+
+[node name="Separator6" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Separator7" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Separator8" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Job3" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_4p1o5")
+text = "- User Interface
+- Sound design
+- Game loop"
+
+[node name="Separator9" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Separator10" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Separator11" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Job4" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_4p1o5")
+text = "- Game physics
+- Game mechanics
+- Points system"
+
+[node name="Separator13" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Separator12" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Separator14" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Separator15" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Job5" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_4p1o5")
+text = "- Network
+- Scene management
+- Solo mode"
 
 [node name="Separator3" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
 layout_mode = 2
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="Source" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer3"]
 layout_mode = 2
-text = "SOURCE"
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_4p1o5")
+text = "Sources"
+
+[node name="Separator" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="Separator2" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="Separator3" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="Separator4" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="Separator5" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="Source2" type="Label" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_4p1o5")
+text = "Assets:
+Traps, sprites, level background, and blocks taken from \"Pixel Adventure\" by Pixel Frog.
+Buttons taken from the \"Casual Game Button\" pack by Viktor \"Vektyr\" Gogela on itch.io.
+Menu background images generated with Image Creator from Microsoft Bing.
+
+Music:
+\"Night Shade\" by Adhesive Wombat.
+
+SFX:
+Jump sound from Freesound by MATRIXXX_.
+
+Help with game physics:
+Platformer Toolkit by Game Maker's Toolkit.
+
+Docs:
+Godot Docs.
+WebRTC and multiplayer tutorial on FinePointCGI's YouTube channel.
+UI tutorial on Godotneers' YouTube channel."
 
 [node name="Quit" type="Button" parent="TextureRect"]
 layout_mode = 0
@@ -84,6 +281,14 @@ text = "BACK"
 icon = ExtResource("3_44gjh")
 flat = true
 icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="TextureRect"]
+layout_mode = 0
+offset_left = 591.0
+offset_top = -12.0
+offset_right = 991.0
+offset_bottom = 213.0
+texture = ExtResource("4_0j4lv")
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_po5te")

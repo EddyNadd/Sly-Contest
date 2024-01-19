@@ -92,8 +92,9 @@ func _ready():
 		multiplayer.peer_connected.connect(RTCPeerConnected)
 		multiplayer.peer_disconnected.connect(RTCPeerDisconnected)
 		connectToServer(save_file.server)
+	$MusicPlayer.play(GameManager.musicProgress)
 	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
-	$MusicPlayer.play(GameManager.musicProgress)  
+	  
 	
 func RTCServerConnected():
 	print("RTC server connected")

@@ -37,6 +37,10 @@ expand_mode = 1
 [node name="Client" type="Node" parent="TextureRect"]
 script = ExtResource("1_10a01")
 
+[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="TextureRect/Client"]
+stream = ExtResource("3_euoa1")
+bus = &"Music"
+
 [node name="Username" type="LineEdit" parent="TextureRect/Client"]
 offset_left = 205.0
 offset_top = 60.0
@@ -59,10 +63,6 @@ offset_left = 203.0
 offset_top = 150.0
 offset_right = 370.0
 offset_bottom = 181.0
-
-[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="TextureRect/Client"]
-stream = ExtResource("3_euoa1")
-bus = &"Music"
 
 [node name="Server" type="Node" parent="TextureRect"]
 script = ExtResource("2_h6iss")
@@ -145,6 +145,8 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="GlobalStatus" type="Label" parent="TextureRect"]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
 layout_mode = 0
 offset_right = 1007.0
 offset_bottom = 66.0
