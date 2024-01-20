@@ -16,6 +16,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var wall_jump_remaining
 
 var is_sliding = false
+var is_jumping = false
 var oppositeWallDirection = 0
 var xPositionSliding = null
 var lastMovementDirection
@@ -78,7 +79,7 @@ func _physics_process(delta):
 			wall_jump_remaining = 1
 		
 		# Handle Jump.
-		if Input.is_action_just_pressed("ui_accept"): #and velocity.y >= 0:
+		if Input.is_action_just_pressed("ui_accept") and !is_jumping:
 			# Jump / Wall-jump
 			if ((is_on_floor() or !coyote_time.is_stopped()) or (is_sliding and wall_jump_remaining)):
 				coyote_time.stop()
@@ -122,7 +123,10 @@ func _physics_process(delta):
 
 		if is_on_wall():
 			startSlide(direction)
-			
+
+		if (is_on_floor() or is_on_wall()):
+			is_jumping = false
+
 		if(position.x != xPositionSliding or is_on_floor()):
 			is_sliding = false
 			xPositionSliding = null
@@ -156,6 +160,7 @@ func jump():
 	# choose one comment the other
 	#jump_sound.play() # only player jump SFX
 	rpc("jumpSFX") #both players jump SFX
+	is_jumping = true
 	var new_speed = velocity.x
 	if is_sliding:
 		# decreases wall jumps remaining by one
