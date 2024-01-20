@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://dudm178wbnfht"]
+[gd_scene load_steps=11 format=3 uid="uid://dudm178wbnfht"]
 
 [ext_resource type="Script" path="res://Game/Interfaces/Credit.gd" id="1_dfc1r"]
 [ext_resource type="Texture2D" uid="uid://lrl3av1bqaq0" path="res://Game/assets/Menu/MenuPicture/Credit 2.jpg" id="2_p7fib"]
+[ext_resource type="Texture2D" uid="uid://buw8mrgmpeli6" path="res://Game/assets/Menu/Buttons/PNG/CGB02-red_L_btn.png" id="3_2x1h4"]
 [ext_resource type="Texture2D" uid="uid://bjrudm1lro7u0" path="res://Game/assets/Menu/Buttons/PNG/CGB02-blue_M_btn_bis.png" id="3_44gjh"]
 [ext_resource type="Texture2D" uid="uid://0g1x5cwkjdw7" path="res://logo1.png" id="4_0j4lv"]
 [ext_resource type="AudioStream" uid="uid://by375dppuhwy" path="res://Game/assets/Menu/Music/AdhesiveWombat - Night Shade NO COPYRIGHT 8-bit Music.mp3" id="4_po5te"]
+[ext_resource type="Texture2D" uid="uid://cuyqifpk6ll8m" path="res://logo_large_color_dark.svg" id="6_ylutp"]
 
 [sub_resource type="SystemFont" id="SystemFont_4p1o5"]
 font_names = PackedStringArray("Impact")
@@ -215,7 +217,16 @@ text = "- Network
 - Solo mode"
 
 [node name="Separator3" type="Control" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer/Separator3"]
+layout_mode = 0
+offset_right = 7.0
+offset_bottom = 532.0
+texture = ExtResource("3_2x1h4")
+expand_mode = 1
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer4/HBoxContainer"]
 layout_mode = 2
@@ -289,6 +300,14 @@ offset_top = -12.0
 offset_right = 991.0
 offset_bottom = 213.0
 texture = ExtResource("4_0j4lv")
+
+[node name="TextureRect2" type="TextureRect" parent="TextureRect"]
+offset_left = 735.0
+offset_top = 217.0
+offset_right = 966.0
+offset_bottom = 336.0
+texture = ExtResource("6_ylutp")
+expand_mode = 1
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_po5te")
