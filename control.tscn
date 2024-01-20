@@ -179,10 +179,12 @@ flat = true
 icon_alignment = 1
 
 [node name="ServerModImage" type="Sprite2D" parent="TextureRect"]
+visible = false
 position = Vector2(512, 286.5)
 texture = ExtResource("6_butvm")
 
 [node name="ServerMod" type="Label" parent="TextureRect"]
+visible = false
 modulate = Color(0, 0, 0, 1)
 layout_mode = 0
 offset_left = 371.0
