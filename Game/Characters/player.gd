@@ -157,9 +157,7 @@ func animation(animation_string):
 	animated_sprite.animation = animation_string
 	
 func jump():
-	# choose one comment the other
-	#jump_sound.play() # only player jump SFX
-	rpc("jumpSFX") #both players jump SFX
+	jumpSFX() 
 	is_jumping = true
 	var new_speed = velocity.x
 	if is_sliding:
@@ -169,7 +167,6 @@ func jump():
 	velocity.x = new_speed
 	velocity.y = JUMP_VELOCITY
 
-@rpc("any_peer", "call_local")
 func jumpSFX():
 	jump_sound.play()
 	
