@@ -180,17 +180,17 @@ icon_alignment = 1
 
 [node name="ServerModImage" type="Sprite2D" parent="TextureRect"]
 visible = false
-position = Vector2(541, 298)
+position = Vector2(510, 287.5)
 texture = ExtResource("6_butvm")
 
 [node name="ServerMod" type="Label" parent="TextureRect"]
 visible = false
 modulate = Color(0, 0, 0, 1)
 layout_mode = 0
-offset_left = 400.0
-offset_top = 284.0
-offset_right = 686.0
-offset_bottom = 307.0
+offset_left = 369.0
+offset_top = 273.5
+offset_right = 655.0
+offset_bottom = 296.5
 text = "Server mode ! Running on port 8915 !"
 
 [connection signal="text_changed" from="TextureRect/Client/Username" to="TextureRect/Client" method="_on_username_text_changed"]
