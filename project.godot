@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/image="res://logo.png"
 config/icon="res://Game/assets/Main Characters/Ninja Frog/Fall (32x32).png"
 config/macos_native_icon="res://Game/assets/Main Characters/Ninja Frog/Fall (32x32).png"
-config/windows_native_icon="res://Game/assets/Main Characters/Ninja Frog/Fall (32x32).png"
+config/windows_native_icon="res://Game/icon.ico"
 
 [autoload]
 
