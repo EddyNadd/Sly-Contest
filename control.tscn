@@ -63,6 +63,7 @@ offset_left = 203.0
 offset_top = 150.0
 offset_right = 370.0
 offset_bottom = 181.0
+placeholder_text = "Lobby Code"
 
 [node name="Server" type="Node" parent="TextureRect"]
 script = ExtResource("2_h6iss")
@@ -137,9 +138,9 @@ vertical_alignment = 1
 modulate = Color(0, 0, 0, 1)
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 0
-offset_left = 690.0
+offset_left = 600.0
 offset_top = 149.0
-offset_right = 826.0
+offset_right = 736.0
 offset_bottom = 180.0
 horizontal_alignment = 1
 vertical_alignment = 1
