@@ -12,6 +12,8 @@ config_version=5
 
 config/name="Sly Contest"
 run/main_scene="res://Game/Interfaces/main_menu.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Sly Contest"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/image="res://logo.png"
 config/icon="res://Game/assets/Main Characters/Ninja Frog/Fall (32x32).png"
