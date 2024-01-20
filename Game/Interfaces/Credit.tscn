@@ -302,10 +302,11 @@ offset_bottom = 213.0
 texture = ExtResource("4_0j4lv")
 
 [node name="TextureRect2" type="TextureRect" parent="TextureRect"]
-offset_left = 735.0
-offset_top = 217.0
-offset_right = 966.0
-offset_bottom = 336.0
+layout_mode = 0
+offset_left = 550.0
+offset_top = 65.0
+offset_right = 678.0
+offset_bottom = 117.25
 texture = ExtResource("6_ylutp")
 expand_mode = 1
 
