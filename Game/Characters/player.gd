@@ -157,7 +157,7 @@ func animation(animation_string):
 	animated_sprite.animation = animation_string
 	
 func jump():
-	jumpSFX() 
+	jump_sound.play()
 	is_jumping = true
 	var new_speed = velocity.x
 	if is_sliding:
@@ -166,9 +166,6 @@ func jump():
 		new_speed = SPEED * oppositeWallDirection * 2
 	velocity.x = new_speed
 	velocity.y = JUMP_VELOCITY
-
-func jumpSFX():
-	jump_sound.play()
 	
 func startSlide(direction):
 	is_sliding = true
