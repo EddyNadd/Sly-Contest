@@ -69,7 +69,7 @@ func _process(delta):
 					lobbies.erase(data.lobby_value)
 					
 	for lobby_value in lobbies:
-		if lobbies[lobby_value].time_stamp + 300 < Time.get_unix_time_from_system():
+		if lobbies[lobby_value].TimeStamp + 300 < Time.get_unix_time_from_system():
 			lobbies.erase(lobby_value)
 	pass
 
@@ -84,7 +84,7 @@ func joinLobby(user):
 			hasLobby = true
 	if hasLobby:
 		print("SERVER - JOINING MESSAGE")
-		var player = lobbies[user.lobby_value].addPlayer(user.id, user.name)
+		var player = lobbies[user.lobby_value].AddPlayer(user.id, user.name)
 	
 		for p in lobbies[user.lobby_value].players:
 			var data = {
