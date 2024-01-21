@@ -54,10 +54,10 @@ func _process(delta):
 					
 			if data.message == Message.user_disconnected:
 				print("SERVER - DISCONNECTING")
-				if len(lobbies[data.lobbyValue].Players) != 1:
+				if len(lobbies[data.lobbyValue].players) != 1:
 					if lobbies.has(data.lobbyValue):
 						lobbies[data.lobbyValue].layers.erase(data.id)
-						for p in lobbies[data.lobbyValue].Players:
+						for p in lobbies[data.lobbyValue].players:
 							var lobbyInfo = {
 								"message" : Message.lobby,
 								"players" : JSON.stringify(lobbies[data.lobbyValue].players),
@@ -69,7 +69,7 @@ func _process(delta):
 					lobbies.erase(data.lobbyValue)
 					
 	for lobbyValue in lobbies:
-		if lobbies[lobbyValue].TimeStamp + 300 < Time.get_unix_time_from_system():
+		if lobbies[lobbyValue].time_stamp + 300 < Time.get_unix_time_from_system():
 			lobbies.erase(lobbyValue)
 	pass
 
@@ -84,9 +84,9 @@ func joinLobby(user):
 			hasLobby = true
 	if hasLobby:
 		print("SERVER - JOINING MESSAGE")
-		var player = lobbies[user.lobbyValue].AddPlayer(user.id, user.name)
+		var player = lobbies[user.lobbyValue].addPlayer(user.id, user.name)
 	
-		for p in lobbies[user.lobbyValue].Players:
+		for p in lobbies[user.lobbyValue].players:
 			var data = {
 				"message" : Message.user_connected,
 				"id" : user.id
@@ -99,8 +99,8 @@ func joinLobby(user):
 			sendToPlayer(user.id, data2)
 			var lobbyInfo = {
 				"message" : Message.lobby,
-				"players" : JSON.stringify(lobbies[user.lobbyValue].Players),
-				"host" : lobbies[user.lobbyValue].HostID,
+				"players" : JSON.stringify(lobbies[user.lobbyValue].players),
+				"host" : lobbies[user.lobbyValue].host_id,
 				"lobbyValue" : user.lobbyValue
 			}
 			sendToPlayer(p, lobbyInfo)
@@ -108,8 +108,8 @@ func joinLobby(user):
 		var data = {
 			"message" : Message.user_connected,
 			"id" : user.id,
-			"host" : lobbies[user.lobbyValue].HostID,
-			"player" : lobbies[user.lobbyValue].Players[user.id],
+			"host" : lobbies[user.lobbyValue].host_id,
+			"player" : lobbies[user.lobbyValue].players[user.id],
 			"lobbyValue" : user.lobbyValue
 		}
 		sendToPlayer(user.id, data)
