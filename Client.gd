@@ -137,7 +137,7 @@ func _process(delta):
 							lobby_value = null
 				GameManager.players = JSON.parse_string(data.players)
 				host_id = data.host
-				lobby_value = data.lobbyValue
+				lobby_value = data.lobby_value
 				lobbyCode.text = lobby_value
 				lobby_code_label.text = lobby_value
 				GameManager.lobby = lobby_value
@@ -288,7 +288,7 @@ func GameCrash(idPeer):
 	var message = {
 		"id" : idPeer,
 		"message" : Message.user_disconnected,
-		"lobbyValue" : lobby_value
+		"lobby_value" : lobby_value
 	}
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 
@@ -309,7 +309,7 @@ func _on_join_lobby_button_down():
 					"id" : id,
 					"message" : Message.lobby,
 					"name" : username.text,
-					"lobbyValue" : $LineEdit.text
+					"lobby_value" : $LineEdit.text
 				}
 				peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 		else:
@@ -342,7 +342,7 @@ func leaveLobby():
 	var message = {
 		"id" : id,
 		"message" : Message.user_disconnected,
-		"lobbyValue" : $LineEdit.text
+		"lobby_value" : $LineEdit.text
 	}
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 

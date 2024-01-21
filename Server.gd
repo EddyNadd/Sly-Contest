@@ -61,7 +61,7 @@ func _process(delta):
 							var lobbyInfo = {
 								"message" : Message.lobby,
 								"players" : JSON.stringify(lobbies[data.lobby_value].players),
-								"host" : lobbies[data.lobby_value].HostId,
+								"host" : lobbies[data.lobby_value].host_id,
 								"lobby_value" : data.lobby_value
 							}
 							sendToPlayer(p, lobbyInfo)
@@ -100,7 +100,7 @@ func joinLobby(user):
 			var lobbyInfo = {
 				"message" : Message.lobby,
 				"players" : JSON.stringify(lobbies[user.lobby_value].players),
-				"host" : lobbies[user.lobby_value].HostId,
+				"host" : lobbies[user.lobby_value].host_id,
 				"lobby_value" : user.lobby_value
 			}
 			sendToPlayer(p, lobbyInfo)
@@ -108,7 +108,7 @@ func joinLobby(user):
 		var data = {
 			"message" : Message.user_connected,
 			"id" : user.id,
-			"host" : lobbies[user.lobby_value].HostId,
+			"host" : lobbies[user.lobby_value].host_id,
 			"player" : lobbies[user.lobby_value].players[user.id],
 			"lobby_value" : user.lobby_value
 		}
