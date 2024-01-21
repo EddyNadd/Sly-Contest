@@ -244,24 +244,25 @@ func connectToServer(ip):
 				get_tree().change_scene_to_file("res://Game/Interfaces/main_menu.tscn")
 			break	
 		else:
-			globalStatus.text = "Connecting to server..."
+			globalStatus.text = "Connecting to server... Please wait for response before doing anything."
 	if peer.get_connection_status() == 0:
 		globalStatus.text = "Servers unreachable..."
 
 func _on_button_button_down():
-	if peer.get_connection_status() == 0:
-		globalStatus.text = "Servers unreachable..."
-	elif lobbyValue:
-		if len(GameManager.Players) == 2 && connectedStatus:
-			StartGame.rpc()
-			startGameBtn.release_focus()
-		elif !connectedStatus:
-			globalStatus.text = "Waiting for peer connection..."
+	if peer.get_connection_status() != 1:
+		if peer.get_connection_status() == 0:
+			globalStatus.text = "Servers unreachable..."
+		elif lobbyValue:
+			if len(GameManager.Players) == 2 && connectedStatus:
+				StartGame.rpc()
+				startGameBtn.release_focus()
+			elif !connectedStatus:
+				globalStatus.text = "Waiting for peer connection..."
+			else:
+				globalStatus.text = "Not enough players..."
 		else:
-			globalStatus.text = "Not enough players..."
-	else:
-		globalStatus.text = "An error occured..."
-	pass # Replace with function body.
+			globalStatus.text = "An error occured..."
+		pass # Replace with function body.
 
 @rpc("any_peer", "call_local")
 func StartGame():
@@ -294,21 +295,22 @@ func removeLobby():
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 
 func _on_join_lobby_button_down():
-	if username.text:
-		if lobbyValue != "":
-			globalStatus.text = "You already are in a lobby. Please leave it to join another one."
+	if peer.get_connection_status() != 1:
+		if username.text:
+			if lobbyValue != "":
+				globalStatus.text = "You already are in a lobby. Please leave it to join another one."
+			else:
+				var message = {
+					"id" : id,
+					"message" : Message.lobby,
+					"name" : username.text,
+					"lobbyValue" : $LineEdit.text
+				}
+				peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 		else:
-			var message = {
-				"id" : id,
-				"message" : Message.lobby,
-				"name" : username.text,
-				"lobbyValue" : $LineEdit.text
-			}
-			peer.put_packet(JSON.stringify(message).to_utf8_buffer())
-	else:
-		if !username.text:
-			globalStatus.text = "Please enter a username..."
-	lobbyBtn.release_focus()
+			if !username.text:
+				globalStatus.text = "Please enter a username..."
+		lobbyBtn.release_focus()
 
 func _on_copy_button_down():
 	if lobbyValue:
@@ -318,17 +320,18 @@ func _on_copy_button_down():
 
 
 func _on_leave_lobby_button_down():
-	if connectedStatus and lobbyValue:
-		leaveLobby()
-		await get_tree().create_timer(0.1).timeout
-		get_tree().reload_current_scene()
-		connectedStatus = false
-		lobbyValue = null
-	elif !connectedStatus and userList.item_count == 1:
-		leaveLobby()
-		await get_tree().create_timer(0.1).timeout
-		get_tree().reload_current_scene()
-	leaveBtn.release_focus()
+	if peer.get_connection_status() != 1:
+		if connectedStatus and lobbyValue:
+			leaveLobby()
+			await get_tree().create_timer(0.1).timeout
+			get_tree().reload_current_scene()
+			connectedStatus = false
+			lobbyValue = null
+		elif !connectedStatus and userList.item_count == 1:
+			leaveLobby()
+			await get_tree().create_timer(0.1).timeout
+			get_tree().reload_current_scene()
+		leaveBtn.release_focus()
 	
 func leaveLobby():
 	var message = {
@@ -343,16 +346,17 @@ func _on_username_text_changed(new_text):
 	SaveFile.save_data()
 
 func _on_load_level_button_down():
-	if connectedStatus and lobbyValue:
-		leaveLobby()
-		loadBtn.release_focus()
-		get_tree().root.add_child(scene2)
-	elif !connectedStatus and lobbyValue:
-		globalStatus.text = "Leave the lobby before doing any actions."
-	else:
-		loadBtn.release_focus()
-		get_tree().root.add_child(scene2)
-	pass # Replace with function body.
+	if peer.get_connection_status() != 1:
+		if connectedStatus and lobbyValue:
+			leaveLobby()
+			loadBtn.release_focus()
+			get_tree().root.add_child(scene2)
+		elif !connectedStatus and lobbyValue:
+			globalStatus.text = "Leave the lobby before doing any actions."
+		else:
+			loadBtn.release_focus()
+			get_tree().root.add_child(scene2)
+		pass # Replace with function body.
 
 func _on_back_button_down():
 	if peer.get_connection_status() != 1:
