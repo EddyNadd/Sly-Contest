@@ -54,9 +54,9 @@ func _process(delta):
 					
 			if data.message == Message.user_disconnected:
 				print("SERVER - DISCONNECTING")
-				if len(lobbies[data.lobbyValue].players) != 1:
+				if len(lobbies[data.lobbyValue].players) != 1 and lobbies[data.lobbyValue].players.has(data.id):
 					if lobbies.has(data.lobbyValue):
-						lobbies[data.lobbyValue].layers.erase(data.id)
+						lobbies[data.lobbyValue].players.erase(data.id)
 						for p in lobbies[data.lobbyValue].players:
 							var lobbyInfo = {
 								"message" : Message.lobby,
@@ -65,7 +65,7 @@ func _process(delta):
 								"lobbyValue" : data.lobbyValue
 							}
 							sendToPlayer(p, lobbyInfo)
-				else:
+				elif lobbies[data.lobbyValue].players.has(data.id):
 					lobbies.erase(data.lobbyValue)
 					
 	for lobbyValue in lobbies:
