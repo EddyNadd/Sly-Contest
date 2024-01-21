@@ -12,6 +12,7 @@ config_version=5
 
 config/name="Sly Contest"
 run/main_scene="res://Game/Interfaces/main_menu.tscn"
+run/disable_stderr=true
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Sly Contest"
 config/features=PackedStringArray("4.2", "Forward Plus")
