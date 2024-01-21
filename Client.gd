@@ -355,17 +355,16 @@ func _on_load_level_button_down():
 	pass # Replace with function body.
 
 func _on_back_button_down():
-	if connectedStatus and lobbyValue:
-		leaveLobby()
-		loadBtn.release_focus()
-		get_tree().root.add_child(scene4)
-	elif !connectedStatus and lobbyValue:
-		globalStatus.text = "Leave the lobby before doing any actions."
-	else:
-		loadBtn.release_focus()
-		get_tree().root.add_child(scene4)
-	pass # Replace with function body.
-	pass # Replace with function body.
+	if peer.get_connection_status() != 1:
+		if connectedStatus and lobbyValue:
+			leaveLobby()
+			loadBtn.release_focus()
+			get_tree().root.add_child(scene4)
+		elif !connectedStatus and lobbyValue:
+			globalStatus.text = "Leave the lobby before doing any actions."
+		else:
+			loadBtn.release_focus()
+			get_tree().root.add_child(scene4)
 	
 func _exit_tree():
 	GameManager.musicProgress = $MusicPlayer.get_playback_position() 
