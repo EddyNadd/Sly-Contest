@@ -1,5 +1,5 @@
 extends Control
-@onready var levelList = $ItemList
+@onready var level_list = $ItemList
 
 var level_list_array = []
 
@@ -29,7 +29,7 @@ func _ready():
 		while file_name != "":
 			if !dir.current_is_dir():
 				if file_name.ends_with("SLAY"):
-					levelList.add_item(file_name.substr(0, file_name.length() - 5))
+					level_list.add_item(file_name.substr(0, file_name.length() - 5))
 					level_list_array.append(file_name.substr(0, file_name.length() - 5))
 			file_name = dir.get_next()
 	else:
@@ -51,7 +51,7 @@ func _on_back_button_down():
 func _on_load_button_down():
 	GameManager.is_in_save = false
 	btn_load.release_focus()
-	GameManager.load_level = levelList.get_item_text(levelList.get_selected_items()[0])
+	GameManager.load_level = level_list.get_item_text(level_list.get_selected_items()[0])
 	get_tree().change_scene_to_file("res://Game/Levels/level.tscn")
 	pass # Replace with function body.
 
