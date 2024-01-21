@@ -262,10 +262,9 @@ func _on_button_button_down():
 		else:
 			global_status.text = "An error occured..."
 		pass # Replace with function body.
->>>>>>> aded148 (Started normalizing variable names)
 
 @rpc("any_peer", "call_local")
-func StartGame():
+func startGame():
 	removeLobby()
 	get_tree().root.add_child(scene)
 	
@@ -295,7 +294,6 @@ func removeLobby():
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 
 func _on_join_lobby_button_down():
-<<<<<<< HEAD
 	if peer.get_connection_status() != 1:
 		if username.text:
 			if lobby_value  != "":
@@ -321,7 +319,6 @@ func _on_copy_button_down():
 
 
 func _on_leave_lobby_button_down():
-<<<<<<< HEAD
 	if peer.get_connection_status() != 1:
 		if connected_status and lobby_value:
 			leaveLobby()
@@ -348,7 +345,6 @@ func _on_username_text_changed(new_text):
 	SaveFile.save_data()
 
 func _on_load_level_button_down():
-<<<<<<< HEAD
 	if peer.get_connection_status() != 1:
 		if connected_status and lobby_value:
 			leaveLobby()
