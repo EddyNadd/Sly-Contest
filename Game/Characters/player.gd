@@ -17,9 +17,9 @@ var wall_jump_remaining
 
 var is_sliding = false
 var is_jumping = false
-var oppositeWallDirection = 0
-var xPositionSliding = null
-var lastMovementDirection
+var opposite_wall_direction = 0
+var x_position_sliding = null
+var last_movement_direction
 
 var syncPos = Vector2(0,0)
 
@@ -34,7 +34,7 @@ func _physics_process(delta):
 		# Add the gravity.
 		if not is_on_floor():
 			if is_sliding:
-				velocity.x = -60 * oppositeWallDirection
+				velocity.x = -60 * opposite_wall_direction
 				velocity.y = move_toward(velocity.y, 180, gravity * delta)
 			else:
 				velocity.y = move_toward(velocity.y, 980, gravity * delta)
@@ -111,7 +111,7 @@ func _physics_process(delta):
 		move_and_slide()
 		
 		if velocity.x:
-			lastMovementDirection = sign(velocity.x)
+			last_movement_direction = sign(velocity.x)
 		
 		if was_on_floor && !is_on_floor():
 			coyote_time.start()
@@ -127,9 +127,9 @@ func _physics_process(delta):
 		if (is_on_floor() or is_on_wall()):
 			is_jumping = false
 
-		if(position.x != xPositionSliding or is_on_floor()):
+		if(position.x != x_position_sliding or is_on_floor()):
 			is_sliding = false
-			xPositionSliding = null
+			x_position_sliding = null
 		
 		syncPos = global_position
 
@@ -163,17 +163,17 @@ func jump():
 	if is_sliding:
 		# decreases wall jumps remaining by one
 		#wall_jump_remaining -= 1
-		new_speed = SPEED * oppositeWallDirection * 2
+		new_speed = SPEED * opposite_wall_direction * 2
 	velocity.x = new_speed
 	velocity.y = JUMP_VELOCITY
 	
 func startSlide(direction):
 	is_sliding = true
 	if direction:
-		oppositeWallDirection = -direction
+		opposite_wall_direction = -direction
 	else:
-		oppositeWallDirection = -lastMovementDirection
-	xPositionSliding = position.x
+		opposite_wall_direction = -last_movement_direction
+	x_position_sliding = position.x
 	
 @rpc("any_peer", "call_local")
 func arrivee(id):

@@ -235,12 +235,24 @@ func connectToServer(ip):
 	peer.create_client(ip)
 	while (peer.get_connection_status() > 0):
 		await get_tree().create_timer(0.001).timeout
+		if GameManager.is_server_reachable == false:
+			if GameManager.isInSave:
+				get_tree().change_scene_to_file("res://Game/Interfaces/saved_level.tscn")
+			if GameManager.isInMenu:
+				get_tree().change_scene_to_file("res://Game/Interfaces/main_menu.tscn")
+			break
+
 		if peer.get_connection_status() == 2:
 			global_status.text = "Connected !"
-			break	
+			if GameManager.is_in_save:
+				get_tree().change_scene_to_file("res://Game/Interfaces/saved_level.tscn")
+			if GameManager.is_in_menu:
+				get_tree().change_scene_to_file("res://Game/Interfaces/main_menu.tscn")
+
 		else:
 			global_status.text = "Connecting to server... Please wait for response before doing anything."
 	if peer.get_connection_status() == 0:
+		GameManager.is_server_reachable = false
 		global_status.text = "Servers unreachable..."
 	if GameManager.is_in_save:
 		get_tree().change_scene_to_file("res://Game/Interfaces/saved_level.tscn")
