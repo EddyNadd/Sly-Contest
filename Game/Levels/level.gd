@@ -1,48 +1,44 @@
 extends Node2D
 
+# External node variables
 @onready var tile_map = $TileMap
 @onready var tile_map_no_collision = $TileMapNoCollision
-
 @onready var spawn1 = $"SpawnLocations/0"
 @onready var spawn2 = $"SpawnLocations/1"
 @onready var grid = $Grid
 @onready var buttons = get_node("Control/CanvasLayer/PanelContainer/MarginContainer/GridContainer")
 @onready var ui = $Control
-@onready var playTimer = $PlayTimer
-@onready var switchBtn = $switchPos
-@onready var quitBtn = $Quit
-@onready var soloSpawn = Vector2i(0,0)
+@onready var play_timer = $PlayTimer
+@onready var switch_btn = $switchPos
+@onready var quit_btn = $Quit
 @onready var scene = load("res://Game/Interfaces/ScoreBoard.tscn").instantiate()
 @onready var scene2 = load("res://control.tscn").instantiate()
+
+@onready var solo_spawn = Vector2i(0,0)
 @onready var save_file = SaveFile.game_data
 
-var Items = []
-var ItemsToMaybeDelete = []
-var side = false
+var items = [] # dictionary values of items for level saves
+var items_to_maybe_delete = [] # instanced items
 
-@export var PlayerScene : PackedScene
+@export var player_scene : PackedScene
 
-var cursor_item
-var sprite
+var cursor_item # current selected item
+var sprite # sprite of selcted item
 
+# Tile map info
 var ground_layer = 0
-
-var overlay = 0
-var block_active = false
-
 var source_id = 0
 
-var button = false
-
-var bloc_coord = Vector2i(12,9)
+var bloc_coord = Vector2i(12,9) # default selected tile (gold block)
 
 var tile_map_pos = Vector2i(0,0)
-var x1Min = 1
-var x1Max = 30
-var yMin = 2
-var yMax = 31
-var x2Min = x1Min + 31
-var x2Max = x1Max + 31
+
+var x1_min = 1
+var x1_max = 30
+var y_min = 2
+var y_max = 31
+var x2_min = x1_min + 31
+var x2_max = x1_max + 31
 var padding = 8
 
 var start = Vector2i(0,0)
@@ -50,36 +46,33 @@ var end = Vector2i(0,0)
 
 var player
 
-var erase_text = Vector2i(18,5)
+var erase_texture = Vector2i(18,5)
 
-var canBuild = false
+var can_build = false
 
 func _ready():
 	for btn in buttons.get_children():
 		btn.connect("pressed", reset_cursor)
 		btn.connect("pressed", Callable(self,"_on_" + btn.name.to_lower() + "_pressed"))
 		add_child(get_node("Control"))
-	if GameManager.isSolo == false:
+	if GameManager.is_solo == false:
 		var index = 1
 		for i in GameManager.Players:
-			var currentPlayer = PlayerScene.instantiate()
-			currentPlayer.name = str(GameManager.Players[i].id)
-			add_child(currentPlayer)
+			var current_player = player_scene.instantiate()
+			current_player.name = str(GameManager.Players[i].id)
+			add_child(current_player)
 			for spawn in get_tree().get_nodes_in_group("PlayerSpawnPoint"):
 				if spawn.name == str(GameManager.Players[i].index):
-					currentPlayer.global_position = spawn.global_position
+					current_player.global_position = spawn.global_position
 			index += 1
 		pass
 		if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
-			side = false
 			start = startBlockCoords(padding)
 			end = finishBlockCoords(start, padding)
 			rpc("updateStartEnd", start, end)
 			initBlockGen(start, end)
 			player = get_node(str(multiplayer.get_unique_id()))
-			#print(player)
 		else:
-			side = true
 			while start == Vector2i(0,0):
 				await get_tree().create_timer(0.001).timeout
 			initBlockGen(start, end)
@@ -108,17 +101,17 @@ func _ready():
 					GameManager.Players[player].spawn = onBlockPos(start)
 					GameManager.Players[player].end = onBlockPos(end)
 	else:
-		$MusicPlayer.play(GameManager.musicProgress)  
-		AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
+		$MusicPlayer.play(GameManager.music_progress)  
+		AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggled_sound) 
 		remove_child(get_node('Control'))
-		switchBtn.visible = true
-		quitBtn.visible = true
-		var currentPlayer = PlayerScene.instantiate()
-		add_child(currentPlayer)
+		switch_btn.visible = true
+		quit_btn.visible = true
+		var current_player = player_scene.instantiate()
+		add_child(current_player)
 		for spawn in get_tree().get_nodes_in_group("PlayerSpawnPoint"):
-			currentPlayer.global_position = spawn.global_position
+			current_player.global_position = spawn.global_position
 		loadLevel()
-		player = currentPlayer
+		player = current_player
 		
 func blockGen2x2(ULx,ULy,TMx,TMy):
 	tile_map.set_cell(ground_layer, Vector2i(ULx,ULy), source_id, Vector2i(TMx,TMy))
@@ -141,7 +134,7 @@ func finishCoords(coord,padding,min_coord,max_coord,uppergap=0):
 		return rand2
 
 func _process(delta):
-	if(GameManager.isSolo):
+	if(GameManager.is_solo):
 		$timer.hide()
 	else:
 		$timer.show()
@@ -149,29 +142,29 @@ func _process(delta):
 		if($ConstructionTimer.get_time_left() == 0):
 			$timer.set_text(str(round($PlayTimer.get_time_left()))+"s")
 		await get_tree().create_timer(0.3).timeout
-		canBuild = true
+		can_build = true
 		
 
 @rpc("any_peer", "call_local")
 func graceTime():
-	if playTimer.get_time_left() < 60:
-		playTimer.set("wait_time",60)
-		playTimer.start()
+	if play_timer.get_time_left() < 60:
+		play_timer.set("wait_time",60)
+		play_timer.start()
 		$timer.set("theme_override_colors/font_color","green")
 		await get_tree().create_timer(2.0).timeout
 		$timer.set("theme_override_colors/font_color","white")
 
 func startBlockCoords(padding):
-	var startx = randi_range(x1Min,x1Max-1)
-	var starty = randi_range(yMin,yMax-1)
+	var startx = randi_range(x1_min,x1_max-1)
+	var starty = randi_range(y_min,y_max-1)
 	
 	return Vector2i(startx,starty)
 	
 func finishBlockCoords(start_block_coords,padding):
-	var endx = randi_range(x1Min,x1Max-1)
-	var endy = randi_range(yMin,yMax-1)
+	var endx = randi_range(x1_min,x1_max-1)
+	var endy = randi_range(y_min,y_max-1)
 	if endx > start_block_coords.x-(padding+2) && endx < start_block_coords.x+(padding+2):
-		endy = finishCoords(start_block_coords.y,padding,yMin,yMax-1,2)
+		endy = finishCoords(start_block_coords.y,padding,y_min,y_max-1,2)
 		
 	return Vector2i(endx,endy)
 	
@@ -192,7 +185,7 @@ func initBlockGen(start_block_coords,end_block_coords):
 func reset_cursor():
 	if cursor_item and sprite:
 		sprite.set_global_position(Vector2(2000,2000))
-	tile_map_no_collision.clear_layer(overlay)
+	tile_map_no_collision.clear_layer(ground_layer)
 	cursor_item = null
 	bloc_coord = null
 
@@ -203,7 +196,7 @@ func _on_button2_pressed():
 	bloc_coord = Vector2i(17,9)
 	
 func _on_erase_pressed():
-	bloc_coord = erase_text
+	bloc_coord = erase_texture
 	
 func _on_kill_pressed():
 	player.kill()
@@ -216,7 +209,7 @@ func _on_spike_pressed():
 		
 @rpc("any_peer", "call_local")			
 func switchPos():
-	if !GameManager.isSolo:
+	if !GameManager.is_solo:
 		var tempSpawn = GameManager.Players[str(multiplayer.get_unique_id())].spawn
 		for player in GameManager.Players:
 			if(GameManager.Players[str(multiplayer.get_unique_id())] != GameManager.Players[player]):
@@ -224,11 +217,11 @@ func switchPos():
 				GameManager.Players[player].spawn = tempSpawn
 
 func _input(event):
-	if GameManager.isSolo == false:
+	if GameManager.is_solo == false:
 		if Input.is_action_pressed("click"):
 			var mouse_pos = get_global_mouse_position()
 			tile_map_pos = tile_map.local_to_map(mouse_pos)
-			if canBuild:
+			if can_build:
 				if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index && mouse_pos.x < 16*31:
 					placeBlock(tile_map_pos, mouse_pos)
 				elif $MultiplayerSynchronizer.get_multiplayer_authority() != GameManager.Players[str(multiplayer.get_unique_id())].index && mouse_pos.x > 16*31:
@@ -239,11 +232,11 @@ func _input(event):
 			if (mouse_pos.y <= 512):
 				if bloc_coord:
 					tile_map_pos = tile_map_no_collision.local_to_map(mouse_pos)
-					tile_map_no_collision.clear_layer(overlay)
-					tile_map_no_collision.set_cell(overlay, tile_map_pos, source_id, bloc_coord)
-					tile_map_no_collision.set_layer_modulate(overlay, Color.WHITE)
-					if bloc_coord != erase_text:
-						tile_map_no_collision.set_layer_modulate(overlay, Color(Color.WHITE, 0.5))
+					tile_map_no_collision.clear_layer(ground_layer)
+					tile_map_no_collision.set_cell(ground_layer, tile_map_pos, source_id, bloc_coord)
+					tile_map_no_collision.set_layer_modulate(ground_layer, Color.WHITE)
+					if bloc_coord != erase_texture:
+						tile_map_no_collision.set_layer_modulate(ground_layer, Color(Color.WHITE, 0.5))
 						
 				if cursor_item:
 					sprite = cursor_item.get_node("Sprite")
@@ -258,26 +251,26 @@ func _input(event):
 				
 				
 func placeBlock(tile_map_pos, mouse_pos):
-	if (mouse_pos.y <= 512 and !GameManager.INDESTRUCTIBLES.has(tile_map.get_cell_atlas_coords(ground_layer,tile_map_pos))):
+	if (mouse_pos.y <= 512 and !GameManager.indestructibles.has(tile_map.get_cell_atlas_coords(ground_layer,tile_map_pos))):
 				
 			if cursor_item and cursor_item.can_place:
 				rpc("rpc_place_item", cursor_item.get_path(), mouse_pos + cursor_item.offset, cursor_item.get_global_rotation(), cursor_item.offset)
 			
 			if bloc_coord:
 				rpc("rpc_erase", ground_layer, tile_map_pos)
-				if (bloc_coord != erase_text):
+				if (bloc_coord != erase_texture):
 					rpc("rpc_place", ground_layer, tile_map_pos, source_id, bloc_coord)
 
 @rpc("any_peer", "call_local")
 func rpc_erase(layer, pos):
 	tile_map.erase_cell(layer, pos)
-	for item in Items:
+	for item in items:
 		if tile_map.local_to_map(item.position-Vector2i(item.offset)) == pos:
-			Items.erase(item)
-			for items in ItemsToMaybeDelete:
+			items.erase(item)
+			for items in items_to_maybe_delete:
 				if tile_map.local_to_map(items.position-item.offset) == pos:
 					items.queue_free()
-					ItemsToMaybeDelete.erase(items)
+					items_to_maybe_delete.erase(items)
 
 
 @rpc("any_peer", "call_local")
@@ -298,7 +291,7 @@ func rpc_place_item(cursor_item, pos, rotation, offset):
 			"offset" : offset
 		}
 		itemName = "Saw"
-		Items.append(currentItem)
+		items.append(currentItem)
 	if str(cursor_item).contains("Spike"):
 		currentItem = {
 			"name" : "Spike",
@@ -306,28 +299,28 @@ func rpc_place_item(cursor_item, pos, rotation, offset):
 			"rotation" : rotation,
 			"offset" : offset
 		}
-		Items.append(currentItem)
+		items.append(currentItem)
 		itemName = "Spike"
 	item.set_global_rotation(rotation)
 	var positionOfItem = item.set_tile_position(pos, itemName)
-	ItemsToMaybeDelete.append(item)
+	items_to_maybe_delete.append(item)
 	add_child(item)
 
 func _on_round_timer_timeout():
-	if !GameManager.isSolo:
-		canBuild = false
+	if !GameManager.is_solo:
+		can_build = false
 		switchPos()
 		print("Construction done Now play !")
 		player.kill()
 		cursor_item = null
 		bloc_coord = null
-		GameManager.canFinishLevel = true
+		GameManager.can_finish_level = true
 		remove_child(get_node('Control'))
-		playTimer.start()
+		play_timer.start()
 		if sprite:
 			sprite.set_global_position(Vector2(2000,2000))
-		tile_map_no_collision.clear_layer(overlay)
-		grid.draw_grid = false
+		tile_map_no_collision.clear_layer(ground_layer)
+		grid.is_drawing_grid = false
 		grid.queue_redraw()
 	
 func _on_play_timer_timeout():
@@ -336,7 +329,7 @@ func _on_play_timer_timeout():
 @rpc("any_peer", "call_local")
 func finishGame():
 	print("End of the game go to the scoreboard.")
-	if(GameManager.canConfirmLevel):
+	if(GameManager.can_confirm_level):
 		for player in GameManager.Players:
 			if(GameManager.Players[player].completionPoints > 0):
 				GameManager.Players[player].penaltyPoints -= 400
@@ -349,8 +342,8 @@ func finishGame():
 	
 	for player in GameManager.Players:
 		GameManager.Players[player].spawn = Vector2i(200,1000)
-	GameManager.canFinishLevel = false
-	GameManager.canConfirmLevel = false
+	GameManager.can_finish_level = false
+	GameManager.can_confirm_level = false
 	
 @rpc("any_peer", "call_local")
 func updateStartEnd(newStart, newEnd):
@@ -358,24 +351,24 @@ func updateStartEnd(newStart, newEnd):
 	end = newEnd
 
 func saveGameDatas():
-	SaveTilemap.save_data(tile_map, Vector2i(onBlockPos(start).x,onBlockPos(start).y), Vector2i(onBlockPos(start).x+496,onBlockPos(start).y), Items)
+	SaveTilemap.save_data(tile_map, Vector2i(onBlockPos(start).x,onBlockPos(start).y), Vector2i(onBlockPos(start).x+496,onBlockPos(start).y), items)
 		
 func loadLevel():
 	for cell in tile_map.get_used_cells(0):
 		tile_map.set_cell(0, cell, -1)
-	var game_data = SaveTilemap.load_data(GameManager.loadLevel)
-	for cell_str in game_data["tilemap"].keys():
+	var game_data = SaveTilemap.load_data(GameManager.load_level)
+	for cell_str in game_data["tile_map"].keys():
 		var components = cell_str.split(",")
 		var x = int(components[0])
 		var y = int(components[1])
-		var id = game_data["tilemap"][cell_str][0]
-		var atlas = game_data["tilemap"][cell_str][1]
-		var alternate = game_data["tilemap"][cell_str][2]
+		var id = game_data["tile_map"][cell_str][0]
+		var atlas = game_data["tile_map"][cell_str][1]
+		var alternate = game_data["tile_map"][cell_str][2]
 		tile_map.set_cell(0, Vector2i(x, y), id, atlas, alternate)
 	print(game_data["start"])
-	GameManager.soloSpawn = game_data["start"]
-	soloSpawn = game_data["start"]
-	GameManager.soloSpawn2 = game_data["start2"]
+	GameManager.solo_spawn = game_data["start"]
+	solo_spawn = game_data["start"]
+	GameManager.solo_spawn2 = game_data["start2"]
 	for _i in game_data["items"]:
 		var item
 		item = get_node(str("Items/"+_i.name)).load_item()
@@ -386,13 +379,13 @@ func loadLevel():
 
 
 func _on_switch_pos_button_down():
-	if soloSpawn == GameManager.soloSpawn:
-		GameManager.soloSpawn = GameManager.soloSpawn2
+	if solo_spawn == GameManager.solo_spawn:
+		GameManager.solo_spawn = GameManager.solo_spawn2
 		player.kill()
 	else:
-		GameManager.soloSpawn = soloSpawn
+		GameManager.solo_spawn = solo_spawn
 		player.kill()
-	switchBtn.release_focus()
+	switch_btn.release_focus()
 
 
 func _on_quit_button_down():
@@ -405,4 +398,4 @@ func _on_quit_button_down():
 	pass # Replace with function body.
 
 func _exit_tree():
-	GameManager.musicProgress = $MusicPlayer.get_playback_position()  
+	GameManager.music_progress = $MusicPlayer.get_playback_position()  

@@ -8,7 +8,7 @@ var SFX_bus = AudioServer.get_bus_index("SFX")
 @onready var save_file = SaveFile.game_data
 @onready var soundText = $TextureRect/VBoxContainer/HBoxContainer/Label
 @onready var soundButton = $TextureRect/VBoxContainer/HBoxContainer2/Sound
-@onready var fullScreen = $TextureRect/VBoxContainer2/HBoxContainer/fullscreen
+@onready var full_screen = $TextureRect/VBoxContainer2/HBoxContainer/fullscreen
 @onready var sfxText = $TextureRect/VBoxContainer3/HBoxContainer/Label
 @onready var sfxButton = $TextureRect/VBoxContainer3/HBoxContainer2/SFX
 @onready var sfxSlider = $TextureRect/VBoxContainer3/HBoxContainer/SFXSlider
@@ -18,21 +18,21 @@ var SFX_bus = AudioServer.get_bus_index("SFX")
 var saveValue
 var sfxValue
 func _ready():
-	$MusicPlayer.play(GameManager.musicProgress)  
-	saveValue = save_file.soundLevel
-	sfxValue = save_file.sfxLevel
+	$MusicPlayer.play(GameManager.music_progress)  
+	saveValue = save_file.sound_level
+	sfxValue = save_file.sfx_level
 	server.text = save_file.server
 	if DisplayServer.window_get_mode() == 3:
-		fullScreen.button_pressed = true
+		full_screen.button_pressed = true
 	else:
-		fullScreen.button_pressed = false
+		full_screen.button_pressed = false
 	
 	if AudioServer.is_bus_mute(music_bus):
 		soundButton.button_pressed = false
 		soundText.text = "0"
 	else:
 		soundButton.button_pressed = true
-		saveValue = save_file.soundLevel
+		saveValue = save_file.sound_level
 		soundText.text = str(saveValue*100)
 		soundVolume.value = saveValue
 		
@@ -42,14 +42,14 @@ func _ready():
 		
 	else:
 		sfxButton.button_pressed = true
-		sfxValue = save_file.sfxLevel
+		sfxValue = save_file.sfx_level
 		sfxText.text = str(sfxValue*100)
 		sfxSlider.value = sfxValue 
 
 func _on_h_slider_value_changed(value : float) -> void:
 	AudioServer.set_bus_volume_db(music_bus, linear_to_db(value))
 	saveValue = value
-	save_file.soundLevel = value
+	save_file.sound_level = value
 	SaveFile.save_data()
 	soundText.text = str(value*100)
 	
@@ -58,7 +58,7 @@ func _on_quit_pressed():
 	
 
 func _on_check_button_toggled(button_pressed):
-	save_file.fullScreen = button_pressed
+	save_file.full_screen = button_pressed
 	SaveFile.save_data()
 	if button_pressed==true:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
@@ -68,14 +68,14 @@ func _on_check_button_toggled(button_pressed):
 func _on_sound_toggled(button_pressed):
 	if button_pressed == false : 
 		AudioServer.set_bus_mute(music_bus, true)
-		save_file.toggledSound = AudioServer.is_bus_mute(music_bus)
+		save_file.toggled_sound = AudioServer.is_bus_mute(music_bus)
 		SaveFile.save_data()
 		print(AudioServer.is_bus_mute(music_bus))
 		soundVolume.set_value_no_signal(0)
 		soundText.text="0"
 	else:
 		AudioServer.set_bus_mute(music_bus, false)
-		save_file.toggledSound = AudioServer.is_bus_mute(music_bus)
+		save_file.toggled_sound = AudioServer.is_bus_mute(music_bus)
 		SaveFile.save_data()
 		soundVolume.set_value_no_signal(saveValue)
 		soundText.text = str(saveValue*100)
@@ -105,7 +105,7 @@ func _on_sfx_toggled(button_pressed):
 func _on_sfx_slider_value_changed(sValue : float) -> void:
 	AudioServer.set_bus_volume_db(SFX_bus, linear_to_db(sValue))
 	sfxValue = sValue
-	save_file.sfxLevel = sValue
+	save_file.sfx_level = sValue
 	SaveFile.save_data()
 	sfxText.text = str(sValue*100)
 	
@@ -115,7 +115,7 @@ func _on_sfx_slider_drag_ended(value_changed):
 	sfxSound.play()
 	
 func _exit_tree():
-	GameManager.musicProgress = $MusicPlayer.get_playback_position()   
+	GameManager.music_progress = $MusicPlayer.get_playback_position()   
 	
 
 
@@ -128,6 +128,6 @@ func _on_text_edit_text_changed():
 
 
 func _on_button_button_down():
-	GameManager.serverLaunch = true
+	GameManager.server_launch_on = true
 	get_tree().change_scene_to_packed(control)
 	pass # Replace with function body.

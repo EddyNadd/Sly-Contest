@@ -9,11 +9,11 @@ var levelListArray = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
-	$MusicPlayer.play(GameManager.musicProgress)  
-	GameManager.isSolo = true
-	if !GameManager.isInSave:
-		GameManager.isInSave = true
+	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggled_sound) 
+	$MusicPlayer.play(GameManager.music_progress)  
+	GameManager.is_solo = true
+	if !GameManager.is_in_save:
+		GameManager.is_in_save = true
 		for scenes in get_tree().root.get_children():
 			if scenes.name == "Control":
 				get_tree().current_scene = scenes
@@ -43,17 +43,17 @@ func _process(delta):
 
 
 func _on_back_button_down():
-	GameManager.isInSave = false
+	GameManager.is_in_save = false
 	get_tree().root.add_child(scene)
 	pass # Replace with function body.
 
 
 func _on_load_button_down():
-	GameManager.isInSave = false
+	GameManager.is_in_save = false
 	btnLoad.release_focus()
-	GameManager.loadLevel = levelList.get_item_text(levelList.get_selected_items()[0])
+	GameManager.load_level = levelList.get_item_text(levelList.get_selected_items()[0])
 	get_tree().change_scene_to_file("res://Game/Levels/level.tscn")
 	pass # Replace with function body.
 
 func _exit_tree():
-	GameManager.musicProgress = $MusicPlayer.get_playback_position()  
+	GameManager.music_progress = $MusicPlayer.get_playback_position()  

@@ -4,11 +4,11 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
-	$MusicPlayer.play(GameManager.musicProgress) 
+	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggled_sound) 
+	$MusicPlayer.play(GameManager.music_progress) 
 
 func _on_quit_pressed():
 	get_tree().change_scene_to_packed(mainMenu)
 
 func _exit_tree():
-	GameManager.musicProgress = $MusicPlayer.get_playback_position()   
+	GameManager.music_progress = $MusicPlayer.get_playback_position()   

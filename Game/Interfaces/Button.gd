@@ -1,6 +1,6 @@
 extends Button
 
-@onready var tile_map = $TileMap
+@onready var tile_map = $tile_map
 
 var ground_layer = 0
 

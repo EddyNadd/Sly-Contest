@@ -4,15 +4,15 @@ extends Control
 
 func _ready():
 	print("ready")
-	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggledSound) 
-	$MusicPlayer.play(GameManager.musicProgress)  
+	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggled_sound) 
+	$MusicPlayer.play(GameManager.music_progress)  
 	if "--server" in OS.get_cmdline_args():
-		GameManager.isInMenu = false
+		GameManager.is_in_menu = false
 		print("Server mod!")
 		get_tree().change_scene_to_file("res://control.tscn")
 	else:
-		if !GameManager.isInMenu:
-			GameManager.isInMenu = true
+		if !GameManager.is_in_menu:
+			GameManager.is_in_menu = true
 			for scenes in get_tree().root.get_children():
 				if scenes.name == "Control":
 					get_tree().current_scene = scenes
@@ -24,7 +24,7 @@ func _ready():
 
 func _on_play_pressed():
 	print("play")
-	GameManager.isInMenu = false
+	GameManager.is_in_menu = false
 	get_tree().root.add_child(scene)
 
 
@@ -37,7 +37,7 @@ func _on_credit_pressed():
 	get_tree().change_scene_to_file("res://Game/Interfaces/Credit.tscn")
 
 func _exit_tree():
-	GameManager.musicProgress = $MusicPlayer.get_playback_position()   
+	GameManager.music_progress = $MusicPlayer.get_playback_position()   
 
 func _on_quit_pressed():
 	get_tree().quit()

@@ -1,21 +1,22 @@
 extends Node
 
+#Saving and loading levels
+
 var game_data = {}
 
-func save_data(tilemap: TileMap, start: Vector2i, start2: Vector2i, Items : Array):
+func save_data(tile_map: TileMap, start: Vector2i, start2: Vector2i, items : Array):
 	var tile_data = {}
-	for cell in tilemap.get_used_cells(0):
-		var atlas = tilemap.get_cell_atlas_coords(0, cell)
-		var id = tilemap.get_cell_source_id(0, cell)
-		var alternate = tilemap.get_cell_alternative_tile(0, cell)
+	for cell in tile_map.get_used_cells(0):
+		var atlas = tile_map.get_cell_atlas_coords(0, cell)
+		var id = tile_map.get_cell_source_id(0, cell)
+		var alternate = tile_map.get_cell_alternative_tile(0, cell)
 		tile_data[str(cell)] = [id, atlas, alternate]
 	game_data = {
-		"tilemap": tile_data,
+		"tile_map": tile_data,
 		"start": start,
 		"start2": start2 ,
-		"items": Items
-	}
-	
+		"items": items
+	}	
 	
 func load_data(name):
 	var file = FileAccess.open("user://levels/" + name + ".SLAY", FileAccess.READ)
