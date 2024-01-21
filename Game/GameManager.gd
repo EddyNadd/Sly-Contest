@@ -15,6 +15,7 @@ var soloSpawn = Vector2i(0,0)
 var soloSpawn2 = Vector2i(0,0)
 var lobby
 var finished = false
+var serverReachable = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

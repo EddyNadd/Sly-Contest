@@ -18,9 +18,10 @@ func _ready():
 					get_tree().current_scene = scenes
 					get_tree().reload_current_scene()
 		else:
+			GameManager.serverReachable = true
 			for scenes in get_tree().root.get_children():
 				if scenes.name != "Main_Menu" and scenes.name != "GameManager" and scenes.name != "SaveFile" and scenes.name != "SaveTilemap":
-					get_tree().root.remove_child(scenes)  
+					get_tree().root.remove_child(scenes) 
 
 func _on_play_pressed():
 	print("play")

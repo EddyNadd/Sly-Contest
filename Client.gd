@@ -86,7 +86,6 @@ func _ready():
 			lobbyCodeLabel.visible = false
 			username.visible = false
 			
-		GameManager.isSolo = false
 		username.text = save_file.username
 		multiplayer.connected_to_server.connect(RTCServerConnected)
 		multiplayer.peer_connected.connect(RTCPeerConnected)
@@ -236,17 +235,24 @@ func connectToServer(ip):
 	peer.create_client(ip)
 	while (peer.get_connection_status() > 0):
 		await get_tree().create_timer(0.001).timeout
+		if GameManager.serverReachable == false:
+			if GameManager.isInSave:
+				get_tree().change_scene_to_file("res://Game/Interfaces/saved_level.tscn")
+			if GameManager.isInMenu:
+				get_tree().change_scene_to_file("res://Game/Interfaces/main_menu.tscn")
+			break
 		if peer.get_connection_status() == 2:
 			globalStatus.text = "Connected !"
+			if GameManager.isInSave:
+				get_tree().change_scene_to_file("res://Game/Interfaces/saved_level.tscn")
+			if GameManager.isInMenu:
+				get_tree().change_scene_to_file("res://Game/Interfaces/main_menu.tscn")
 			break	
 		else:
 			globalStatus.text = "Connecting to server... Please wait for response before doing anything."
 	if peer.get_connection_status() == 0:
+		GameManager.serverReachable = false
 		globalStatus.text = "Servers unreachable..."
-	if GameManager.isInSave:
-		get_tree().change_scene_to_file("res://Game/Interfaces/saved_level.tscn")
-	if GameManager.isInMenu:
-		get_tree().change_scene_to_file("res://Game/Interfaces/main_menu.tscn")
 
 func _on_button_button_down():
 	if peer.get_connection_status() != 1:
