@@ -2,34 +2,34 @@ extends Control
 
 @onready var scene = load("res://Game/Levels/level.tscn").instantiate()
 
-@onready	var player1_NameLabel = $"MarginContainer/VBoxContainer/Player 1"
-@onready	var player1_CompletionPointsLabel = $MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/LevelPoint2
-@onready	var player1_ValidationPointsLabel = $MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/ValidationPoint2
-@onready	var player1_PenaltyPointsLabel = $MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer3/PenalityPoint2
-@onready	var player1_TotalPointsLabel = $MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer4/TotalScore2
+@onready	var player1_name_label = $"MarginContainer/VBoxContainer/Player 1"
+@onready	var player1_completion_points_label = $MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/LevelPoint2
+@onready	var player1_validation_points_label = $MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/ValidationPoint2
+@onready	var player1_penalty_points_label = $MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer3/PenalityPoint2
+@onready	var player1_total_points_label = $MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer4/TotalScore2
 	
-@onready	var player2_NameLabel = $"MarginContainer2/VBoxContainer/Player 2"
-@onready	var player2_CompletionPointsLabel = $MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer/LevelPoint2
-@onready	var player2_ValidationPointsLabel = $MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer2/ValidationPoint2
-@onready	var player2_PenaltyPointsLabel = $MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer3/PenalityPoint2
-@onready	var player2_TotalPointsLabel = $MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer4/TotalScore2
+@onready	var player2_name_label = $"MarginContainer2/VBoxContainer/Player 2"
+@onready	var player2_completion_points_label = $MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer/LevelPoint2
+@onready	var player2_validation_points_label = $MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer2/ValidationPoint2
+@onready	var player2_penalty_points_label = $MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer3/PenalityPoint2
+@onready	var player2_total_points_label = $MarginContainer2/VBoxContainer/VBoxContainer/HBoxContainer4/TotalScore2
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	for player in GameManager.Players:
-		if (GameManager.Players[player].index == 1):
-			player1_NameLabel.text = str(GameManager.Players[player].name)
-			player1_CompletionPointsLabel.text = str(GameManager.Players[player].completionPoints)
-			player1_ValidationPointsLabel.text = str(GameManager.Players[player].validationPoints)
-			player1_PenaltyPointsLabel.text = str(GameManager.Players[player].penaltyPoints)
-			player1_TotalPointsLabel.text = str(GameManager.Players[player].totalPoints)
+	for player in GameManager.players:
+		if (GameManager.players[player].index == 1):
+			player1_name_label.text = str(GameManager.players[player].name)
+			player1_completion_points_label.text = str(GameManager.players[player].completionPoints)
+			player1_validation_points_label.text = str(GameManager.players[player].validationPoints)
+			player1_penalty_points_label.text = str(GameManager.players[player].penaltyPoints)
+			player1_total_points_label.text = str(GameManager.players[player].totalPoints)
 		else:
-			player2_NameLabel.text = str(GameManager.Players[player].name)
-			player2_CompletionPointsLabel.text = str(GameManager.Players[player].completionPoints)
-			player2_ValidationPointsLabel.text = str(GameManager.Players[player].validationPoints)
-			player2_PenaltyPointsLabel.text = str(GameManager.Players[player].penaltyPoints)
-			player2_TotalPointsLabel.text = str(GameManager.Players[player].totalPoints)
+			player2_name_label.text = str(GameManager.players[player].name)
+			player2_completion_points_label.text = str(GameManager.players[player].completionPoints)
+			player2_validation_points_label.text = str(GameManager.players[player].validationPoints)
+			player2_penalty_points_label.text = str(GameManager.players[player].penaltyPoints)
+			player2_total_points_label.text = str(GameManager.players[player].totalPoints)
 
 
 func _on_quit_pressed():
@@ -48,7 +48,7 @@ func loadScene():
 @rpc("any_peer", "call_local")
 func loadLobby():
 	get_tree().change_scene_to_file("res://control.tscn")
-	GameManager.finished = true
+	GameManager.is_finished = true
 	self.queue_free()
 	
 

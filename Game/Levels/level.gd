@@ -20,7 +20,7 @@ extends Node2D
 var items = [] # dictionary values of items for level saves
 var items_to_maybe_delete = [] # instanced items
 
-@export var player_scene : PackedScene
+@export var player_scene = preload("res://Game/Characters/player.tscn")
 
 var cursor_item # current selected item
 var sprite # sprite of selcted item
@@ -57,16 +57,16 @@ func _ready():
 		add_child(get_node("Control"))
 	if GameManager.is_solo == false:
 		var index = 1
-		for i in GameManager.Players:
+		for i in GameManager.players:
 			var current_player = player_scene.instantiate()
-			current_player.name = str(GameManager.Players[i].id)
+			current_player.name = str(GameManager.players[i].id)
 			add_child(current_player)
 			for spawn in get_tree().get_nodes_in_group("PlayerSpawnPoint"):
-				if spawn.name == str(GameManager.Players[i].index):
+				if spawn.name == str(GameManager.players[i].index):
 					current_player.global_position = spawn.global_position
 			index += 1
 		pass
-		if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
+		if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.players[str(multiplayer.get_unique_id())].index:
 			start = startBlockCoords(padding)
 			end = finishBlockCoords(start, padding)
 			rpc("updateStartEnd", start, end)
@@ -78,28 +78,28 @@ func _ready():
 			initBlockGen(start, end)
 			player = get_node(str(multiplayer.get_unique_id()))
 			
-		for player in GameManager.Players:
-			GameManager.Players[player].completionPoints = 0
-			GameManager.Players[player].validationPoints = 0
-			GameManager.Players[player].penaltyPoints = 0
-			GameManager.Players[player].points = 0
+		for player in GameManager.players:
+			GameManager.players[player].completionPoints = 0
+			GameManager.players[player].validationPoints = 0
+			GameManager.players[player].penaltyPoints = 0
+			GameManager.players[player].points = 0
 			
-		if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index:
-			for player in GameManager.Players:
-				if(GameManager.Players[str(multiplayer.get_unique_id())] == GameManager.Players[player]):
-					GameManager.Players[player].spawn = onBlockPos(start)
-					GameManager.Players[player].end = onBlockPos(end)
+		if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.players[str(multiplayer.get_unique_id())].index:
+			for player in GameManager.players:
+				if(GameManager.players[str(multiplayer.get_unique_id())] == GameManager.players[player]):
+					GameManager.players[player].spawn = onBlockPos(start)
+					GameManager.players[player].end = onBlockPos(end)
 				else:
-					GameManager.Players[player].spawn = Vector2i(onBlockPos(start).x + 496, onBlockPos(start).y)
-					GameManager.Players[player].end = Vector2i(onBlockPos(end).x + 496, onBlockPos(end).y)
+					GameManager.players[player].spawn = Vector2i(onBlockPos(start).x + 496, onBlockPos(start).y)
+					GameManager.players[player].end = Vector2i(onBlockPos(end).x + 496, onBlockPos(end).y)
 		else:
-			for player in GameManager.Players:
-				if(GameManager.Players[str(multiplayer.get_unique_id())] == GameManager.Players[player]):
-					GameManager.Players[player].spawn = Vector2i(onBlockPos(start).x + 496, onBlockPos(start).y)
-					GameManager.Players[player].end = Vector2i(onBlockPos(end).x + 496, onBlockPos(end).y)
+			for player in GameManager.players:
+				if(GameManager.players[str(multiplayer.get_unique_id())] == GameManager.players[player]):
+					GameManager.players[player].spawn = Vector2i(onBlockPos(start).x + 496, onBlockPos(start).y)
+					GameManager.players[player].end = Vector2i(onBlockPos(end).x + 496, onBlockPos(end).y)
 				else:
-					GameManager.Players[player].spawn = onBlockPos(start)
-					GameManager.Players[player].end = onBlockPos(end)
+					GameManager.players[player].spawn = onBlockPos(start)
+					GameManager.players[player].end = onBlockPos(end)
 	else:
 		$MusicPlayer.play(GameManager.music_progress)  
 		AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggled_sound) 
@@ -210,11 +210,11 @@ func _on_spike_pressed():
 @rpc("any_peer", "call_local")			
 func switchPos():
 	if !GameManager.is_solo:
-		var tempSpawn = GameManager.Players[str(multiplayer.get_unique_id())].spawn
-		for player in GameManager.Players:
-			if(GameManager.Players[str(multiplayer.get_unique_id())] != GameManager.Players[player]):
-				GameManager.Players[str(multiplayer.get_unique_id())].spawn = GameManager.Players[player].spawn
-				GameManager.Players[player].spawn = tempSpawn
+		var tempSpawn = GameManager.players[str(multiplayer.get_unique_id())].spawn
+		for player in GameManager.players:
+			if(GameManager.players[str(multiplayer.get_unique_id())] != GameManager.players[player]):
+				GameManager.players[str(multiplayer.get_unique_id())].spawn = GameManager.players[player].spawn
+				GameManager.players[player].spawn = tempSpawn
 
 func _input(event):
 	if GameManager.is_solo == false:
@@ -222,9 +222,9 @@ func _input(event):
 			var mouse_pos = get_global_mouse_position()
 			tile_map_pos = tile_map.local_to_map(mouse_pos)
 			if can_build:
-				if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.Players[str(multiplayer.get_unique_id())].index && mouse_pos.x < 16*31:
+				if $MultiplayerSynchronizer.get_multiplayer_authority() == GameManager.players[str(multiplayer.get_unique_id())].index && mouse_pos.x < 16*31:
 					placeBlock(tile_map_pos, mouse_pos)
-				elif $MultiplayerSynchronizer.get_multiplayer_authority() != GameManager.Players[str(multiplayer.get_unique_id())].index && mouse_pos.x > 16*31:
+				elif $MultiplayerSynchronizer.get_multiplayer_authority() != GameManager.players[str(multiplayer.get_unique_id())].index && mouse_pos.x > 16*31:
 					placeBlock(tile_map_pos, mouse_pos)
 				
 		if event is InputEventMouseMotion:
@@ -330,18 +330,18 @@ func _on_play_timer_timeout():
 func finishGame():
 	print("End of the game go to the scoreboard.")
 	if(GameManager.can_confirm_level):
-		for player in GameManager.Players:
-			if(GameManager.Players[player].completionPoints > 0):
-				GameManager.Players[player].penaltyPoints -= 400
-	for player in GameManager.Players:
-		GameManager.Players[player].totalPoints += GameManager.Players[player].completionPoints + GameManager.Players[player].validationPoints + GameManager.Players[player].penaltyPoints
-		print(str(GameManager.Players[player].name)+": "+str(GameManager.Players[player].points)+" (c: "+str(GameManager.Players[player].completionPoints)+", v: "+str(GameManager.Players[player].validationPoints)+", p: "+str(GameManager.Players[player].penaltyPoints)+")")
+		for player in GameManager.players:
+			if(GameManager.players[player].completionPoints > 0):
+				GameManager.players[player].penaltyPoints -= 400
+	for player in GameManager.players:
+		GameManager.players[player].totalPoints += GameManager.players[player].completionPoints + GameManager.players[player].validationPoints + GameManager.players[player].penaltyPoints
+		print(str(GameManager.players[player].name)+": "+str(GameManager.players[player].points)+" (c: "+str(GameManager.players[player].completionPoints)+", v: "+str(GameManager.players[player].validationPoints)+", p: "+str(GameManager.players[player].penaltyPoints)+")")
 	saveGameDatas()
 	get_tree().root.add_child(scene)
 	self.queue_free()
 	
-	for player in GameManager.Players:
-		GameManager.Players[player].spawn = Vector2i(200,1000)
+	for player in GameManager.players:
+		GameManager.players[player].spawn = Vector2i(200,1000)
 	GameManager.can_finish_level = false
 	GameManager.can_confirm_level = false
 	
@@ -357,13 +357,13 @@ func loadLevel():
 	for cell in tile_map.get_used_cells(0):
 		tile_map.set_cell(0, cell, -1)
 	var game_data = SaveTilemap.load_data(GameManager.load_level)
-	for cell_str in game_data["tile_map"].keys():
+	for cell_str in game_data["tilemap"].keys():
 		var components = cell_str.split(",")
 		var x = int(components[0])
 		var y = int(components[1])
-		var id = game_data["tile_map"][cell_str][0]
-		var atlas = game_data["tile_map"][cell_str][1]
-		var alternate = game_data["tile_map"][cell_str][2]
+		var id = game_data["tilemap"][cell_str][0]
+		var atlas = game_data["tilemap"][cell_str][1]
+		var alternate = game_data["tilemap"][cell_str][2]
 		tile_map.set_cell(0, Vector2i(x, y), id, atlas, alternate)
 	print(game_data["start"])
 	GameManager.solo_spawn = game_data["start"]

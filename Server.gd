@@ -17,15 +17,15 @@ var users = {}
 var lobbies = {}
 var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-@export var hostPort = 8915
+@export var host_port = 8915
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if "--server" in OS.get_cmdline_args() or GameManager.server_launch_on == true:
-		print("SERVER - " + "Hosting on " + str(hostPort))
-		peer.create_server(hostPort)
+		print("SERVER - " + "Hosting on " + str(host_port))
+		peer.create_server(host_port)
 	
-	# peer.create_server(hostPort) # Comment this line when in prod - dev mod
+	# peer.create_server(host_port) # Comment this line when in prod - dev mod
 	peer.connect("peer_connected", peer_connected)
 	peer.connect("peer_disconnected", peer_disconnected)
 	pass # Replace with function body.
@@ -54,14 +54,14 @@ func _process(delta):
 					
 			if data.message == Message.user_disconnected:
 				print("SERVER - DISCONNECTING")
-				if len(lobbies[data.lobby_value].Players) != 1:
+				if len(lobbies[data.lobby_value].players) != 1:
 					if lobbies.has(data.lobby_value):
-						lobbies[data.lobby_value].Players.erase(data.id)
-						for p in lobbies[data.lobby_value].Players:
+						lobbies[data.lobby_value].players.erase(data.id)
+						for p in lobbies[data.lobby_value].players:
 							var lobbyInfo = {
 								"message" : Message.lobby,
-								"players" : JSON.stringify(lobbies[data.lobby_value].Players),
-								"host" : lobbies[data.lobby_value].host_id,
+								"players" : JSON.stringify(lobbies[data.lobby_value].players),
+								"host" : lobbies[data.lobby_value].HostId,
 								"lobby_value" : data.lobby_value
 							}
 							sendToPlayer(p, lobbyInfo)
@@ -86,7 +86,7 @@ func joinLobby(user):
 		print("SERVER - JOINING MESSAGE")
 		var player = lobbies[user.lobby_value].AddPlayer(user.id, user.name)
 	
-		for p in lobbies[user.lobby_value].Players:
+		for p in lobbies[user.lobby_value].players:
 			var data = {
 				"message" : Message.user_connected,
 				"id" : user.id
@@ -99,8 +99,8 @@ func joinLobby(user):
 			sendToPlayer(user.id, data2)
 			var lobbyInfo = {
 				"message" : Message.lobby,
-				"players" : JSON.stringify(lobbies[user.lobby_value].Players),
-				"host" : lobbies[user.lobby_value].host_id,
+				"players" : JSON.stringify(lobbies[user.lobby_value].players),
+				"host" : lobbies[user.lobby_value].HostId,
 				"lobby_value" : user.lobby_value
 			}
 			sendToPlayer(p, lobbyInfo)
@@ -108,8 +108,8 @@ func joinLobby(user):
 		var data = {
 			"message" : Message.user_connected,
 			"id" : user.id,
-			"host" : lobbies[user.lobby_value].host_id,
-			"player" : lobbies[user.lobby_value].Players[user.id],
+			"host" : lobbies[user.lobby_value].HostId,
+			"player" : lobbies[user.lobby_value].players[user.id],
 			"lobby_value" : user.lobby_value
 		}
 		sendToPlayer(user.id, data)
@@ -125,7 +125,7 @@ func generateRandomString():
 	return result
 
 func startServer():
-	peer.create_server(hostPort)
+	peer.create_server(host_port)
 	print("SERVER - " + "started Server")
 
 func _on_button_2_button_down():

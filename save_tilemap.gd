@@ -12,7 +12,7 @@ func save_data(tile_map: TileMap, start: Vector2i, start2: Vector2i, items : Arr
 		var alternate = tile_map.get_cell_alternative_tile(0, cell)
 		tile_data[str(cell)] = [id, atlas, alternate]
 	game_data = {
-		"tile_map": tile_data,
+		"tilemap": tile_data,
 		"start": start,
 		"start2": start2 ,
 		"items": items

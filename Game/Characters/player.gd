@@ -100,13 +100,13 @@ func _physics_process(delta):
 			if !GameManager.is_solo:
 				if(tile_data.get_custom_data("end")):
 					if(GameManager.can_finish_level):
-						rpc("arrivee",GameManager.Players[str(multiplayer.get_unique_id())].id)
-						for player in GameManager.Players:
-							if(GameManager.Players[str(multiplayer.get_unique_id())] != GameManager.Players[player]):
-								GameManager.Players[str(multiplayer.get_unique_id())].spawn = GameManager.Players[player].spawn
+						rpc("arrivee",GameManager.players[str(multiplayer.get_unique_id())].id)
+						for player in GameManager.players:
+							if(GameManager.players[str(multiplayer.get_unique_id())] != GameManager.players[player]):
+								GameManager.players[str(multiplayer.get_unique_id())].spawn = GameManager.players[player].spawn
 						kill()
 					elif(GameManager.can_confirm_level):
-						rpc("arrivee2",GameManager.Players[str(multiplayer.get_unique_id())].id)
+						rpc("arrivee2",GameManager.players[str(multiplayer.get_unique_id())].id)
 					
 		move_and_slide()
 		
@@ -139,8 +139,8 @@ func kill():
 	velocity.y = 0
 	if !GameManager.is_solo:
 		if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
-			if "spawn" in GameManager.Players[str(multiplayer.get_unique_id())]:
-				position = GameManager.Players[str(multiplayer.get_unique_id())].spawn
+			if "spawn" in GameManager.players[str(multiplayer.get_unique_id())]:
+				position = GameManager.players[str(multiplayer.get_unique_id())].spawn
 	else:
 		position = GameManager.solo_spawn
 	
@@ -152,7 +152,7 @@ func _ready():
 	
 func animation(animation_string):
 	if !GameManager.is_solo:
-		if GameManager.Players[str(multiplayer.get_unique_id())].index == 1:
+		if GameManager.players[str(multiplayer.get_unique_id())].index == 1:
 			animation_string += "2"
 	animated_sprite.animation = animation_string
 	
@@ -179,19 +179,19 @@ func startSlide(direction):
 func arrivee(id):
 	GameManager.can_finish_level = false
 	GameManager.can_confirm_level = true
-	for player in GameManager.Players:
-		if(GameManager.Players[str(id)] == GameManager.Players[player]):
-			GameManager.Players[player].completionPoints += 300
+	for player in GameManager.players:
+		if(GameManager.players[str(id)] == GameManager.players[player]):
+			GameManager.players[player].completionPoints += 300
 	get_node("/root/Level").graceTime()
 			
 @rpc("any_peer", "call_local")
 func arrivee2(id):
 	GameManager.can_finish_level = false
 	GameManager.can_confirm_level = false
-	for player in GameManager.Players:
-		if(GameManager.Players[str(id)] == GameManager.Players[player]):
-			if(GameManager.Players[player].completionPoints > 0):
-				GameManager.Players[player].validationPoints += 100
+	for player in GameManager.players:
+		if(GameManager.players[str(id)] == GameManager.players[player]):
+			if(GameManager.players[player].completionPoints > 0):
+				GameManager.players[player].validationPoints += 100
 			else:
-				GameManager.Players[player].completionPoints += 200
+				GameManager.players[player].completionPoints += 200
 	get_node("/root/Level").finishGame()

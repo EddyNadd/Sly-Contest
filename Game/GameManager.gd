@@ -1,7 +1,7 @@
 extends Node
 
 #Global variables
-var Players = {}
+var players = {}
 var indestructibles = []
 var can_finish_level = false
 var can_confirm_level = false
@@ -15,7 +15,7 @@ var server_launch_on = false
 var solo_spawn = Vector2i(0,0)
 var solo_spawn2 = Vector2i(0,0)
 var lobby
-var finished = false
+var is_finished = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

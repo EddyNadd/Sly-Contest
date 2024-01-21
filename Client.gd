@@ -33,7 +33,7 @@ var connected_status = false
 @onready var start_game_btn = $"../StartGame"
 @onready var lobby_btn = $"../JoinLobby"
 @onready var copy_btn = $"../Copy"
-@onready var lobby_code = $"../lobbyCode"
+@onready var lobbyCode = $"../lobbyCode"
 @onready var lobby_code_label = $"LineEdit"
 @onready var copy_status = $"../CopyStatus"
 @onready var global_status = $"../GlobalStatus"
@@ -61,10 +61,10 @@ func _ready():
 		start_game_btn.hide()
 		lobby_btn.hide()
 		copy_btn.hide()
-		lobby_code.hide()
+		lobbyCode.hide()
 		lobby_code_label.hide()
 		copy_status.hide()
-		global_status .hide()
+		global_status.hide()
 		leave_btn.hide()
 		load_btn.hide()
 		username.hide()
@@ -105,7 +105,7 @@ func RTCPeerConnected(id):
 func RTCPeerDisconnected(id):
 	print("RTC peer disconnected " + str(id))
 	connected_status = false
-	gameCrash(id)
+	GameCrash(id)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -120,7 +120,7 @@ func _process(delta):
 				id = data.id
 				connected(id)
 			if data.message == Message.user_connected:
-				#GameManager.Players[data.id] = data.player
+				#GameManager.players[data.id] = data.player
 				createPeer(data.id)
 			if data.message == Message.lobby:
 				if JSON.parse_string(data.players).size() == 1:
@@ -136,18 +136,18 @@ func _process(delta):
 							get_tree().reload_current_scene()
 							connected_status = false
 							lobby_value = null
-				GameManager.Players = JSON.parse_string(data.players)
+				GameManager.players = JSON.parse_string(data.players)
 				host_id = data.host
-				lobby_value = data.lobby_value
-				lobby_code.text = lobby_value
+				lobby_value = data.lobbyValue
+				lobbyCode.text = lobby_value
 				lobby_code_label.text = lobby_value
 				GameManager.lobby = lobby_value
 				global_status.text = "Lobby joined !"
 				user_list.clear()
-				for player in GameManager.Players:
+				for player in GameManager.players:
 					print("RTC CODE " + str(player))
-					user_list.add_item(GameManager.Players[player].name)
-					GameManager.Players[player].totalPoints = 0
+					user_list.add_item(GameManager.players[player].name)
+					GameManager.players[player].totalPoints = 0
 			if data.message == Message.candidate:
 				if rtc_peer.has_peer(data.orgPeer):
 					print("Got Candidate: " + str(data.orgPeer) + " my id is " + str(id))
@@ -158,9 +158,9 @@ func _process(delta):
 			if data.message == Message.answer:
 				if rtc_peer.has_peer(data.orgPeer):
 					rtc_peer.get_peer(data.orgPeer).connection.set_remote_description("answer", data.data)
-	if GameManager.finished:
-		gameCrash(-1)
-		GameManager.finished = false
+	if GameManager.is_finished:
+		GameCrash(-1)
+		GameManager.is_finished = false
 
 func connected(id):
 	rtc_peer.create_mesh(id)
@@ -265,11 +265,11 @@ func _on_button_button_down():
 >>>>>>> aded148 (Started normalizing variable names)
 
 @rpc("any_peer", "call_local")
-func startGame():
-	remove_lobby()
+func StartGame():
+	removeLobby()
 	get_tree().root.add_child(scene)
 	
-func gameCrash(idPeer):
+func GameCrash(idPeer):
 	var hasLevel = false
 	if get_tree().root.get_children():
 		for scenes in get_tree().root.get_children():
@@ -283,11 +283,11 @@ func gameCrash(idPeer):
 	var message = {
 		"id" : idPeer,
 		"message" : Message.user_disconnected,
-		"lobby_value" : lobby_value
+		"lobbyValue" : lobby_value
 	}
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 
-func remove_lobby():
+func removeLobby():
 	var message = {
 		"message": Message.remove_lobby,
 		"lobbyID": lobby_value
@@ -305,7 +305,7 @@ func _on_join_lobby_button_down():
 					"id" : id,
 					"message" : Message.lobby,
 					"name" : username.text,
-					"lobby_value" : $LineEdit.text
+					"lobbyValue" : $LineEdit.text
 				}
 				peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 		else:
@@ -339,7 +339,7 @@ func leaveLobby():
 	var message = {
 		"id" : id,
 		"message" : Message.user_disconnected,
-		"lobby_value" : $LineEdit.text
+		"lobbyValue" : $LineEdit.text
 	}
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 

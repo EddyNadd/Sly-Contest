@@ -11,8 +11,8 @@ func load_item():
 	item = scene.instantiate()
 	return item
 
-func set_tile_position(positionParam, item):
-	global_position = Vector2(round(positionParam.x / GameManager.TILE_SIZE) * GameManager.TILE_SIZE, round(positionParam.y / GameManager.TILE_SIZE) * GameManager.TILE_SIZE)
+func set_tile_position(pos, item):
+	global_position = Vector2(round(pos.x / GameManager.TILE_SIZE) * GameManager.TILE_SIZE, round(pos.y / GameManager.TILE_SIZE) * GameManager.TILE_SIZE)
 	return global_position
 
 func _mouse_enter():
