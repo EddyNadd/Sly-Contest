@@ -54,7 +54,7 @@ var connected_status = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if "--server" in OS.get_cmdline_user_args() or GameManager.server_launch_on == true:
-		print("Server mod!")
+		print("Server mode!")
 		for scenes in get_tree().root.get_children():
 			if scenes.name != "Control" and scenes.name != "GameManager" and scenes.name != "SaveFile" and scenes.name != "SaveTilemap":
 				get_tree().root.remove_child(scenes)
@@ -96,14 +96,12 @@ func _ready():
 	  
 	
 func RTCServerConnected():
-	print("RTC server connected")
+	pass
 	
 func RTCPeerConnected(id):
 	connected_status = true
-	print("RTC peer connected " + str(id))
 	
 func RTCPeerDisconnected(id):
-	print("RTC peer disconnected " + str(id))
 	connected_status = false
 	GameCrash(id)
 
@@ -115,7 +113,6 @@ func _process(delta):
 		if packet != null:
 			var dataString = packet.get_string_from_utf8()
 			var data = JSON.parse_string(dataString)
-			print(data)
 			if data.message == Message.id:
 				id = data.id
 				connected(id)
@@ -125,7 +122,6 @@ func _process(delta):
 			if data.message == Message.lobby:
 				if JSON.parse_string(data.players).size() == 1:
 					var newPlayers = JSON.parse_string(data.players)
-					print(newPlayers)
 					for key in newPlayers.keys():
 						if newPlayers[key].index == 2:
 							leaveLobby()
@@ -145,12 +141,10 @@ func _process(delta):
 				global_status.text = "Lobby joined !"
 				user_list.clear()
 				for player in GameManager.players:
-					print("RTC CODE " + str(player))
 					user_list.add_item(GameManager.players[player].name)
 					GameManager.players[player].totalPoints = 0
 			if data.message == Message.candidate:
 				if rtc_peer.has_peer(data.orgPeer):
-					print("Got Candidate: " + str(data.orgPeer) + " my id is " + str(id))
 					rtc_peer.get_peer(data.orgPeer).connection.add_ice_candidate(data.mid, data.index, data.sdp)
 			if data.message == Message.offer:
 				if rtc_peer.has_peer(data.orgPeer):
@@ -173,7 +167,6 @@ func createPeer(id):
 		peer.initialize({
 			"iceServers" : [{"urls" : ["stun:stun.l.google.com:19302"]}]
 		})
-		print("binding id " + str(id) + "my id is" + str(self.id))
 		
 		peer.session_description_created.connect(self.offerCreated.bind(id))
 		peer.ice_candidate_created.connect(self.iceCandidateCreated.bind(id))

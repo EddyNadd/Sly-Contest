@@ -3,12 +3,10 @@ extends Control
 @onready var scene = preload("res://control.tscn").instantiate()
 
 func _ready():
-	print("ready")
 	AudioServer.set_bus_mute((AudioServer.get_bus_index("Music")),save_file.toggled_sound) 
 	$MusicPlayer.play(GameManager.music_progress)  
 	if "--server" in OS.get_cmdline_args():
 		GameManager.is_in_menu = false
-		print("Server mod!")
 		get_tree().change_scene_to_file("res://control.tscn")
 	else:
 		if !GameManager.is_in_menu:
@@ -24,13 +22,11 @@ func _ready():
 					get_tree().root.remove_child(scenes) 
 
 func _on_play_pressed():
-	print("play")
 	GameManager.is_in_menu = false
 	get_tree().root.add_child(scene)
 
 
 func _on_option_pressed():
-	print("option")
 	get_tree().change_scene_to_file("res://Game/Interfaces/option_menu.tscn")
 
 

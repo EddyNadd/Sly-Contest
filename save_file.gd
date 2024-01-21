@@ -7,7 +7,6 @@ var game_data = {}
 
 func _ready():
 	load_data()
-	print(game_data)
 	var music_bus = AudioServer.get_bus_index("Music")
 	AudioServer.set_bus_volume_db(music_bus, linear_to_db(game_data.sound_level))
 	AudioServer.set_bus_mute(music_bus, game_data.toggled_sound)

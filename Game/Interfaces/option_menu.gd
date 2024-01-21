@@ -70,7 +70,6 @@ func _on_sound_toggled(button_pressed):
 		AudioServer.set_bus_mute(music_bus, true)
 		save_file.toggled_sound = AudioServer.is_bus_mute(music_bus)
 		SaveFile.save_data()
-		print(AudioServer.is_bus_mute(music_bus))
 		sound_volume.set_value_no_signal(0)
 		sound_text.text="0"
 	else:
@@ -87,7 +86,6 @@ func _on_sfx_toggled(button_pressed):
 		AudioServer.set_bus_mute(SFX_bus, true)
 		save_file.toggledSFX = AudioServer.is_bus_mute(SFX_bus)
 		SaveFile.save_data()
-		print(AudioServer.is_bus_mute(SFX_bus))
 		sfx_slider.set_value_no_signal(0)
 		sfx_text.text="0"
 		get_in = false

@@ -21,7 +21,6 @@ func save_data(tile_map: TileMap, start: Vector2i, start2: Vector2i, items : Arr
 func load_data(name):
 	var file = FileAccess.open("user://levels/" + name + ".SLAY", FileAccess.READ)
 	if not file:
-		print("Error loading file")
 		return null
 	file = FileAccess.open("user://levels/" + name + ".SLAY", FileAccess.READ)
 	var game_data = file.get_var()
@@ -31,7 +30,6 @@ func load_data(name):
 func write_data(name):
 	var dir = DirAccess.open("user://")
 	dir.make_dir("levels")
-	print(game_data.items)
 	var file = FileAccess.open("user://levels/" + name + ".SLAY", FileAccess.WRITE)
 	file.store_var(game_data)
 	file.close()

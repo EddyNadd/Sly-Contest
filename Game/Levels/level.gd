@@ -310,7 +310,6 @@ func _on_round_timer_timeout():
 	if !GameManager.is_solo:
 		can_build = false
 		switchPos()
-		print("Construction done Now play !")
 		player.kill()
 		cursor_item = null
 		bloc_coord = null
@@ -328,14 +327,12 @@ func _on_play_timer_timeout():
 	
 @rpc("any_peer", "call_local")
 func finishGame():
-	print("End of the game go to the scoreboard.")
 	if(GameManager.can_confirm_level):
 		for player in GameManager.players:
 			if(GameManager.players[player].completionPoints > 0):
 				GameManager.players[player].penaltyPoints -= 400
 	for player in GameManager.players:
 		GameManager.players[player].totalPoints += GameManager.players[player].completionPoints + GameManager.players[player].validationPoints + GameManager.players[player].penaltyPoints
-		print(str(GameManager.players[player].name)+": "+str(GameManager.players[player].points)+" (c: "+str(GameManager.players[player].completionPoints)+", v: "+str(GameManager.players[player].validationPoints)+", p: "+str(GameManager.players[player].penaltyPoints)+")")
 	saveGameDatas()
 	get_tree().root.add_child(scene)
 	self.queue_free()
@@ -365,7 +362,6 @@ func loadLevel():
 		var atlas = game_data["tilemap"][cell_str][1]
 		var alternate = game_data["tilemap"][cell_str][2]
 		tile_map.set_cell(0, Vector2i(x, y), id, atlas, alternate)
-	print(game_data["start"])
 	GameManager.solo_spawn = game_data["start"]
 	solo_spawn = game_data["start"]
 	GameManager.solo_spawn2 = game_data["start2"]
