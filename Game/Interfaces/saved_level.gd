@@ -19,7 +19,7 @@ func _ready():
 				get_tree().current_scene = scenes
 				get_tree().reload_current_scene()
 	else:
-		GameManager.serverReachable = true
+		GameManager.is_server_reachable = true
 		for scenes in get_tree().root.get_children():
 			if scenes.name != "SavedLevel" and scenes.name != "GameManager" and scenes.name != "SaveFile" and scenes.name != "SaveTilemap":
 				get_tree().root.remove_child(scenes)
