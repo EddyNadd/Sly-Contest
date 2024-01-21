@@ -131,7 +131,6 @@ func _on_button_2_button_down():
 	pass # Replace with function body.
 	
 func peer_connected(id):
-	print("Peer Connected with id " + str(id))
 	users[id] = {
 		"id" : id,
 		"message" : Message.id
