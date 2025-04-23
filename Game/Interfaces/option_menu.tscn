@@ -89,9 +89,9 @@ layout_mode = 2
 button_pressed = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TextureRect/VBoxContainer"]
+auto_translate_mode = 2
 layout_direction = 1
 layout_mode = 2
-auto_translate = false
 localize_numeral_system = false
 
 [node name="HSlider" type="HSlider" parent="TextureRect/VBoxContainer/HBoxContainer"]
@@ -128,9 +128,9 @@ text = "SFX"
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TextureRect/VBoxContainer3"]
+auto_translate_mode = 2
 layout_direction = 1
 layout_mode = 2
-auto_translate = false
 localize_numeral_system = false
 
 [node name="SFXSlider" type="HSlider" parent="TextureRect/VBoxContainer3/HBoxContainer"]
